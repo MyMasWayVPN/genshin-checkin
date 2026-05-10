@@ -35,6 +35,26 @@ jobs:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           GENSHIN_ACCOUNTS: ${{ secrets.GENSHIN_ACCOUNTS }}
+          GENSHIN_ACCOUNT_1: ${{ secrets.GENSHIN_ACCOUNT_1 }}
+          GENSHIN_ACCOUNT_2: ${{ secrets.GENSHIN_ACCOUNT_2 }}
+          GENSHIN_ACCOUNT_3: ${{ secrets.GENSHIN_ACCOUNT_3 }}
+          GENSHIN_ACCOUNT_4: ${{ secrets.GENSHIN_ACCOUNT_4 }}
+          GENSHIN_ACCOUNT_5: ${{ secrets.GENSHIN_ACCOUNT_5 }}
+          GENSHIN_ACCOUNT_6: ${{ secrets.GENSHIN_ACCOUNT_6 }}
+          GENSHIN_ACCOUNT_7: ${{ secrets.GENSHIN_ACCOUNT_7 }}
+          GENSHIN_ACCOUNT_8: ${{ secrets.GENSHIN_ACCOUNT_8 }}
+          GENSHIN_ACCOUNT_9: ${{ secrets.GENSHIN_ACCOUNT_9 }}
+          GENSHIN_ACCOUNT_10: ${{ secrets.GENSHIN_ACCOUNT_10 }}
+          GENSHIN_ACCOUNT_11: ${{ secrets.GENSHIN_ACCOUNT_11 }}
+          GENSHIN_ACCOUNT_12: ${{ secrets.GENSHIN_ACCOUNT_12 }}
+          GENSHIN_ACCOUNT_13: ${{ secrets.GENSHIN_ACCOUNT_13 }}
+          GENSHIN_ACCOUNT_14: ${{ secrets.GENSHIN_ACCOUNT_14 }}
+          GENSHIN_ACCOUNT_15: ${{ secrets.GENSHIN_ACCOUNT_15 }}
+          GENSHIN_ACCOUNT_16: ${{ secrets.GENSHIN_ACCOUNT_16 }}
+          GENSHIN_ACCOUNT_17: ${{ secrets.GENSHIN_ACCOUNT_17 }}
+          GENSHIN_ACCOUNT_18: ${{ secrets.GENSHIN_ACCOUNT_18 }}
+          GENSHIN_ACCOUNT_19: ${{ secrets.GENSHIN_ACCOUNT_19 }}
+          GENSHIN_ACCOUNT_20: ${{ secrets.GENSHIN_ACCOUNT_20 }}
 
       - name: Commit log
         if: always()

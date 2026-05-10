@@ -25,31 +25,52 @@ function getWibTime() {
   }).format(new Date());
 }
 
-function loadAccounts() {
-  const rawAccounts = getRequiredEnv('GENSHIN_ACCOUNTS');
-  let accounts;
-
+function parseJson(value, secretName) {
   try {
-    accounts = JSON.parse(rawAccounts);
+    return JSON.parse(value);
   } catch (error) {
-    throw new Error(`Secret GENSHIN_ACCOUNTS harus berupa JSON valid. ${error.message}`);
+    throw new Error(`Secret ${secretName} harus berupa JSON valid. ${error.message}`);
+  }
+}
+
+function normalizeAccount(account, index) {
+  const name = account?.name?.trim() || `Akun ${index + 1}`;
+  const ltuid = String(account?.ltuid || '').trim();
+  const ltoken = String(account?.ltoken || '').trim();
+
+  if (!ltuid || !ltoken) {
+    throw new Error(`Data akun ke-${index + 1} harus punya ltuid dan ltoken.`);
   }
 
+  return { name, ltuid, ltoken };
+}
+
+function loadSplitAccountSecrets() {
+  return Object.entries(process.env)
+    .map(([key, value]) => {
+      const match = key.match(/^GENSHIN_ACCOUNT_(\d+)$/);
+      return match && value?.trim()
+        ? { index: Number(match[1]), value: value.trim(), secretName: key }
+        : null;
+    })
+    .filter(Boolean)
+    .sort((a, b) => a.index - b.index)
+    .map((item, index) => normalizeAccount(parseJson(item.value, item.secretName), index));
+}
+
+function loadAccounts() {
+  const splitAccounts = loadSplitAccountSecrets();
+  if (splitAccounts.length > 0) {
+    return splitAccounts;
+  }
+
+  const rawAccounts = getRequiredEnv('GENSHIN_ACCOUNTS');
+  const accounts = parseJson(rawAccounts, 'GENSHIN_ACCOUNTS');
   if (!Array.isArray(accounts) || accounts.length === 0) {
     throw new Error('Secret GENSHIN_ACCOUNTS harus berupa array dan minimal berisi 1 akun.');
   }
 
-  return accounts.map((account, index) => {
-    const name = account?.name?.trim() || `Akun ${index + 1}`;
-    const ltuid = String(account?.ltuid || '').trim();
-    const ltoken = String(account?.ltoken || '').trim();
-
-    if (!ltuid || !ltoken) {
-      throw new Error(`Data akun ke-${index + 1} harus punya ltuid dan ltoken.`);
-    }
-
-    return { name, ltuid, ltoken };
-  });
+  return accounts.map(normalizeAccount);
 }
 
 async function checkIn(account) {

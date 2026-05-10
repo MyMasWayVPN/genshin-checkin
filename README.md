@@ -30,7 +30,55 @@ Untuk grup:
 
 ## 3. Siapkan Data Akun Genshin
 
-Buat data akun dengan format JSON seperti ini:
+Cara yang disarankan adalah **1 secret untuk 1 akun**. Dengan cara ini kamu bisa menambah akun baru tanpa mengedit secret akun lama.
+
+Secret akun pertama:
+
+```txt
+GENSHIN_ACCOUNT_1
+```
+
+Value:
+
+```json
+{
+  "name": "Akun Utama",
+  "ltuid": "123456789",
+  "ltoken": "v2_xxxxxxxxx"
+}
+```
+
+Secret akun kedua:
+
+```txt
+GENSHIN_ACCOUNT_2
+```
+
+Value:
+
+```json
+{
+  "name": "Akun 2",
+  "ltuid": "98765432",
+  "ltoken": "v2_xxxxxxxxx"
+}
+```
+
+Untuk menambah akun baru, buat secret baru berikutnya:
+
+```txt
+GENSHIN_ACCOUNT_3
+GENSHIN_ACCOUNT_4
+GENSHIN_ACCOUNT_5
+```
+
+Workflow sudah menyiapkan slot sampai:
+
+```txt
+GENSHIN_ACCOUNT_20
+```
+
+Alternatif lama tetap didukung, yaitu memakai satu secret `GENSHIN_ACCOUNTS` dengan format array:
 
 ```json
 [
@@ -67,12 +115,18 @@ Di repository GitHub:
 ```txt
 BOT_TOKEN
 TELEGRAM_CHAT_ID
-GENSHIN_ACCOUNTS
+GENSHIN_ACCOUNT_1
 ```
 
-Isi `GENSHIN_ACCOUNTS` dengan JSON akun dari langkah 3.
+Jika punya akun kedua, tambahkan:
 
-## 6. Jalankan Manual Untuk Test
+```txt
+GENSHIN_ACCOUNT_2
+```
+
+Lanjutkan berurutan untuk akun berikutnya. Kamu tidak perlu mengedit secret akun lama.
+
+## 5. Jalankan Manual Untuk Test
 
 Tidak perlu menunggu jam `00:00 WIB`.
 
@@ -84,7 +138,7 @@ Tidak perlu menunggu jam `00:00 WIB`.
 
 Jika berhasil, bot Telegram akan mengirim hasil check-in dan `log.txt` akan diperbarui otomatis.
 
-## 7. Jadwal Otomatis
+## 6. Jadwal Otomatis
 
 Workflow berjalan otomatis setiap hari:
 
@@ -100,14 +154,15 @@ cron: '0 17 * * *'
 
 Karena GitHub Actions memakai UTC, `17:00 UTC` sama dengan `00:00 WIB`.
 
-## 8. Test Lokal Di Windows
+## 7. Test Lokal Di Windows
 
 ### Command Prompt
 
 ```bat
 set "BOT_TOKEN=isi_token_bot"
 set "TELEGRAM_CHAT_ID=isi_id_telegram"
-set "GENSHIN_ACCOUNTS=[{"name":"Akun Utama","ltuid":"123456789","ltoken":"v2_xxxxxxxxx"}]"
+set GENSHIN_ACCOUNT_1={"name":"Akun Utama","ltuid":"123456789","ltoken":"v2_xxxxxxxxx"}
+set GENSHIN_ACCOUNT_2={"name":"Akun 2","ltuid":"98765432","ltoken":"v2_xxxxxxxxx"}
 
 npm ci
 npm run daily-checkin
@@ -118,13 +173,14 @@ npm run daily-checkin
 ```powershell
 $env:BOT_TOKEN="isi_token_bot"
 $env:TELEGRAM_CHAT_ID="isi_id_telegram"
-$env:GENSHIN_ACCOUNTS='[{"name":"Akun Utama","ltuid":"123456789","ltoken":"v2_xxxxxxxxx"}]'
+$env:GENSHIN_ACCOUNT_1='{"name":"Akun Utama","ltuid":"123456789","ltoken":"v2_xxxxxxxxx"}'
+$env:GENSHIN_ACCOUNT_2='{"name":"Akun 2","ltuid":"98765432","ltoken":"v2_xxxxxxxxx"}'
 
 npm ci
 npm run daily-checkin
 ```
 
-## 9. Log
+## 8. Log
 
 Setiap script berjalan, hasilnya akan ditambahkan ke:
 
@@ -136,9 +192,9 @@ GitHub Actions akan melakukan commit otomatis jika `log.txt` berubah.
 
 Jika repository memakai branch protection dan GitHub Actions tidak boleh push commit, step commit log bisa gagal. Solusinya izinkan GitHub Actions menulis ke repository atau nonaktifkan branch protection untuk branch tersebut.
 
-## 10. Catatan Keamanan
+## 9. Catatan Keamanan
 
 - Jangan simpan `BOT_TOKEN`, `ltuid`, atau `ltoken` di file repository.
 - Simpan semua rahasia di GitHub Actions Secrets.
 - Jika token bot pernah terlanjur dipublikasikan, regenerate token lewat `@BotFather`.
-- Jika `ltoken` expired, update secret `GENSHIN_ACCOUNTS`.
+- Jika `ltoken` expired, update secret akun terkait, misalnya `GENSHIN_ACCOUNT_2`.
