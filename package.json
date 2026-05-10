@@ -1,0 +1,16 @@
+{
+  "name": "genshin-daily-checkin",
+  "version": "1.0.0",
+  "description": "Daily Login Genshin",
+  "main": "scripts/daily-checkin.js",
+  "type": "module",
+  "scripts": {
+    "start": "node scripts/daily-checkin.js",
+    "daily-checkin": "node scripts/daily-checkin.js"
+  },
+  "author": "MasWay",
+  "license": "MIT",
+  "dependencies": {
+    "genshin-kit.js": "^2.5.0"
+  }
+}
