@@ -60,8 +60,8 @@ jobs:
         if: always()
         run: |
           if [ -n "$(git status --porcelain log.txt)" ]; then
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git config user.email "mas120604way@gmail.com"
+            git config user.name "mymaswayvpn"
             git add log.txt
             git commit -m "Update check-in log"
             git push
