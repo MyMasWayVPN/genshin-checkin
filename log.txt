@@ -335,3 +335,9 @@ Pesan: Already claimed | Total login: 12 | Hari ini: 2026-05-12
 Berhasil: 19
 Gagal: 0
 
+==================================================
+Daily Check-in Genshin
+Waktu: 12/05/2026, 20.54.00 WIB
+Status: GAGAL
+Pesan: Data akun ke-1 harus punya ltuid dan ltoken.
+
