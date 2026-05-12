@@ -347,3 +347,23 @@ Waktu: 12/05/2026, 20.56.23 WIB
 Status: GAGAL
 Pesan: Data akun ke-1 harus punya ltuid dan ltoken.
 
+==================================================
+Daily Check-in Genshin
+Waktu: 12/05/2026, 21.35.40 WIB
+Total akun: 3
+
+1. Akun 1
+Status: BERHASIL
+Pesan: success | Total login: 2 | Hari ini: 2026-05-12
+
+2. Akun 2
+Status: BERHASIL
+Pesan: success | Total login: 2 | Hari ini: 2026-05-12
+
+3. Akun 3
+Status: GAGAL
+Pesan: Not logged in
+
+Berhasil: 2
+Gagal: 1
+
