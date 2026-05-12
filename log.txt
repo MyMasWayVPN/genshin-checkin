@@ -367,3 +367,23 @@ Pesan: Not logged in
 Berhasil: 2
 Gagal: 1
 
+==================================================
+Daily Check-in Genshin
+Waktu: 12/05/2026, 21.41.10 WIB
+Total akun: 3
+
+1. Akun 1
+Status: BERHASIL
+Pesan: Already claimed | Total login: 2 | Hari ini: 2026-05-12
+
+2. Akun 2
+Status: BERHASIL
+Pesan: Already claimed | Total login: 2 | Hari ini: 2026-05-12
+
+3. Akun 3
+Status: BERHASIL
+Pesan: Already claimed | Total login: 3 | Hari ini: 2026-05-12
+
+Berhasil: 3
+Gagal: 0
+
