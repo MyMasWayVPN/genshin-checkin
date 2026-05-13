@@ -1,5 +1,5 @@
 import { Client } from 'genshin-kit.js';
-import { appendFileSync } from 'node:fs';
+import { writeFileSync } from 'node:fs';
 
 const TELEGRAM_LIMIT = 3900;
 const LOG_FILE = new URL('../log.txt', import.meta.url);
@@ -135,14 +135,14 @@ function splitMessage(text) {
   return chunks;
 }
 
-function appendLog(lines) {
+function writeLog(lines) {
   const logEntry = [
     '==================================================',
     ...lines,
     '',
   ].join('\n');
 
-  appendFileSync(LOG_FILE, `${logEntry}\n`, 'utf8');
+  writeFileSync(LOG_FILE, `${logEntry}\n`, 'utf8');
 }
 
 async function sendTelegramMessage(botToken, chatId, text) {
@@ -224,7 +224,7 @@ async function main() {
   logLines.push(`Berhasil: ${successCount}`);
   logLines.push(`Gagal: ${failedCount}`);
 
-  appendLog(logLines);
+  writeLog(logLines);
 
   await sendTelegramMessage(botToken, chatId, lines.join('\n'));
 
@@ -236,7 +236,7 @@ async function main() {
 main().catch(async (error) => {
   console.error(error.message);
 
-  appendLog([
+  writeLog([
     'Daily Check-in Genshin',
     `Waktu: ${getWibTime()} WIB`,
     'Status: GAGAL',
