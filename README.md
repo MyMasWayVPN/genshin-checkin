@@ -101,6 +101,8 @@ Pastikan JSON valid:
 - Jangan ada koma setelah item terakhir.
 - `ltuid` dan `ltoken` wajib diisi.
 
+Jika `GENSHIN_ACCOUNTS` dan `GENSHIN_ACCOUNT_1`, `GENSHIN_ACCOUNT_2`, dan seterusnya sama-sama diisi, semua akun dari kedua format tersebut akan dijalankan.
+
 
 ## 4. Isi GitHub Actions Secrets
 
