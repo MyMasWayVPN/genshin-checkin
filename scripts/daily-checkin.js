@@ -58,19 +58,30 @@ function loadSplitAccountSecrets() {
     .map((item, index) => normalizeAccount(parseJson(item.value, item.secretName), index));
 }
 
-function loadAccounts() {
-  const splitAccounts = loadSplitAccountSecrets();
-  if (splitAccounts.length > 0) {
-    return splitAccounts;
+function loadLegacyAccountsSecret() {
+  const rawAccounts = process.env.GENSHIN_ACCOUNTS?.trim();
+  if (!rawAccounts) {
+    return [];
   }
 
-  const rawAccounts = getRequiredEnv('GENSHIN_ACCOUNTS');
   const accounts = parseJson(rawAccounts, 'GENSHIN_ACCOUNTS');
-  if (!Array.isArray(accounts) || accounts.length === 0) {
-    throw new Error('Secret GENSHIN_ACCOUNTS harus berupa array dan minimal berisi 1 akun.');
+  if (!Array.isArray(accounts)) {
+    throw new Error('Secret GENSHIN_ACCOUNTS harus berupa array.');
   }
 
   return accounts.map(normalizeAccount);
+}
+
+function loadAccounts() {
+  const legacyAccounts = loadLegacyAccountsSecret();
+  const splitAccounts = loadSplitAccountSecrets();
+  const accounts = [...legacyAccounts, ...splitAccounts];
+
+  if (accounts.length === 0) {
+    throw new Error('Isi minimal 1 akun lewat GENSHIN_ACCOUNTS atau GENSHIN_ACCOUNT_1.');
+  }
+
+  return accounts;
 }
 
 async function checkIn(account) {
