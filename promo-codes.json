@@ -15,8 +15,7 @@
     ],
     "release": "16/08/2026",
     "expired": null,
-    "status": true,
-    "first_seen": "20/08/2026, 22.49.31"
+    "status": true
   },
   {
     "kode": "Snezhnaya",
@@ -30,8 +29,7 @@
     ],
     "release": "12/08/2026",
     "expired": null,
-    "status": true,
-    "first_seen": "20/08/2026, 22.49.31"
+    "status": true
   },
   {
     "kode": "XVIZDH2B9WGX",
@@ -50,8 +48,7 @@
     ],
     "release": "12/08/2026",
     "expired": null,
-    "status": true,
-    "first_seen": "20/08/2026, 22.49.31"
+    "status": true
   },
   {
     "kode": "2BJ64QRZ7RT8",
@@ -67,8 +64,7 @@
     ],
     "release": "31/07/2026",
     "expired": null,
-    "status": true,
-    "first_seen": "20/08/2026, 22.49.31"
+    "status": true
   },
   {
     "kode": "LEGEDILJKSGM",
@@ -84,8 +80,7 @@
     ],
     "release": "21/06/2026",
     "expired": "02/09/2026",
-    "status": true,
-    "first_seen": "20/08/2026, 22.49.31"
+    "status": true
   },
   {
     "kode": "YuanShen",
@@ -98,7 +93,6 @@
     ],
     "release": "10/11/2020",
     "expired": null,
-    "status": true,
-    "first_seen": "20/08/2026, 22.49.31"
+    "status": true
   }
 ]
