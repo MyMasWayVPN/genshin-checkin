@@ -1,1 +1,104 @@
-
+[
+  {
+    "kode": "BALLETCOLLAB",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Primogem ×30",
+      "Mora ×10,000",
+      "Hero's Wit ×3",
+      "Mystic Enhancement Ore ×3"
+    ],
+    "release": "16/08/2026",
+    "expired": null,
+    "status": true,
+    "first_seen": "20/08/2026, 22.42.30"
+  },
+  {
+    "kode": "Snezhnaya",
+    "support_server": [
+      "Asia"
+    ],
+    "reward": [
+      "Mora ×30,000",
+      "Hero's Wit ×3",
+      "Fine Enhancement Ore ×5"
+    ],
+    "release": "12/08/2026",
+    "expired": null,
+    "status": true,
+    "first_seen": "20/08/2026, 22.42.30"
+  },
+  {
+    "kode": "XVIZDH2B9WGX",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Mora ×10,000",
+      "Adventurer's Experience ×10",
+      "Fine Enhancement Ore ×5",
+      "Jueyun Chili Chicken ×5",
+      "Stir-Fried Fish Noodles ×5"
+    ],
+    "release": "12/08/2026",
+    "expired": null,
+    "status": true,
+    "first_seen": "20/08/2026, 22.42.30"
+  },
+  {
+    "kode": "2BJ64QRZ7RT8",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Primogem ×60",
+      "Adventurer's Experience ×5"
+    ],
+    "release": "31/07/2026",
+    "expired": null,
+    "status": true,
+    "first_seen": "20/08/2026, 22.42.30"
+  },
+  {
+    "kode": "LEGEDILJKSGM",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Primogem ×60",
+      "Adventurer's Experience ×5"
+    ],
+    "release": "21/06/2026",
+    "expired": "02/09/2026",
+    "status": true,
+    "first_seen": "20/08/2026, 22.42.30"
+  },
+  {
+    "kode": "YuanShen",
+    "support_server": [
+      "China"
+    ],
+    "reward": [
+      "Primogem ×50",
+      "Hero's Wit ×3"
+    ],
+    "release": "10/11/2020",
+    "expired": null,
+    "status": true,
+    "first_seen": "20/08/2026, 22.42.30"
+  }
+]
