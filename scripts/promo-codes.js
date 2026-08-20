@@ -41,7 +41,7 @@ function getWibTime() {
 }
 
 function formatDate(str) {
-  const d = new Date(str);
+  const d = new Date(`${str} UTC`);
   if (isNaN(d)) return null;
   return (
     `${String(d.getUTCDate()).padStart(2, '0')}/` +
@@ -241,7 +241,7 @@ async function main() {
       `${index + 1}. Kode: ${code.kode}`,
       `   Reward: ${code.reward.join(', ') || '-'}`,
       `   Server: ${code.support_server.join(', ') || '-'}`,
-      `   Berlaku sampai: ${code.expired || '-'}`,
+      `   Berlaku sampai: ${code.expired || 'Indefinite'}`,
       ''
     );
   });
