@@ -5,8 +5,13 @@ import { wrapper } from 'axios-cookiejar-support';
 import { load } from 'cheerio';
 
 const TELEGRAM_LIMIT = 3900;
-const PROMO_URL = 'https://genshin-impact.fandom.com/wiki/Promotional_Code';
+const PAGE_URL = 'https://genshin-impact.fandom.com/wiki/Promotional_Code';
+const API_URL =
+  'https://genshin-impact.fandom.com/api.php?action=parse&page=Promotional_Code&format=json&prop=text';
 const DATA_FILE = new URL('../promo-codes.json', import.meta.url);
+
+const BROWSER_UA =
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36';
 
 const client = wrapper(axios.create({
   jar: new CookieJar(),
@@ -59,15 +64,32 @@ function getStatus(date) {
   return new Date() <= new Date(y, m - 1, d, 23, 59, 59);
 }
 
-async function scrapeCodes() {
-  const { data } = await client.get(PROMO_URL, {
-    headers: {
-      'User-Agent': 'Apidog/1.0.0 (https://apidog.com)',
-      Accept: '*/*',
-    },
-  });
+function getHeaders() {
+  return {
+    'User-Agent': BROWSER_UA,
+    Accept: 'text/html,application/xhtml+xml,application/json;q=0.9,*/*;q=0.8',
+    'Accept-Language': 'en-US,en;q=0.9',
+    Referer: 'https://genshin-impact.fandom.com/',
+  };
+}
 
-  const $ = load(data);
+async function getWithRetry(url, attempts = 3) {
+  let lastError;
+  for (let i = 0; i < attempts; i += 1) {
+    try {
+      return await client.get(url, { headers: getHeaders() });
+    } catch (error) {
+      lastError = error;
+      if (i < attempts - 1) {
+        await new Promise((resolve) => setTimeout(resolve, 2000 * (i + 1)));
+      }
+    }
+  }
+  throw lastError;
+}
+
+async function scrapeFromHtml(html) {
+  const $ = load(html);
   const codes = [];
 
   $('table.wikitable tbody tr').each((_, row) => {
@@ -107,6 +129,28 @@ async function scrapeCodes() {
   });
 
   return codes;
+}
+
+async function scrapeViaApi() {
+  const { data } = await getWithRetry(API_URL);
+  const html = data?.parse?.text?.['*'];
+  if (!html) {
+    throw new Error('Respons API fandom tidak memiliki konten halaman.');
+  }
+  return scrapeFromHtml(html);
+}
+
+async function scrapeViaPage() {
+  const { data } = await getWithRetry(PAGE_URL);
+  return scrapeFromHtml(data);
+}
+
+async function scrapeCodes() {
+  try {
+    return await scrapeViaApi();
+  } catch {
+    return scrapeViaPage();
+  }
 }
 
 function loadSavedCodes() {
