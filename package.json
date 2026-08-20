@@ -6,11 +6,16 @@
   "type": "module",
   "scripts": {
     "start": "node scripts/daily-checkin.js",
-    "daily-checkin": "node scripts/daily-checkin.js"
+    "daily-checkin": "node scripts/daily-checkin.js",
+    "promo-codes": "node scripts/promo-codes.js"
   },
   "author": "MasWay",
   "license": "MIT",
   "dependencies": {
-    "genshin-kit.js": "^2.5.0"
+    "genshin-kit.js": "^2.5.0",
+    "axios": "^1.19.0",
+    "axios-cookiejar-support": "^7.0.0",
+    "cheerio": "^1.2.0",
+    "tough-cookie": "^6.0.2"
   }
 }

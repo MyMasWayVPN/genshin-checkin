@@ -1,0 +1,98 @@
+[
+  {
+    "kode": "BALLETCOLLAB",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Primogem ×30",
+      "Mora ×10,000",
+      "Hero's Wit ×3",
+      "Mystic Enhancement Ore ×3"
+    ],
+    "release": "15/08/2026",
+    "expired": null,
+    "status": true
+  },
+  {
+    "kode": "Snezhnaya",
+    "support_server": [
+      "Asia"
+    ],
+    "reward": [
+      "Mora ×30,000",
+      "Hero's Wit ×3",
+      "Fine Enhancement Ore ×5"
+    ],
+    "release": "11/08/2026",
+    "expired": null,
+    "status": true
+  },
+  {
+    "kode": "XVIZDH2B9WGX",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Mora ×10,000",
+      "Adventurer's Experience ×10",
+      "Fine Enhancement Ore ×5",
+      "Jueyun Chili Chicken ×5",
+      "Stir-Fried Fish Noodles ×5"
+    ],
+    "release": "11/08/2026",
+    "expired": null,
+    "status": true
+  },
+  {
+    "kode": "2BJ64QRZ7RT8",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Primogem ×60",
+      "Adventurer's Experience ×5"
+    ],
+    "release": "30/07/2026",
+    "expired": null,
+    "status": true
+  },
+  {
+    "kode": "LEGEDILJKSGM",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Primogem ×60",
+      "Adventurer's Experience ×5"
+    ],
+    "release": "20/06/2026",
+    "expired": "01/09/2026",
+    "status": true
+  },
+  {
+    "kode": "YuanShen",
+    "support_server": [
+      "China"
+    ],
+    "reward": [
+      "Primogem ×50",
+      "Hero's Wit ×3"
+    ],
+    "release": "09/11/2020",
+    "expired": null,
+    "status": true
+  }
+]

@@ -1,0 +1,51 @@
+name: Promo Codes Monitor
+
+on:
+  schedule:
+    # Setiap 3 jam: 0 */3 UTC = 07:00, 10:00, 13:00, ... WIB
+    - cron: '0 */3 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run promo code monitor
+        id: promo
+        continue-on-error: true
+        run: npm run promo-codes
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+
+      - name: Commit promo codes data
+        if: always()
+        run: |
+          if [ -n "$(git status --porcelain promo-codes.json)" ]; then
+            git config user.email "mas120604way@gmail.com"
+            git config user.name "mymaswayvpn"
+            git add promo-codes.json
+            git commit -m "Update promo codes"
+            git push
+          fi
+
+      - name: Fail job if monitor failed
+        if: steps.promo.outcome == 'failure'
+        run: exit 1
