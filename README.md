@@ -166,6 +166,45 @@ GENSHIN_ACCOUNT_2
 
 Lanjutkan berurutan untuk akun berikutnya. Kamu tidak perlu mengedit secret akun lama.
 
+### Mengidentifikasi akun yang gagal
+
+Hasil check-in (di Telegram dan `log.txt`) menampilkan sumber secret setiap akun, contoh:
+
+```txt
+1. Akun Utama (GENSHIN_ACCOUNTS[1])
+2. Akun 2 (GENSHIN_ACCOUNTS[2])
+3. Akun 3 (GENSHIN_ACCOUNT_1)
+```
+
+- `GENSHIN_ACCOUNTS[N]` artinya akun ke-N dari secret `GENSHIN_ACCOUNTS` (format array).
+- `GENSHIN_ACCOUNT_N` artinya akun dari secret `GENSHIN_ACCOUNT_N` (format satu akun per secret).
+
+### Perbaiki token tanpa menulis ulang JSON
+
+Jika `ltoken` sebuah akun expired, kamu tidak perlu mengedit ulang seluruh value secret JSON. Cukup buat secret override baru yang hanya berisi token baru:
+
+Untuk akun format satu-per-secret `GENSHIN_ACCOUNT_3`:
+
+```txt
+GENSHIN_ACCOUNT_3_LTOKEN
+```
+
+Value:
+
+```txt
+v2_token_baru
+```
+
+Untuk akun ke-N di dalam array `GENSHIN_ACCOUNTS`:
+
+```txt
+GENSHIN_ACCOUNTS_N_LTOKEN
+```
+
+Contoh: akun ke-3 di array = `GENSHIN_ACCOUNTS_3_LTOKEN` dengan value `v2_token_baru`.
+
+Override berlaku selama secret tersebut diisi. Hapus secret override untuk kembali memakai `ltoken` dari JSON.
+
 ## 6. Jalankan Manual Untuk Test
 
 Tidak perlu menunggu jam `00:00 WIB`.

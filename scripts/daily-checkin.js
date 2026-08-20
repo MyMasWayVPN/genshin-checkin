@@ -33,16 +33,28 @@ function parseJson(value, secretName) {
   }
 }
 
-function normalizeAccount(account, index) {
+function normalizeAccount(account, index, source) {
   const name = account?.name?.trim() || `Akun ${index + 1}`;
   const ltuid = String(account?.ltuid || '').trim();
   const ltoken = String(account?.ltoken || '').trim();
 
   if (!ltuid || !ltoken) {
-    throw new Error(`Data akun ke-${index + 1} harus punya ltuid dan ltoken.`);
+    throw new Error(`Data akun ke-${index + 1} (${source}) harus punya ltuid dan ltoken.`);
   }
 
-  return { name, ltuid, ltoken };
+  return { name, ltuid, ltoken, source };
+}
+
+function getLtokenOverride(secretName) {
+  return process.env[`${secretName}_LTOKEN`]?.trim();
+}
+
+function applyLtokenOverride(account, secretName) {
+  const overrideLtoken = getLtokenOverride(secretName);
+  if (overrideLtoken && typeof account === 'object' && account !== null) {
+    account.ltoken = overrideLtoken;
+  }
+  return account;
 }
 
 function loadSplitAccountSecrets() {
@@ -55,7 +67,9 @@ function loadSplitAccountSecrets() {
     })
     .filter(Boolean)
     .sort((a, b) => a.index - b.index)
-    .map((item, index) => normalizeAccount(parseJson(item.value, item.secretName), index));
+    .map((item, index) =>
+      normalizeAccount(applyLtokenOverride(parseJson(item.value, item.secretName), item.secretName), index, item.secretName)
+    );
 }
 
 function loadLegacyAccountsSecret() {
@@ -69,7 +83,11 @@ function loadLegacyAccountsSecret() {
     throw new Error('Secret GENSHIN_ACCOUNTS harus berupa array.');
   }
 
-  return accounts.map(normalizeAccount);
+  return accounts.map((account, index) => {
+    const source = `GENSHIN_ACCOUNTS[${index + 1}]`;
+    const overrideKey = `GENSHIN_ACCOUNTS_${index + 1}`;
+    return normalizeAccount(applyLtokenOverride(account, overrideKey), index, source);
+  });
 }
 
 function loadAccounts() {
@@ -114,7 +132,8 @@ function isFailure(message) {
 }
 
 function getLogAccountName(account, index) {
-  return account.name.includes('@') ? `Akun ${index + 1}` : account.name;
+  const name = account.name.includes('@') ? `Akun ${index + 1}` : account.name;
+  return `${name} (${account.source})`;
 }
 
 function splitMessage(text) {
@@ -191,7 +210,7 @@ async function main() {
       else successCount += 1;
 
       lines.push(
-        `${index + 1}. ${account.name}`,
+        `${index + 1}. ${account.name} (${account.source})`,
         `Status: ${failed ? 'GAGAL' : 'BERHASIL'}`,
         `Pesan: ${detail}`,
         ''
@@ -205,7 +224,7 @@ async function main() {
     } catch (error) {
       failedCount += 1;
       lines.push(
-        `${index + 1}. ${account.name}`,
+        `${index + 1}. ${account.name} (${account.source})`,
         'Status: GAGAL',
         `Pesan: ${error.message}`,
         ''
