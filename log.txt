@@ -1,6 +1,6 @@
 ==================================================
 Daily Check-in Genshin
-Waktu: 20/08/2026, 22.20.08 WIB
+Waktu: 20/08/2026, 22.28.55 WIB
 Total akun: 22
 
 1. Akun 1 (GENSHIN_ACCOUNTS[1])
@@ -28,8 +28,8 @@ Status: GAGAL
 Pesan: Not logged in
 
 7. Akun 7 (GENSHIN_ACCOUNTS[7])
-Status: BERHASIL
-Pesan: Already claimed | Total login: 20 | Hari ini: 2026-08-20
+Status: GAGAL
+Pesan: Not logged in
 
 8. Akun 8 (GENSHIN_ACCOUNTS[8])
 Status: BERHASIL
@@ -91,6 +91,6 @@ Pesan: Already claimed | Total login: 20 | Hari ini: 2026-08-20
 Status: BERHASIL
 Pesan: Already claimed | Total login: 20 | Hari ini: 2026-08-20
 
-Berhasil: 21
-Gagal: 1
+Berhasil: 20
+Gagal: 2
 
