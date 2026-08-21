@@ -1,23 +1,5 @@
 [
   {
-    "kode": "BALLETCOLLAB",
-    "support_server": [
-      "America",
-      "Europe",
-      "Asia",
-      "TW/HK/Macao"
-    ],
-    "reward": [
-      "Primogem ×30",
-      "Mora ×10,000",
-      "Hero's Wit ×3",
-      "Mystic Enhancement Ore ×3"
-    ],
-    "release": "16/08/2026",
-    "expired": null,
-    "status": true
-  },
-  {
     "kode": "Snezhnaya",
     "support_server": [
       "Asia"
