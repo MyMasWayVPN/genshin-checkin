@@ -1,5 +1,24 @@
 [
   {
+    "kode": "DUGODWKRHAKDNJ",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Primogem ×30",
+      "Mora ×10,000",
+      "Hero's Wit ×3",
+      "Mystic Enhancement Ore ×3"
+    ],
+    "release": "31/08/2026",
+    "expired": null,
+    "status": true,
+    "first_seen": "01/09/2026, 15.25.52"
+  },
+  {
     "kode": "Snezhnaya",
     "support_server": [
       "Asia"
