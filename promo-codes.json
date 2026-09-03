@@ -1,5 +1,25 @@
 [
   {
+    "kode": "YOAL3V36XHS7",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Mora ×10,000",
+      "Adventurer's Experience ×10",
+      "Fine Enhancement Ore ×5",
+      "Jueyun Chili Chicken ×5",
+      "Stir-Fried Fish Noodles ×5"
+    ],
+    "release": "02/09/2026",
+    "expired": null,
+    "status": true,
+    "first_seen": "03/09/2026, 10.37.34"
+  },
+  {
     "kode": "DUGODWKRHAKDNJ",
     "support_server": [
       "America",
