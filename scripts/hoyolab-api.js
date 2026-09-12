@@ -341,33 +341,46 @@ export function normalizeAccount(account, index, source = 'ENV') {
  * Mendukung format split GENSHIN_ACCOUNT_1..20 dan legacy GENSHIN_ACCOUNTS
  */
 export function loadAccounts() {
-  const legacyRaw = process.env.GENSHIN_ACCOUNTS?.trim();
-  const legacyAccounts = legacyRaw
-    ? parseJson(legacyRaw, 'GENSHIN_ACCOUNTS').map((account, index) => {
-        const source = `GENSHIN_ACCOUNTS[${index + 1}]`;
-        const override = process.env[`GENSHIN_ACCOUNTS_${index + 1}`]?.trim();
-        if (override && typeof account === 'object' && account !== null) {
-          account.ltoken = override;
-        }
-        return normalizeAccount(account, index, source);
-      })
-    : [];
+  const accounts = [];
 
-  const splitAccounts = Object.entries(process.env)
-    .map(([key, value]) => {
-      const match = key.match(/^GENSHIN_ACCOUNT_(\d+)$/);
-      if (!match || !value?.trim()) return null;
-      const index = Number(match[1]);
-      const account = parseJson(value.trim(), key);
-      const override = process.env[`${key}_LTOKEN`]?.trim();
-      if (override && typeof account === 'object' && account !== null) {
-        account.ltoken = override;
+  // 1. Baca GENSHIN_ACCOUNTS (bisa berupa Array ataupun Single Object)
+  const legacyRaw = process.env.GENSHIN_ACCOUNTS?.trim();
+  if (legacyRaw) {
+    const parsed = parseJson(legacyRaw, 'GENSHIN_ACCOUNTS');
+    const list = Array.isArray(parsed) ? parsed : [parsed];
+    list.forEach((acc, idx) => {
+      const source = `GENSHIN_ACCOUNTS[${idx + 1}]`;
+      const override = process.env[`GENSHIN_ACCOUNTS_${idx + 1}`]?.trim();
+      if (override && typeof acc === 'object' && acc !== null) {
+        acc.ltoken = override;
       }
-      return { index, account, secretName: key };
+      accounts.push(normalizeAccount(acc, accounts.length, source));
+    });
+  }
+
+  // 2. Baca GENSHIN_ACCOUNT_1 s/d GENSHIN_ACCOUNT_20 (bisa berupa Single Object ataupun Array)
+  const splitEntries = Object.entries(process.env)
+    .map(([key, val]) => {
+      const match = key.match(/^GENSHIN_ACCOUNT_(\d+)$/);
+      return match && val?.trim()
+        ? { index: Number(match[1]), value: val.trim(), secretName: key }
+        : null;
     })
     .filter(Boolean)
-    .sort((a, b) => a.index - b.index)
-    .map((item, idx) => normalizeAccount(item.account, idx, item.secretName));
+    .sort((a, b) => a.index - b.index);
 
-  return [...legacyAccounts, ...splitAccounts];
+  for (const item of splitEntries) {
+    const parsed = parseJson(item.value, item.secretName);
+    const list = Array.isArray(parsed) ? parsed : [parsed];
+    list.forEach((acc, subIdx) => {
+      const source = list.length > 1 ? `${item.secretName}[${subIdx + 1}]` : item.secretName;
+      const override = process.env[`${item.secretName}_LTOKEN`]?.trim();
+      if (override && typeof acc === 'object' && acc !== null) {
+        acc.ltoken = override;
+      }
+      accounts.push(normalizeAccount(acc, accounts.length, source));
+    });
+  }
+
+  return accounts;
 }
