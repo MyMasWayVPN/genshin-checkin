@@ -269,52 +269,78 @@ async function main() {
   }
 
   if (accounts.length > 0) {
-    console.log(`\nMemproses ${targetCodes.length} kode untuk ${accounts.length} akun...`);
+    console.log(`\nMemproses ${targetCodes.length} kode untuk ${accounts.length} akun secara paralel...`);
     lines.push('--- Status Redeem Akun ---');
 
-    for (const [accountIndex, account] of accounts.entries()) {
-      console.log(`\n[Akun ${accountIndex + 1}/${accounts.length}] ${account.name}`);
-      const roleInfo = await findUserGameRole(account);
-
-      if (!roleInfo.found) {
-        console.error(`- ${roleInfo.message}`);
-        lines.push(`${accountIndex + 1}. ${account.name}: GAGAL (${roleInfo.message})`);
-        continue;
-      }
-
-      lines.push(
-        `${accountIndex + 1}. ${account.name} - ${roleInfo.nickname} (UID: ${roleInfo.uid})`,
-        `   Server: ${roleInfo.regionName}`
-      );
-
-      for (const targetCode of targetCodes) {
-        try {
-          const res = await redeemCode({
-            accountOrLtoken: account,
-            uid: roleInfo.uid,
-            region: roleInfo.region,
-            cdkey: targetCode.kode,
-          });
-
-          const status = res.success
-            ? 'BERHASIL'
-            : res.isAlreadyClaimed
-            ? 'SUDAH DIKLAIM'
-            : res.isLimitReached
-            ? 'LIMIT HABIS'
-            : 'GAGAL';
-
-          console.log(`  * [${targetCode.kode}] ${status} -> ${res.message}`);
-          lines.push(`   * ${targetCode.kode}: ${status} (${res.message})`);
-        } catch (err) {
-          console.error(`  * [${targetCode.kode}] ERROR: ${err.message}`);
-          lines.push(`   * ${targetCode.kode}: ERROR (${err.message})`);
+    // Eksekusi paralel per akun dengan staggered start 300ms agar request tidak menumpuk dalam 1 milidetik
+    const accountResults = await Promise.all(
+      accounts.map(async (account, accountIndex) => {
+        if (accountIndex > 0) {
+          await delay(accountIndex * 300);
         }
 
-        // Jeda 5.5 detik untuk mematuhi cooldown rate-limit HoYoverse (minimal 5 detik)
-        await delay(5500);
-      }
-      lines.push('');
+        console.log(`[Start Akun ${accountIndex + 1}/${accounts.length}] ${account.name}`);
+        const roleInfo = await findUserGameRole(account);
+
+        if (!roleInfo.found) {
+          console.error(`- [Akun ${accountIndex + 1}] ${account.name}: ${roleInfo.message}`);
+          return {
+            accountIndex,
+            account,
+            roleInfo: null,
+            lines: [`${accountIndex + 1}. ${account.name}: GAGAL (${roleInfo.message})`],
+          };
+        }
+
+        const accountLines = [
+          `${accountIndex + 1}. ${account.name} - ${roleInfo.nickname} (UID: ${roleInfo.uid})`,
+          `   Server: ${roleInfo.regionName}`,
+        ];
+
+        for (const targetCode of targetCodes) {
+          const startTime = Date.now();
+          try {
+            const res = await redeemCode({
+              accountOrLtoken: account,
+              uid: roleInfo.uid,
+              region: roleInfo.region,
+              cdkey: targetCode.kode,
+            });
+
+            const status = res.success
+              ? 'BERHASIL'
+              : res.isAlreadyClaimed
+              ? 'SUDAH DIKLAIM'
+              : res.isLimitReached
+              ? 'LIMIT HABIS'
+              : 'GAGAL';
+
+            console.log(`  * [Akun ${accountIndex + 1}][${targetCode.kode}] ${status} -> ${res.message}`);
+            accountLines.push(`   * ${targetCode.kode}: ${status} (${res.message})`);
+          } catch (err) {
+            console.error(`  * [Akun ${accountIndex + 1}][${targetCode.kode}] ERROR: ${err.message}`);
+            accountLines.push(`   * ${targetCode.kode}: ERROR (${err.message})`);
+          }
+
+          // Pastikan jeda per akun minimal 5.5 detik antar kode
+          const elapsed = Date.now() - startTime;
+          const waitTime = Math.max(0, 5500 - elapsed);
+          await delay(waitTime);
+        }
+
+        return {
+          accountIndex,
+          account,
+          roleInfo,
+          lines: accountLines,
+        };
+      })
+    );
+
+    // Urutkan kembali sesuai urutan akun semula agar laporan Telegram rapi
+    accountResults.sort((a, b) => a.accountIndex - b.accountIndex);
+    for (const result of accountResults) {
+      lines.push(...result.lines, '');
     }
   }
 

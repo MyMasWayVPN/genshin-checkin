@@ -182,61 +182,88 @@ async function main() {
     '',
   ];
 
-  for (const [accountIndex, account] of accounts.entries()) {
-    console.log(`\n[Akun ${accountIndex + 1}/${accounts.length}] ${account.name} (${account.source})`);
+  console.log(`\nMenjalankan proses redeem untuk ${accounts.length} akun secara paralel...`);
 
-    // 1. Verifikasi LToken terlebih dahulu
-    const verify = await verifyLToken(account);
-    if (!verify.valid) {
-      const failMsg = `LToken tidak valid: ${verify.message}`;
-      console.error(`- ${failMsg}`);
-      lines.push(`${accountIndex + 1}. ${account.name}`, `Status: GAGAL - ${failMsg}`, '');
-      continue;
-    }
-
-    // 2. Deteksi otomatis Region & UID Game
-    const roleInfo = await findUserGameRole(account);
-    if (!roleInfo.found) {
-      console.error(`- ${roleInfo.message}`);
-      lines.push(`${accountIndex + 1}. ${account.name}`, `Status: GAGAL - ${roleInfo.message}`, '');
-      continue;
-    }
-
-    console.log(`- Karakter: ${roleInfo.nickname} (Lv. ${roleInfo.level}) | UID: ${roleInfo.uid} | Region: ${roleInfo.regionName}`);
-    lines.push(
-      `${accountIndex + 1}. ${account.name} - ${roleInfo.nickname} (UID: ${roleInfo.uid})`,
-      `Server: ${roleInfo.regionName}`
-    );
-
-    // 3. Redeem setiap promo code
-    for (const cdkey of codes) {
-      try {
-        const result = await redeemCode({
-          accountOrLtoken: account,
-          uid: roleInfo.uid,
-          region: roleInfo.region,
-          cdkey,
-        });
-
-        const statusLabel = result.success
-          ? 'BERHASIL'
-          : result.isAlreadyClaimed
-          ? 'SUDAH DIKLAIM'
-          : result.isLimitReached
-          ? 'LIMIT HABIS'
-          : 'GAGAL';
-
-        console.log(`  * [${cdkey}] ${statusLabel} -> ${result.message}`);
-        lines.push(`  * ${cdkey}: ${statusLabel} (${result.message})`);
-      } catch (err) {
-        console.error(`  * [${cdkey}] ERROR -> ${err.message}`);
-        lines.push(`  * ${cdkey}: ERROR (${err.message})`);
+  // Eksekusi paralel per akun dengan staggered start 300ms agar request tidak menumpuk dalam 1 milidetik
+  const accountResults = await Promise.all(
+    accounts.map(async (account, accountIndex) => {
+      if (accountIndex > 0) {
+        await delay(accountIndex * 300);
       }
 
-      // Jeda 5.5 detik untuk mematuhi cooldown rate-limit HoYoverse (minimal 5 detik)
-      await delay(5500);
-    }
-    lines.push('');
+      console.log(`[Start Akun ${accountIndex + 1}/${accounts.length}] ${account.name} (${account.source})`);
+
+      // 1. Verifikasi LToken terlebih dahulu
+      const verify = await verifyLToken(account);
+      if (!verify.valid) {
+        const failMsg = `LToken tidak valid: ${verify.message}`;
+        console.error(`- [Akun ${accountIndex + 1}] ${failMsg}`);
+        return {
+          accountIndex,
+          lines: [`${accountIndex + 1}. ${account.name}`, `Status: GAGAL - ${failMsg}`, ''],
+        };
+      }
+
+      // 2. Deteksi otomatis Region & UID Game
+      const roleInfo = await findUserGameRole(account);
+      if (!roleInfo.found) {
+        console.error(`- [Akun ${accountIndex + 1}] ${roleInfo.message}`);
+        return {
+          accountIndex,
+          lines: [`${accountIndex + 1}. ${account.name}`, `Status: GAGAL - ${roleInfo.message}`, ''],
+        };
+      }
+
+      console.log(`- [Akun ${accountIndex + 1}] Karakter: ${roleInfo.nickname} (Lv. ${roleInfo.level}) | UID: ${roleInfo.uid} | Region: ${roleInfo.regionName}`);
+      const accountLines = [
+        `${accountIndex + 1}. ${account.name} - ${roleInfo.nickname} (UID: ${roleInfo.uid})`,
+        `Server: ${roleInfo.regionName}`,
+      ];
+
+      // 3. Redeem setiap promo code
+      for (const cdkey of codes) {
+        const startTime = Date.now();
+        try {
+          const result = await redeemCode({
+            accountOrLtoken: account,
+            uid: roleInfo.uid,
+            region: roleInfo.region,
+            cdkey,
+          });
+
+          const statusLabel = result.success
+            ? 'BERHASIL'
+            : result.isAlreadyClaimed
+            ? 'SUDAH DIKLAIM'
+            : result.isLimitReached
+            ? 'LIMIT HABIS'
+            : 'GAGAL';
+
+          console.log(`  * [Akun ${accountIndex + 1}][${cdkey}] ${statusLabel} -> ${result.message}`);
+          accountLines.push(`  * ${cdkey}: ${statusLabel} (${result.message})`);
+        } catch (err) {
+          console.error(`  * [Akun ${accountIndex + 1}][${cdkey}] ERROR -> ${err.message}`);
+          accountLines.push(`  * ${cdkey}: ERROR (${err.message})`);
+        }
+
+        // Jeda per akun minimal 5.5 detik antar kode
+        const elapsed = Date.now() - startTime;
+        const waitTime = Math.max(0, 5500 - elapsed);
+        await delay(waitTime);
+      }
+
+      accountLines.push('');
+      return {
+        accountIndex,
+        lines: accountLines,
+      };
+    })
+  );
+
+  // Urutkan kembali sesuai urutan akun semula agar laporan Telegram rapi
+  accountResults.sort((a, b) => a.accountIndex - b.accountIndex);
+  for (const result of accountResults) {
+    lines.push(...result.lines);
   }
 
   // Kirim notifikasi Telegram jika botToken & chatId ada di env
