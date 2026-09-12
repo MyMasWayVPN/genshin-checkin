@@ -32,6 +32,7 @@ jobs:
         continue-on-error: true
         run: npm run daily-checkin
         env:
+          GH_PAT: ${{ secrets.GH_PAT }}
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           GENSHIN_ACCOUNTS: ${{ secrets.GENSHIN_ACCOUNTS }}
@@ -106,7 +107,3 @@ jobs:
             git commit -m "Update check-in log"
             git push
           fi
-
-      - name: Fail job if check-in failed
-        if: steps.checkin.outcome == 'failure'
-        run: exit 1
