@@ -1,5 +1,56 @@
 [
   {
+    "kode": "PrimaDonna",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Primogem ×100",
+      "Mora ×50,000"
+    ],
+    "release": "12/09/2026",
+    "expired": "15/09/2026",
+    "status": true,
+    "first_seen": "12/09/2026, 22.15.10"
+  },
+  {
+    "kode": "Vesna0923",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Primogem ×100",
+      "Hero's Wit ×5"
+    ],
+    "release": "12/09/2026",
+    "expired": "15/09/2026",
+    "status": true,
+    "first_seen": "12/09/2026, 22.15.10"
+  },
+  {
+    "kode": "Rekviem",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Primogem ×100",
+      "Mystic Enhancement Ore ×10"
+    ],
+    "release": "12/09/2026",
+    "expired": "15/09/2026",
+    "status": true,
+    "first_seen": "12/09/2026, 22.15.10"
+  },
+  {
     "kode": "YOAL3V36XHS7",
     "support_server": [
       "America",
