@@ -210,6 +210,11 @@ async function main() {
   const chatId = getRequiredEnv('TELEGRAM_CHAT_ID');
   const now = getWibTime();
 
+  const isManualRun =
+    process.env.GITHUB_EVENT_NAME === 'workflow_dispatch' ||
+    process.argv.includes('--force') ||
+    process.argv.includes('--redeem-all');
+
   const currentCodes = await scrapeCodes();
   const savedCodes = loadSavedCodes();
   const savedKode = new Set(savedCodes.map((code) => code.kode));
@@ -223,19 +228,29 @@ async function main() {
     (code) => code.status && !savedKode.has(code.kode)
   );
 
-  if (newCodes.length === 0) {
+  // Jika bukan manual run dan tidak ada kode baru, berhenti agar tidak spam Telegram tiap interval cron
+  if (!isManualRun && newCodes.length === 0) {
     console.log('Tidak ada kode promo baru.');
     return;
   }
 
+  // Jika ada kode baru, prioritaskan kode baru. Jika manual run dan tidak ada kode baru, redeem semua kode aktif.
+  const targetCodes = newCodes.length > 0 ? newCodes : currentCodes.filter((c) => c.status);
+
+  if (targetCodes.length === 0) {
+    console.log('Tidak ada kode promo aktif untuk diproses.');
+    return;
+  }
+
+  const isNew = newCodes.length > 0;
   const lines = [
-    'Kode Promo Genshin Impact Baru',
+    isNew ? 'Kode Promo Genshin Impact Baru' : 'Sinkronisasi Kode Promo Genshin Impact (Manual Run)',
     `Waktu: ${now} WIB`,
-    `Total kode baru: ${newCodes.length}`,
+    `Total kode: ${targetCodes.length} (${isNew ? 'Kode Baru' : 'Kode Aktif'})`,
     '',
   ];
 
-  newCodes.forEach((code, index) => {
+  targetCodes.forEach((code, index) => {
     lines.push(
       `${index + 1}. Kode: ${code.kode}`,
       `   Reward: ${code.reward.join(', ') || '-'}`,
@@ -254,8 +269,8 @@ async function main() {
   }
 
   if (accounts.length > 0) {
-    console.log(`\nMenemukan ${newCodes.length} kode baru. Menjalankan auto-redeem untuk ${accounts.length} akun...`);
-    lines.push('--- Status Auto-Redeem Akun ---');
+    console.log(`\nMemproses ${targetCodes.length} kode untuk ${accounts.length} akun...`);
+    lines.push('--- Status Redeem Akun ---');
 
     for (const [accountIndex, account] of accounts.entries()) {
       console.log(`\n[Akun ${accountIndex + 1}/${accounts.length}] ${account.name}`);
@@ -272,13 +287,13 @@ async function main() {
         `   Server: ${roleInfo.regionName}`
       );
 
-      for (const newCode of newCodes) {
+      for (const targetCode of targetCodes) {
         try {
           const res = await redeemCode({
             accountOrLtoken: account,
             uid: roleInfo.uid,
             region: roleInfo.region,
-            cdkey: newCode.kode,
+            cdkey: targetCode.kode,
           });
 
           const status = res.success
@@ -289,15 +304,15 @@ async function main() {
             ? 'LIMIT HABIS'
             : 'GAGAL';
 
-          console.log(`  * [${newCode.kode}] ${status} -> ${res.message}`);
-          lines.push(`   * ${newCode.kode}: ${status} (${res.message})`);
+          console.log(`  * [${targetCode.kode}] ${status} -> ${res.message}`);
+          lines.push(`   * ${targetCode.kode}: ${status} (${res.message})`);
         } catch (err) {
-          console.error(`  * [${newCode.kode}] ERROR: ${err.message}`);
-          lines.push(`   * ${newCode.kode}: ERROR (${err.message})`);
+          console.error(`  * [${targetCode.kode}] ERROR: ${err.message}`);
+          lines.push(`   * ${targetCode.kode}: ERROR (${err.message})`);
         }
 
-        // Delay 4 detik untuk menghindari cooldown rate-limit HoYoverse
-        await delay(4000);
+        // Jeda 5.5 detik untuk mematuhi cooldown rate-limit HoYoverse (minimal 5 detik)
+        await delay(5500);
       }
       lines.push('');
     }

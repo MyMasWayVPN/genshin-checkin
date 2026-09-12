@@ -233,8 +233,8 @@ async function main() {
         lines.push(`  * ${cdkey}: ERROR (${err.message})`);
       }
 
-      // Beri jeda 4 detik untuk menghindari rate limit API HoYoverse
-      await delay(4000);
+      // Jeda 5.5 detik untuk mematuhi cooldown rate-limit HoYoverse (minimal 5 detik)
+      await delay(5500);
     }
     lines.push('');
   }

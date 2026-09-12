@@ -242,7 +242,24 @@ export async function redeemCode({
     throw new Error(`HTTP Error ${response.status}: ${response.statusText}`);
   }
 
-  const result = await response.json();
+  let result = await response.json();
+
+  // Jika terkena cooldown (HoYoverse batas 5 detik per akun), tunggu 5.5 detik dan retry otomatis
+  if (result.retcode === -2016 || /cooldown/i.test(result.message || '')) {
+    await delay(5500);
+    const retryRes = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'User-Agent': getRandomUserAgent(),
+        Accept: 'application/json, text/plain, */*',
+        Cookie: cookie,
+      },
+    });
+    if (retryRes.ok) {
+      result = await retryRes.json();
+    }
+  }
+
   const retcode = result.retcode;
   const isSuccess = retcode === 0;
   const isAlreadyClaimed = retcode === -2017;
