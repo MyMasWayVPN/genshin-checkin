@@ -460,7 +460,10 @@ async function main() {
 
   await sendTelegramMessage(botToken, chatId, lines.join('\n'));
 
-  if (failedCount > 0) {
+  // Hanya set exit code 1 jika SEMUA akun gagal.
+  // Jika hanya sebagian akun yang gagal, job GitHub Actions tetap hijau (sukses)
+  // karena rincian akun mati sudah lengkap dilaporkan ke Telegram.
+  if (accounts.length > 0 && failedCount === accounts.length) {
     process.exitCode = 1;
   }
 }
