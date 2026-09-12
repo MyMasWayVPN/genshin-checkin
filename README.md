@@ -1,48 +1,44 @@
-# Genshin Daily Check-in
+# Genshin Daily Check-in & Auto-Redeem
 
-Script ini menjalankan dua workflow lewat GitHub Actions:
+Automasi harian Genshin Impact menggunakan GitHub Actions dengan rotasi User-Agent, auto-redeem kode promo multi-akun paralel, serta auto-clean untuk token kedaluwarsa.
 
-1. **Daily Check-in** (`scripts/daily-checkin.js`) — check-in akun Genshin setiap hari jam `00:00 WIB`, mengirim hasilnya ke Telegram Bot, dan menyimpan hasil terbaru ke `log.txt`.
-2. **Monitor Kode Promo** (`scripts/promo-codes.js`) — memantau halaman Promotional Code Genshin setiap 5 jam, mengirim kode promo baru ke Telegram Bot, dan menyimpan daftar kode ke `promo-codes.json`.
+---
 
-## 1. Buat Telegram Bot
+## Fitur Utama
 
-1. Buka Telegram dan chat `@BotFather`.
-2. Buat bot baru dengan command:
+1. **Daily Check-in** (`scripts/daily-checkin.js`)
+   - Berjalan otomatis setiap hari pukul **00:00 WIB** (`17:00 UTC`).
+   - Rotasi User-Agent modern pada setiap request API.
+   - Deteksi akun mati/expired otomatis (lapor ke Telegram + pembersihan secret).
 
-```txt
-/newbot
-```
+2. **Monitor Kode Promo & Auto-Redeem** (`scripts/promo-codes.js`)
+   - Memantau wiki Fandom setiap **5 jam** (`0 */5 * * *`).
+   - Setiap ada kode baru: **langsung auto-redeem** ke semua akun terdaftar secara paralel (hanya butuh ~50 detik untuk puluhan akun).
+   - Cooldown aman 5.5 detik per akun dengan auto-retry.
 
-3. Simpan token bot yang diberikan BotFather. Token ini nanti dipakai untuk secret `BOT_TOKEN`.
-4. Kirim pesan apa saja ke bot kamu agar bot bisa mengirim pesan balik ke akun/grup tujuan.
+3. **Manual Redeem Codes** (`scripts/redeem-codes.js`)
+   - Jalankan klaim kode redeem tertentu atau semua kode aktif kapan saja lewat menu **Actions** (`workflow_dispatch`).
 
-## 2. Ambil Telegram Chat ID
+---
 
-Untuk akun pribadi:
+## Konfigurasi GitHub Secrets
 
-1. Chat bot `@userinfobot` di Telegram.
-2. Ambil angka ID Telegram kamu.
-3. ID itu dipakai untuk secret `TELEGRAM_CHAT_ID`.
+Buka repositori di GitHub: **Settings** -> **Secrets and variables** -> **Actions** -> **New repository secret**.
 
-Untuk grup:
+| Secret Name | Wajib | Keterangan |
+| :--- | :---: | :--- |
+| `BOT_TOKEN` | Ya | Token bot dari [@BotFather](https://t.me/BotFather) |
+| `TELEGRAM_CHAT_ID` | Ya | ID chat/grup tujuan notifikasi |
+| `GENSHIN_ACCOUNT_1` s/d `50` | Opsional* | Format 1 akun per secret (disarankan) |
+| `GENSHIN_ACCOUNTS` | Opsional* | Format array (bisa memuat puluhan/ratusan akun tanpa batas) |
+| `GH_PAT` | Opsional | GitHub Personal Access Token (scope `repo`) untuk fitur auto-update/delete secret akun mati |
 
-1. Masukkan bot kamu ke grup.
-2. Jadikan bot sebagai member yang bisa mengirim pesan.
-3. Ambil chat ID grup memakai bot seperti `@RawDataBot`, lalu gunakan ID grup tersebut sebagai `TELEGRAM_CHAT_ID`.
+*\*Wajib mengisi minimal salah satu antara `GENSHIN_ACCOUNT_1` atau `GENSHIN_ACCOUNTS`.*
 
-## 3. Siapkan Data Akun Genshin
+### Format Data Akun
 
-Cara yang disarankan adalah **1 secret untuk 1 akun**. Dengan cara ini kamu bisa menambah akun baru tanpa mengedit secret akun lama.
-
-Secret akun pertama:
-
-```txt
-GENSHIN_ACCOUNT_1
-```
-
-Value:
-
+**Opsi 1: 1 Secret per Akun (Disarankan)**
+Nama secret: `GENSHIN_ACCOUNT_1`, `GENSHIN_ACCOUNT_2`, dst.
 ```json
 {
   "name": "Akun Utama",
@@ -51,38 +47,8 @@ Value:
 }
 ```
 
-Secret akun kedua:
-
-```txt
-GENSHIN_ACCOUNT_2
-```
-
-Value:
-
-```json
-{
-  "name": "Akun 2",
-  "ltuid": "98765432",
-  "ltoken": "v2_xxxxxxxxx"
-}
-```
-
-Untuk menambah akun baru, buat secret baru berikutnya:
-
-```txt
-GENSHIN_ACCOUNT_3
-GENSHIN_ACCOUNT_4
-GENSHIN_ACCOUNT_5
-```
-
-Workflow sudah menyiapkan slot sampai:
-
-```txt
-GENSHIN_ACCOUNT_20
-```
-
-Alternatif lama tetap didukung, yaitu memakai satu secret `GENSHIN_ACCOUNTS` dengan format array:
-
+**Opsi 2: Array Akun dalam 1 Secret**
+Nama secret: `GENSHIN_ACCOUNTS`
 ```json
 [
   {
@@ -98,183 +64,45 @@ Alternatif lama tetap didukung, yaitu memakai satu secret `GENSHIN_ACCOUNTS` den
 ]
 ```
 
-Pastikan JSON valid:
+### Override LToken Cepat
+Jika `ltoken` kedaluwarsa tanpa ingin mengedit JSON:
+- Untuk `GENSHIN_ACCOUNT_3`: Buat secret `GENSHIN_ACCOUNT_3_LTOKEN` = `v2_token_baru`
+- Untuk array ke-2 di `GENSHIN_ACCOUNTS`: Buat secret `GENSHIN_ACCOUNTS_2_LTOKEN` = `v2_token_baru`
 
-- Gunakan tanda kutip ganda.
-- Jangan ada koma setelah item terakhir.
-- `ltuid` dan `ltoken` wajib diisi.
+---
 
-Jika `GENSHIN_ACCOUNTS` dan `GENSHIN_ACCOUNT_1`, `GENSHIN_ACCOUNT_2`, dan seterusnya sama-sama diisi, semua akun dari kedua format tersebut akan dijalankan.
+## Fitur Auto-Delete / Auto-Update Akun Mati
 
-## 4. Monitor Kode Promo
+Saat daily check-in mendeteksi token akun sudah expired atau karakter tidak ditemukan:
+- **Akun Satuan (`GENSHIN_ACCOUNT_X`)**: Secret langsung dihapus otomatis dari GitHub jika `GH_PAT` dipasang.
+- **Akun Array (`GENSHIN_ACCOUNTS`)**: Hanya akun mati yang dibuang; sisa akun aktif akan disimpan kembali ke secret secara otomatis.
+- **Notifikasi Telegram**: Jika `GH_PAT` tidak diset, bot mengirimkan teks JSON array yang sudah bersih langsung ke chat Telegram agar bisa langsung disalin-tempel manual.
 
-Workflow **Promo Codes Monitor** (`scripts/promo-codes.js`) berjalan otomatis **setiap 3 jam**:
+> **Cara Buat GH_PAT (Opsional):**
+> Masuk ke GitHub Profile -> **Settings** -> **Developer Settings** -> **Personal Access Tokens (Tokens classic)** -> **Generate new token**. Centang izin **`repo`**, simpan, dan masukkan tokennya ke Secret `GH_PAT`.
 
-```txt
-Setiap 3 jam
-```
+---
 
-Di file GitHub Actions, jadwal ini ditulis sebagai:
+## Pengujian Lokal
 
-```yml
-cron: '0 */3 * * *'
-```
-
-Karena GitHub Actions memakai UTC, jadwal tersebut sama dengan setiap 3 jam sekali, dimulai `07:00 WIB`.
-
-Cara kerjanya:
-
-1. Scrape daftar kode promo dari halaman Promotional Code Genshin Impact.
-2. Bandingkan dengan daftar kode lama di `promo-codes.json`.
-3. Jika ada kode baru yang masih aktif, kirim notifikasi ke Telegram Bot.
-4. Simpan daftar kode terbaru ke `promo-codes.json` (di-commit otomatis oleh workflow).
-
-Workflow ini hanya butuh secret `BOT_TOKEN` dan `TELEGRAM_CHAT_ID` (sama seperti daily check-in). Tidak butuh secret akun Genshin.
-
-Test lokal di PowerShell:
-
-```powershell
-$env:BOT_TOKEN="isi_token_bot"
-$env:TELEGRAM_CHAT_ID="isi_id_telegram"
-
+```bash
+# Install dependencies
 npm ci
+
+# Jalankan Check-in
+npm run daily-checkin
+
+# Pantau Kode Promo & Auto-Redeem
 npm run promo-codes
+
+# Jalankan Redeem Kode Tertentu Secara Manual
+node scripts/redeem-codes.js GENSHIN2026 PRIMODONNA
 ```
 
+---
 
-## 5. Isi GitHub Actions Secrets
+## Log & Output
 
-Di repository GitHub:
-
-1. Buka `Settings`.
-2. Pilih `Secrets and variables`.
-3. Pilih `Actions`.
-4. Klik `New repository secret`.
-5. Tambahkan secret berikut:
-
-```txt
-BOT_TOKEN
-TELEGRAM_CHAT_ID
-GENSHIN_ACCOUNT_1
-```
-
-Jika punya akun kedua, tambahkan:
-
-```txt
-GENSHIN_ACCOUNT_2
-```
-
-Lanjutkan berurutan untuk akun berikutnya. Kamu tidak perlu mengedit secret akun lama.
-
-### Mengidentifikasi akun yang gagal
-
-Hasil check-in (di Telegram dan `log.txt`) menampilkan sumber secret setiap akun, contoh:
-
-```txt
-1. Akun Utama (GENSHIN_ACCOUNTS[1])
-2. Akun 2 (GENSHIN_ACCOUNTS[2])
-3. Akun 3 (GENSHIN_ACCOUNT_1)
-```
-
-- `GENSHIN_ACCOUNTS[N]` artinya akun ke-N dari secret `GENSHIN_ACCOUNTS` (format array).
-- `GENSHIN_ACCOUNT_N` artinya akun dari secret `GENSHIN_ACCOUNT_N` (format satu akun per secret).
-
-### Perbaiki token tanpa menulis ulang JSON
-
-Jika `ltoken` sebuah akun expired, kamu tidak perlu mengedit ulang seluruh value secret JSON. Cukup buat secret override baru yang hanya berisi token baru:
-
-Untuk akun format satu-per-secret `GENSHIN_ACCOUNT_3`:
-
-```txt
-GENSHIN_ACCOUNT_3_LTOKEN
-```
-
-Value:
-
-```txt
-v2_token_baru
-```
-
-Untuk akun ke-N di dalam array `GENSHIN_ACCOUNTS`:
-
-```txt
-GENSHIN_ACCOUNTS_N_LTOKEN
-```
-
-Contoh: akun ke-3 di array = `GENSHIN_ACCOUNTS_3_LTOKEN` dengan value `v2_token_baru`.
-
-Override berlaku selama secret tersebut diisi. Hapus secret override untuk kembali memakai `ltoken` dari JSON.
-
-## 6. Jalankan Manual Untuk Test
-
-Tidak perlu menunggu jam `00:00 WIB`.
-
-1. Buka tab `Actions` di GitHub repository.
-2. Pilih workflow `Daily Genshin Check-in` atau `Promo Codes Monitor`.
-3. Klik `Run workflow`.
-4. Pilih branch.
-5. Klik `Run workflow`.
-
-Jika berhasil, bot Telegram akan mengirim hasil check-in dan `log.txt` akan diperbarui otomatis.
-
-## 7. Jadwal Otomatis
-
-Workflow daily check-in berjalan otomatis setiap hari:
-
-```txt
-00:00 WIB
-```
-
-Di file GitHub Actions, jadwal ini ditulis sebagai:
-
-```yml
-cron: '0 17 * * *'
-```
-
-Karena GitHub Actions memakai UTC, `17:00 UTC` sama dengan `00:00 WIB`.
-
-## 8. Test Lokal Di Windows
-
-### Command Prompt
-
-```bat
-set "BOT_TOKEN=isi_token_bot"
-set "TELEGRAM_CHAT_ID=isi_id_telegram"
-set GENSHIN_ACCOUNT_1={"name":"Akun Utama","ltuid":"123456789","ltoken":"v2_xxxxxxxxx"}
-set GENSHIN_ACCOUNT_2={"name":"Akun 2","ltuid":"98765432","ltoken":"v2_xxxxxxxxx"}
-
-npm ci
-npm run daily-checkin
-```
-
-### PowerShell
-
-```powershell
-$env:BOT_TOKEN="isi_token_bot"
-$env:TELEGRAM_CHAT_ID="isi_id_telegram"
-$env:GENSHIN_ACCOUNT_1='{"name":"Akun Utama","ltuid":"123456789","ltoken":"v2_xxxxxxxxx"}'
-$env:GENSHIN_ACCOUNT_2='{"name":"Akun 2","ltuid":"98765432","ltoken":"v2_xxxxxxxxx"}'
-
-npm ci
-npm run daily-checkin
-```
-
-## 9. Log
-
-Setiap script berjalan, hasil terbaru akan disimpan ke:
-
-```txt
-log.txt           -> hasil daily check-in
-promo-codes.json  -> daftar kode promo terbaru
-```
-
-GitHub Actions akan melakukan commit otomatis jika `log.txt` atau `promo-codes.json` berubah. Isi `log.txt` akan diperbarui dengan hasil run terbaru, bukan ditumpuk dengan riwayat lama.
-
-Jika repository memakai branch protection dan GitHub Actions tidak boleh push commit, step commit log bisa gagal. Solusinya izinkan GitHub Actions menulis ke repository atau nonaktifkan branch protection untuk branch tersebut.
-
-## 10. Catatan Keamanan
-
-- Jangan simpan `BOT_TOKEN`, `ltuid`, atau `ltoken` di file repository.
-- Simpan semua rahasia di GitHub Actions Secrets.
-- Jika token bot pernah terlanjur dipublikasikan, regenerate token lewat `@BotFather`.
-- Jika `ltoken` expired, update secret akun terkait, misalnya `GENSHIN_ACCOUNT_2`.
+- `log.txt`: Menyimpan riwayat hasil daily check-in terakhir.
+- `promo-codes.json`: Menyimpan database daftar kode promo Genshin yang aktif.
+- Kedua file diperbarui dan di-commit otomatis oleh GitHub Actions.
