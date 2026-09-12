@@ -3,15 +3,14 @@ import axios from 'axios';
 import { CookieJar } from 'tough-cookie';
 import { wrapper } from 'axios-cookiejar-support';
 import { load } from 'cheerio';
+import { getRandomUserAgent } from './user-agents.js';
+import { findUserGameRole, redeemCode, loadAccounts } from './hoyolab-api.js';
 
 const TELEGRAM_LIMIT = 3900;
 const PAGE_URL = 'https://genshin-impact.fandom.com/wiki/Promotional_Code';
 const API_URL =
   'https://genshin-impact.fandom.com/api.php?action=parse&page=Promotional_Code&format=json&prop=text';
 const DATA_FILE = new URL('../promo-codes.json', import.meta.url);
-
-const BROWSER_UA =
-  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36';
 
 const client = wrapper(axios.create({
   jar: new CookieJar(),
@@ -66,7 +65,7 @@ function getStatus(date) {
 
 function getHeaders() {
   return {
-    'User-Agent': BROWSER_UA,
+    'User-Agent': getRandomUserAgent(),
     Accept: 'text/html,application/xhtml+xml,application/json;q=0.9,*/*;q=0.8',
     'Accept-Language': 'en-US,en;q=0.9',
     Referer: 'https://genshin-impact.fandom.com/',
@@ -245,6 +244,64 @@ async function main() {
       ''
     );
   });
+
+  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+  let accounts = [];
+  try {
+    accounts = loadAccounts();
+  } catch (accError) {
+    console.log(`Info akun: ${accError.message}`);
+  }
+
+  if (accounts.length > 0) {
+    console.log(`\nMenemukan ${newCodes.length} kode baru. Menjalankan auto-redeem untuk ${accounts.length} akun...`);
+    lines.push('--- Status Auto-Redeem Akun ---');
+
+    for (const [accountIndex, account] of accounts.entries()) {
+      console.log(`\n[Akun ${accountIndex + 1}/${accounts.length}] ${account.name}`);
+      const roleInfo = await findUserGameRole(account);
+
+      if (!roleInfo.found) {
+        console.error(`- ${roleInfo.message}`);
+        lines.push(`${accountIndex + 1}. ${account.name}: GAGAL (${roleInfo.message})`);
+        continue;
+      }
+
+      lines.push(
+        `${accountIndex + 1}. ${account.name} - ${roleInfo.nickname} (UID: ${roleInfo.uid})`,
+        `   Server: ${roleInfo.regionName}`
+      );
+
+      for (const newCode of newCodes) {
+        try {
+          const res = await redeemCode({
+            accountOrLtoken: account,
+            uid: roleInfo.uid,
+            region: roleInfo.region,
+            cdkey: newCode.kode,
+          });
+
+          const status = res.success
+            ? 'BERHASIL'
+            : res.isAlreadyClaimed
+            ? 'SUDAH DIKLAIM'
+            : res.isLimitReached
+            ? 'LIMIT HABIS'
+            : 'GAGAL';
+
+          console.log(`  * [${newCode.kode}] ${status} -> ${res.message}`);
+          lines.push(`   * ${newCode.kode}: ${status} (${res.message})`);
+        } catch (err) {
+          console.error(`  * [${newCode.kode}] ERROR: ${err.message}`);
+          lines.push(`   * ${newCode.kode}: ERROR (${err.message})`);
+        }
+
+        // Delay 4 detik untuk menghindari cooldown rate-limit HoYoverse
+        await delay(4000);
+      }
+      lines.push('');
+    }
+  }
 
   await sendTelegramMessage(botToken, chatId, lines.join('\n'));
   console.log(`Ditemukan ${newCodes.length} kode promo baru.`);

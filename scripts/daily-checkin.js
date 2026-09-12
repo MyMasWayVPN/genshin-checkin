@@ -1,5 +1,29 @@
 import { Client } from 'genshin-kit.js';
 import { writeFileSync } from 'node:fs';
+import { createRequire } from 'node:module';
+import { getRandomUserAgent } from './user-agents.js';
+
+// Intercept RequestManager dari genshin-kit.js agar merotasi User-Agent di setiap request
+const require = createRequire(import.meta.url);
+const { RequestManager } = require('genshin-kit.js/dist/utils/request.js');
+
+const originalGet = RequestManager.prototype.get;
+RequestManager.prototype.get = function (url, headers, params) {
+  this.headers = {
+    ...this.headers,
+    'User-Agent': getRandomUserAgent(),
+  };
+  return originalGet.call(this, url, headers, params);
+};
+
+const originalPost = RequestManager.prototype.post;
+RequestManager.prototype.post = function (url, headers, data, params) {
+  this.headers = {
+    ...this.headers,
+    'User-Agent': getRandomUserAgent(),
+  };
+  return originalPost.call(this, url, headers, data, params);
+};
 
 const TELEGRAM_LIMIT = 3900;
 const LOG_FILE = new URL('../log.txt', import.meta.url);
@@ -35,11 +59,11 @@ function parseJson(value, secretName) {
 
 function normalizeAccount(account, index, source) {
   const name = account?.name?.trim() || `Akun ${index + 1}`;
-  const ltuid = String(account?.ltuid || '').trim();
-  const ltoken = String(account?.ltoken || '').trim();
+  const ltuid = String(account?.ltuid || account?.luid || account?.ltuid_v2 || '').trim();
+  const ltoken = String(account?.ltoken || account?.ltoken_v2 || '').trim();
 
   if (!ltuid || !ltoken) {
-    throw new Error(`Data akun ke-${index + 1} (${source}) harus punya ltuid dan ltoken.`);
+    throw new Error(`Data akun ke-${index + 1} (${source}) harus punya ltuid/luid dan ltoken.`);
   }
 
   return { name, ltuid, ltoken, source };

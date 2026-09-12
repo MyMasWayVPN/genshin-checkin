@@ -3,7 +3,7 @@
 Script ini menjalankan dua workflow lewat GitHub Actions:
 
 1. **Daily Check-in** (`scripts/daily-checkin.js`) — check-in akun Genshin setiap hari jam `00:00 WIB`, mengirim hasilnya ke Telegram Bot, dan menyimpan hasil terbaru ke `log.txt`.
-2. **Monitor Kode Promo** (`scripts/promo-codes.js`) — memantau halaman Promotional Code Genshin setiap 3 jam, mengirim kode promo baru ke Telegram Bot, dan menyimpan daftar kode ke `promo-codes.json`.
+2. **Monitor Kode Promo** (`scripts/promo-codes.js`) — memantau halaman Promotional Code Genshin setiap 5 jam, mengirim kode promo baru ke Telegram Bot, dan menyimpan daftar kode ke `promo-codes.json`.
 
 ## 1. Buat Telegram Bot
 

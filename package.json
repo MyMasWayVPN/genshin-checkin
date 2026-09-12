@@ -7,7 +7,8 @@
   "scripts": {
     "start": "node scripts/daily-checkin.js",
     "daily-checkin": "node scripts/daily-checkin.js",
-    "promo-codes": "node scripts/promo-codes.js"
+    "promo-codes": "node scripts/promo-codes.js",
+    "redeem-codes": "node scripts/redeem-codes.js"
   },
   "author": "MasWay",
   "license": "MIT",
