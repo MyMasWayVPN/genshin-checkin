@@ -1,7 +1,7 @@
 ==================================================
 Daily Check-in Genshin
-Waktu: 13/09/2026, 21.58.46 WIB
-Total akun: 16
+Waktu: 13/09/2026, 22.19.47 WIB
+Total akun: 18
 
 1. Amal Pasak (GENSHIN_ACCOUNT_1)
 Status: BERHASIL
@@ -67,6 +67,14 @@ Pesan: Already claimed | Total login: 13 | Hari ini: 2026-09-13
 Status: BERHASIL
 Pesan: Already claimed | Total login: 13 | Hari ini: 2026-09-13
 
+17. Ulil Zero (GENSHIN_ACCOUNT_17)
+Status: GAGAL
+Pesan: Not logged in
+
+18. Imam Barbara (GENSHIN_ACCOUNT_18)
+Status: GAGAL
+Pesan: Not logged in
+
 Berhasil: 16
-Gagal: 0
+Gagal: 2
 
