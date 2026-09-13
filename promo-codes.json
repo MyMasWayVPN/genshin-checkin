@@ -1,5 +1,22 @@
 [
   {
+    "kode": "Y6JYMKV6JKSL",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Primogem ×60",
+      "Adventurer's Experience ×5"
+    ],
+    "release": "13/09/2026",
+    "expired": null,
+    "status": true,
+    "first_seen": "14/09/2026, 00.54.07"
+  },
+  {
     "kode": "PrimaDonna",
     "support_server": [
       "America",
