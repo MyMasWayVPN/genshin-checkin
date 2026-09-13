@@ -13,8 +13,7 @@
     ],
     "release": "12/09/2026",
     "expired": "15/09/2026",
-    "status": true,
-    "first_seen": "13/09/2026, 04.42.58"
+    "status": true
   },
   {
     "kode": "Vesna0923",
@@ -30,8 +29,7 @@
     ],
     "release": "12/09/2026",
     "expired": "15/09/2026",
-    "status": true,
-    "first_seen": "13/09/2026, 04.42.58"
+    "status": true
   },
   {
     "kode": "Rekviem",
@@ -47,8 +45,7 @@
     ],
     "release": "12/09/2026",
     "expired": "15/09/2026",
-    "status": true,
-    "first_seen": "13/09/2026, 04.42.58"
+    "status": true
   },
   {
     "kode": "YOAL3V36XHS7",
@@ -67,8 +64,7 @@
     ],
     "release": "02/09/2026",
     "expired": null,
-    "status": true,
-    "first_seen": "13/09/2026, 04.42.58"
+    "status": true
   },
   {
     "kode": "DUGODWKRHAKDNJ",
@@ -86,8 +82,7 @@
     ],
     "release": "31/08/2026",
     "expired": null,
-    "status": true,
-    "first_seen": "13/09/2026, 04.42.58"
+    "status": true
   },
   {
     "kode": "Snezhnaya",
@@ -101,8 +96,7 @@
     ],
     "release": "12/08/2026",
     "expired": null,
-    "status": true,
-    "first_seen": "13/09/2026, 04.42.58"
+    "status": true
   },
   {
     "kode": "2BJ64QRZ7RT8",
@@ -118,8 +112,7 @@
     ],
     "release": "31/07/2026",
     "expired": null,
-    "status": true,
-    "first_seen": "13/09/2026, 04.42.58"
+    "status": true
   },
   {
     "kode": "YuanShen",
@@ -132,7 +125,6 @@
     ],
     "release": "10/11/2020",
     "expired": null,
-    "status": true,
-    "first_seen": "13/09/2026, 04.42.58"
+    "status": true
   }
 ]
