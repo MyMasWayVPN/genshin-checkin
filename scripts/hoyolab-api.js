@@ -218,8 +218,17 @@ export async function redeemCode({ accountOrLtoken, ltuid, uid, region, cdkey, l
 
   let result = await response.json();
 
-  if (result.retcode === -2016) {
-    await delay(3000);
+  // Retry otomatis jika terkena cooldown rate-limit dari HoYoverse
+  let retryCount = 0;
+  while (
+    retryCount < 2 &&
+    (result.retcode === -2016 || /cooldown|try again in/i.test(result.message || ''))
+  ) {
+    retryCount += 1;
+    const secMatch = result.message?.match(/(\d+)\s*second/i);
+    const waitMs = secMatch ? (Number(secMatch[1]) + 1.5) * 1000 : 3500;
+    await delay(waitMs);
+
     const retryRes = await fetch(url, {
       method: 'GET',
       headers: {

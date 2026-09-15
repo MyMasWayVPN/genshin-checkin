@@ -95,10 +95,8 @@ async function main() {
           accountLines.push(`  * ${cdkey}: ERROR (${err.message})`);
         }
 
-        // Jeda per akun minimal 5.5 detik antar kode
-        const elapsed = Date.now() - startTime;
-        const waitTime = Math.max(0, 5500 - elapsed);
-        await delay(waitTime);
+        // Jeda aman per akun 5.5 detik penuh antar kode untuk antisipasi cooldown HoYoverse
+        await delay(5500);
       }
 
       accountLines.push('');
