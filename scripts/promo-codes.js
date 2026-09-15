@@ -183,6 +183,7 @@ async function scrapeFromGame8(html) {
           release,
           expired,
           status,
+          source: 'Game8',
         });
       });
   });
@@ -216,8 +217,15 @@ async function scrapeFromHtml(html) {
     const cells = $(row).find('td');
     if (cells.length < 4) return;
 
-    const kode = $(cells[0]).text().replace(/\s+/g, '').trim();
-    if (!/^[A-Z0-9]{6,30}$/i.test(kode)) return;
+    // Hapus elemen referensi footnote (misal: <sup>[1]</sup>) agar tidak menempel pada kode
+    $(cells[0]).find('sup, .reference').remove();
+    let kode = $(cells[0]).find('code, b, a').first().text().replace(/\s+/g, '').trim();
+    if (!kode) {
+      kode = $(cells[0]).text().replace(/\s+/g, '').trim();
+    }
+    kode = kode.replace(/[^A-Za-z0-9]/g, '');
+
+    if (!/^[A-Z0-9]{4,30}$/i.test(kode)) return;
 
     const support_server = $(cells[1])
       .text()
@@ -245,6 +253,7 @@ async function scrapeFromHtml(html) {
       release: getDate(date, 'release'),
       expired,
       status: getStatus(expired),
+      source: 'Fandom',
     });
   });
 
@@ -314,7 +323,7 @@ async function main() {
   const merged = currentCodes.map((code) => {
     const existing = savedCodesMap.get(code.kode);
     return existing
-      ? { ...existing, ...code, first_seen: existing.first_seen || now }
+      ? { ...existing, ...code, first_seen: existing.first_seen || now, source: code.source || existing.source || 'Unknown' }
       : { ...code, first_seen: now };
   });
 
@@ -358,6 +367,7 @@ async function main() {
       `${index + 1}. Kode: ${code.kode}`,
       `   Reward: ${code.reward.join(', ') || '-'}`,
       `   Server: ${code.support_server.join(', ') || '-'}`,
+      `   Sumber: ${code.source || '-'}`,
       `   Berlaku sampai: ${code.expired || 'Indefinite'}`,
       ''
     );
