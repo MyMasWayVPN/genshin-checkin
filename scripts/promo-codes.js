@@ -4,9 +4,17 @@ import { CookieJar } from 'tough-cookie';
 import { wrapper } from 'axios-cookiejar-support';
 import { load } from 'cheerio';
 import { getRandomUserAgent } from './user-agents.js';
-import { findUserGameRole, redeemCode, loadAccounts } from './hoyolab-api.js';
+import {
+  findUserGameRole,
+  redeemCode,
+  loadAccounts,
+  getRequiredEnv,
+  getWibTime,
+  sendTelegramMessage,
+  delay,
+} from './hoyolab-api.js';
 
-const TELEGRAM_LIMIT = 3900;
+const GAME8_URL = 'https://game8.co/games/Genshin-Impact/archives/304759';
 const PAGE_URL = 'https://genshin-impact.fandom.com/wiki/Promotional_Code';
 const API_URL =
   'https://genshin-impact.fandom.com/api.php?action=parse&page=Promotional_Code&format=json&prop=text';
@@ -18,27 +26,6 @@ const client = wrapper(axios.create({
   timeout: 30000,
 }));
 
-function getRequiredEnv(name) {
-  const value = process.env[name]?.trim();
-  if (!value) {
-    throw new Error(`Secret ${name} belum diisi.`);
-  }
-  return value;
-}
-
-function getWibTime() {
-  return new Intl.DateTimeFormat('id-ID', {
-    timeZone: 'Asia/Jakarta',
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-    hour12: false,
-  }).format(new Date());
-}
-
 function formatDate(str) {
   const d = new Date(`${str} UTC`);
   if (isNaN(d)) return null;
@@ -47,6 +34,16 @@ function formatDate(str) {
     `${String(d.getUTCMonth() + 1).padStart(2, '0')}/` +
     d.getUTCFullYear()
   );
+}
+
+function formatGame8Date(dateStr) {
+  if (!dateStr) return null;
+  const m = dateStr.match(/^(\d{1,2})\/(\d{1,2})(?:\/(\d{2,4}))?$/);
+  if (!m) return null;
+  const month = m[1].padStart(2, '0');
+  const day = m[2].padStart(2, '0');
+  const year = m[3] ? (m[3].length === 2 ? `20${m[3]}` : m[3]) : new Date().getFullYear();
+  return `${day}/${month}/${year}`;
 }
 
 function getDate(text, type) {
@@ -63,20 +60,24 @@ function getStatus(date) {
   return new Date() <= new Date(y, m - 1, d, 23, 59, 59);
 }
 
-function getHeaders() {
+function getHeaders(referer = 'https://game8.co/') {
   return {
     'User-Agent': getRandomUserAgent(),
     Accept: 'text/html,application/xhtml+xml,application/json;q=0.9,*/*;q=0.8',
     'Accept-Language': 'en-US,en;q=0.9',
-    Referer: 'https://genshin-impact.fandom.com/',
+    Referer: referer,
   };
 }
 
 async function getWithRetry(url, attempts = 3) {
   let lastError;
+  const referer = url.includes('game8.co')
+    ? 'https://game8.co/'
+    : 'https://genshin-impact.fandom.com/';
+
   for (let i = 0; i < attempts; i += 1) {
     try {
-      return await client.get(url, { headers: getHeaders() });
+      return await client.get(url, { headers: getHeaders(referer) });
     } catch (error) {
       lastError = error;
       if (i < attempts - 1) {
@@ -85,6 +86,126 @@ async function getWithRetry(url, attempts = 3) {
     }
   }
   throw lastError;
+}
+
+async function scrapeFromGame8(html) {
+  const $ = load(html);
+  const codes = [];
+
+  $('table.a-table').each((_, tbl) => {
+    const headerText = $(tbl)
+      .find('th')
+      .map((_, th) => $(th).text().trim().toLowerCase())
+      .get()
+      .join(' ');
+    const prevHeader = $(tbl)
+      .prevAll('h2, h3, h4')
+      .first()
+      .text()
+      .trim()
+      .toLowerCase();
+
+    // Abaikan tabel kode kedaluwarsa
+    if (prevHeader.includes('expired') || headerText.includes('expired')) {
+      return;
+    }
+
+    const isGlobalExclusive =
+      prevHeader.includes('global-exclusive') ||
+      headerText.includes('global codes');
+    const isLatestRedeem =
+      prevHeader.includes('latest redeem codes') ||
+      (headerText.includes('redeem codes') && !headerText.includes('expired'));
+
+    if (!isGlobalExclusive && !isLatestRedeem) {
+      return;
+    }
+
+    // Deteksi tanggal expired livestream / special program jika tercantum
+    let livestreamExpiry = null;
+    if (isGlobalExclusive) {
+      const prevParagraphs = $(tbl).prevAll('p').text();
+      const match = prevParagraphs.match(
+        /(?:after|until)\s+([A-Za-z]+\s+\d{1,2},?\s+\d{4})/i
+      );
+      if (match) {
+        livestreamExpiry = formatDate(match[1]);
+      }
+    }
+
+    $(tbl)
+      .find('tr')
+      .each((_, tr) => {
+        const firstCol = $(tr).find('td').first();
+        const secondCol = $(tr).find('td').eq(1);
+        if (!firstCol.length || !secondCol.length) return;
+
+        // Ambil kode dari value input copy, tautan Hoyoverse redeem gift, atau teks
+        let kode = firstCol.find('input.a-clipboard__textInput').val()?.trim();
+        if (!kode) {
+          const link = firstCol.find('a[href*="code="]').attr('href');
+          if (link) {
+            const m = link.match(/[?&]code=([A-Za-z0-9]+)/);
+            if (m) kode = m[1];
+          }
+        }
+        if (!kode) {
+          const m = firstCol.text().match(/([A-Z0-9]{4,30})/i);
+          if (m) kode = m[1];
+        }
+
+        if (!kode || !/^[A-Z0-9]{4,30}$/i.test(kode)) return;
+
+        // Ambil data reward
+        const rewards = [];
+        secondCol.find('.align').each((_, div) => {
+          const text = $(div).text().replace(/\s+/g, ' ').trim();
+          if (text) rewards.push(text);
+        });
+        if (rewards.length === 0) {
+          const text = secondCol.text().replace(/\s+/g, ' ').trim();
+          if (text) rewards.push(text);
+        }
+
+        // Tanggal rilis (Date Added: MM/DD)
+        const dateMatch = firstCol
+          .text()
+          .match(/Date Added\s*:\s*(\d{1,2}\/\d{1,2})/i);
+        const release = dateMatch ? formatGame8Date(dateMatch[1]) : null;
+
+        const expired = livestreamExpiry;
+        const status = getStatus(expired);
+
+        codes.push({
+          kode,
+          support_server: ['America', 'Europe', 'Asia', 'TW/HK/Macao'],
+          reward: rewards,
+          release,
+          expired,
+          status,
+        });
+      });
+  });
+
+  const uniqueMap = new Map();
+  for (const item of codes) {
+    if (!uniqueMap.has(item.kode)) {
+      uniqueMap.set(item.kode, item);
+    }
+  }
+  return Array.from(uniqueMap.values());
+}
+
+async function scrapeViaGame8() {
+  const { data } = await getWithRetry(GAME8_URL);
+  if (!data || typeof data !== 'string') {
+    throw new Error('Respons Game8 kosong.');
+  }
+  const codes = await scrapeFromGame8(data);
+  if (!codes || codes.length === 0) {
+    throw new Error('Tidak ada kode yang ditemukan di Game8.');
+  }
+  return codes;
 }
 
 async function scrapeFromHtml(html) {
@@ -146,9 +267,18 @@ async function scrapeViaPage() {
 
 async function scrapeCodes() {
   try {
-    return await scrapeViaApi();
-  } catch {
-    return scrapeViaPage();
+    console.log('Mencoba mengambil kode promo dari Game8 (Primary)...');
+    return await scrapeViaGame8();
+  } catch (game8Error) {
+    console.warn(
+      `Gagal mengambil dari Game8 (${game8Error.message}), fallback ke Fandom API...`
+    );
+    try {
+      return await scrapeViaApi();
+    } catch {
+      console.warn('Gagal mengambil dari Fandom API, fallback ke Fandom Page...');
+      return await scrapeViaPage();
+    }
   }
 }
 
@@ -166,45 +296,6 @@ function saveCodes(codes) {
   writeFileSync(DATA_FILE, `${JSON.stringify(codes, null, 2)}\n`, 'utf8');
 }
 
-function splitMessage(text) {
-  const chunks = [];
-  let current = '';
-
-  for (const line of text.split('\n')) {
-    const next = current ? `${current}\n${line}` : line;
-    if (next.length > TELEGRAM_LIMIT) {
-      if (current) chunks.push(current);
-      current = line;
-    } else {
-      current = next;
-    }
-  }
-
-  if (current) chunks.push(current);
-  return chunks;
-}
-
-async function sendTelegramMessage(botToken, chatId, text) {
-  const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
-
-  for (const chunk of splitMessage(text)) {
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({
-        chat_id: chatId,
-        text: chunk,
-        disable_web_page_preview: true,
-      }),
-    });
-
-    if (!response.ok) {
-      const body = await response.text();
-      throw new Error(`Gagal kirim pesan Telegram: HTTP ${response.status} ${body}`);
-    }
-  }
-}
-
 async function main() {
   const botToken = getRequiredEnv('BOT_TOKEN');
   const chatId = getRequiredEnv('TELEGRAM_CHAT_ID');
@@ -217,11 +308,23 @@ async function main() {
 
   const currentCodes = await scrapeCodes();
   const savedCodes = loadSavedCodes();
+  const savedCodesMap = new Map(savedCodes.map((c) => [c.kode, c]));
   const savedKode = new Set(savedCodes.map((code) => code.kode));
 
-  const merged = currentCodes.map((code) =>
-    savedKode.has(code.kode) ? code : { ...code, first_seen: now }
-  );
+  const merged = currentCodes.map((code) => {
+    const existing = savedCodesMap.get(code.kode);
+    return existing
+      ? { ...existing, ...code, first_seen: existing.first_seen || now }
+      : { ...code, first_seen: now };
+  });
+
+  // Pertahankan riwayat kode lama di promo-codes.json agar tidak terhapus
+  for (const saved of savedCodes) {
+    if (!merged.some((c) => c.kode === saved.kode)) {
+      merged.push(saved);
+    }
+  }
+
   saveCodes(merged);
 
   const newCodes = merged.filter(
@@ -260,7 +363,6 @@ async function main() {
     );
   });
 
-  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
   let accounts = [];
   try {
     accounts = loadAccounts();
