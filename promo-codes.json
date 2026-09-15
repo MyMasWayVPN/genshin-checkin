@@ -14,7 +14,8 @@
     "release": "13/09/2026",
     "expired": null,
     "status": true,
-    "first_seen": "16/09/2026, 05.48.22"
+    "first_seen": "16/09/2026, 05.48.22",
+    "source": "Fandom"
   },
   {
     "kode": "YOAL3V36XHS7",
@@ -34,7 +35,8 @@
     "release": "02/09/2026",
     "expired": null,
     "status": true,
-    "first_seen": "16/09/2026, 05.48.22"
+    "first_seen": "16/09/2026, 05.48.22",
+    "source": "Fandom"
   },
   {
     "kode": "DUGODWKRHAKDNJ",
@@ -53,7 +55,28 @@
     "release": "31/08/2026",
     "expired": null,
     "status": true,
-    "first_seen": "16/09/2026, 05.48.22"
+    "first_seen": "16/09/2026, 05.48.22",
+    "source": "Fandom"
+  },
+  {
+    "kode": "BALLETCOLLAB",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Primogem ×30",
+      "Mora ×10,000",
+      "Hero's Wit ×3",
+      "Mystic Enhancement Ore ×3"
+    ],
+    "release": "16/08/2026",
+    "expired": null,
+    "status": true,
+    "source": "Fandom",
+    "first_seen": "16/09/2026, 05.53.21"
   },
   {
     "kode": "2BJ64QRZ7RT8",
@@ -70,7 +93,8 @@
     "release": "31/07/2026",
     "expired": null,
     "status": true,
-    "first_seen": "16/09/2026, 05.48.22"
+    "first_seen": "16/09/2026, 05.48.22",
+    "source": "Fandom"
   },
   {
     "kode": "YuanShen",
@@ -84,6 +108,7 @@
     "release": "10/11/2020",
     "expired": null,
     "status": true,
-    "first_seen": "16/09/2026, 05.48.22"
+    "first_seen": "16/09/2026, 05.48.22",
+    "source": "Fandom"
   }
 ]
