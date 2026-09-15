@@ -1,0 +1,169 @@
+[
+  {
+    "kode": "Rekviem",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Primogem x100",
+      "Mystic Enhancement Ore x10"
+    ],
+    "release": null,
+    "expired": "15/09/2026",
+    "status": true,
+    "source": "Game8",
+    "first_seen": "16/09/2026, 06.07.11"
+  },
+  {
+    "kode": "Vesna0923",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Primogem x100",
+      "Hero's Wit x5"
+    ],
+    "release": null,
+    "expired": "15/09/2026",
+    "status": true,
+    "source": "Game8",
+    "first_seen": "16/09/2026, 06.07.11"
+  },
+  {
+    "kode": "PrimaDonna",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Primogem x100",
+      "Mora x50,000"
+    ],
+    "release": null,
+    "expired": "15/09/2026",
+    "status": true,
+    "source": "Game8",
+    "first_seen": "16/09/2026, 06.07.11"
+  },
+  {
+    "kode": "Y6JYMKV6JKSL",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Primogem x60",
+      "Adventurer's Experience x5"
+    ],
+    "release": "14/09/2026",
+    "expired": null,
+    "status": true,
+    "source": "Game8",
+    "first_seen": "16/09/2026, 06.07.11"
+  },
+  {
+    "kode": "Y1INABQB6DEX",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Primogem x60",
+      "Adventurer's Experience x5"
+    ],
+    "release": "01/09/2026",
+    "expired": null,
+    "status": true,
+    "source": "Game8",
+    "first_seen": "16/09/2026, 06.07.11"
+  },
+  {
+    "kode": "2BJ64QRZ7RT8",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Primogem x60",
+      "Adventurer's Experience x5"
+    ],
+    "release": "03/08/2026",
+    "expired": null,
+    "status": true,
+    "source": "Game8",
+    "first_seen": "16/09/2026, 06.07.11"
+  },
+  {
+    "kode": "BALLETCOLLAB",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Primogem x30",
+      "Mora x10,000",
+      "Hero's Wit x3",
+      "Mystic Enhancement Ore x3"
+    ],
+    "release": "16/08/2026",
+    "expired": null,
+    "status": true,
+    "source": "Game8",
+    "first_seen": "16/09/2026, 06.07.11"
+  },
+  {
+    "kode": "YOAL3V36XHS7",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Mora x10000",
+      "Adventurer's Experience x10",
+      "Fine Enhancement Ore x5",
+      "Stir-Fried Fish Noodles x5",
+      "Jueyun Chili Chicken x5"
+    ],
+    "release": "04/09/2026",
+    "expired": null,
+    "status": true,
+    "source": "Game8",
+    "first_seen": "16/09/2026, 06.07.11"
+  },
+  {
+    "kode": "GENSHINGIFT",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Primogem x50",
+      "Hero's Wit x3"
+    ],
+    "release": null,
+    "expired": null,
+    "status": true,
+    "source": "Game8",
+    "first_seen": "16/09/2026, 06.07.11"
+  }
+]
