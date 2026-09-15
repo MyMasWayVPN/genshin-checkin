@@ -219,26 +219,120 @@ async function scrapeFromGame8(html) {
   return Array.from(uniqueMap.values());
 }
 
+function scrapeFromGame8Markdown(markdown) {
+  const codes = [];
+  const lines = markdown.split('\n');
+
+  let currentSection = '';
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (trimmed.startsWith('#')) {
+      currentSection = trimmed.toLowerCase();
+    }
+
+    // Abaikan jika sudah masuk section expired
+    if (currentSection.includes('expired')) {
+      continue;
+    }
+
+    // Target section: Global-Exclusive Codes atau Latest Redeem Codes
+    const isTargetSection =
+      currentSection.includes('global-exclusive') ||
+      currentSection.includes('latest redeem') ||
+      currentSection.includes('genshin impact codes') ||
+      currentSection.includes('special program');
+
+    if (!isTargetSection) continue;
+
+    const codeMatch = trimmed.match(/gift\?code=([A-Za-z0-9]+)/);
+    if (!codeMatch) continue;
+
+    const kode = codeMatch[1].trim();
+    if (!/^[A-Z0-9]{4,30}$/i.test(kode)) continue;
+
+    const dateMatch = trimmed.match(/Date Added\*?\*?:\s*(\d{1,2}\/\d{1,2})/i);
+    const release = dateMatch ? formatGame8Date(dateMatch[1]) : null;
+
+    const rewards = [];
+    const rewardMatches = trimmed.matchAll(
+      /\]\([^\)]+\)\s*([A-Za-z\s'\-]+)\s*(?:\]\([^\)]+\))?\s*(x[\d,\.]+)/gi
+    );
+    for (const rm of rewardMatches) {
+      const itemName = rm[1].trim();
+      const itemQty = rm[2].trim();
+      if (itemName && itemQty && !itemName.includes('Redeem Code')) {
+        rewards.push(`${itemName} ${itemQty}`);
+      }
+    }
+
+    let expired = null;
+    if (
+      currentSection.includes('global-exclusive') ||
+      currentSection.includes('special program')
+    ) {
+      const expiryMatch = markdown.match(
+        /(?:after|until)\s+([A-Za-z]+\s+\d{1,2},?\s+\d{4})/i
+      );
+      if (expiryMatch) {
+        expired = formatDate(expiryMatch[1]);
+      }
+    }
+
+    codes.push({
+      kode,
+      support_server: ['America', 'Europe', 'Asia', 'TW/HK/Macao'],
+      reward: rewards,
+      release,
+      expired,
+      status: getStatus(expired),
+      source: 'Game8',
+    });
+  }
+
+  const uniqueMap = new Map();
+  for (const item of codes) {
+    if (!uniqueMap.has(item.kode)) {
+      uniqueMap.set(item.kode, item);
+    }
+  }
+  return Array.from(uniqueMap.values());
+}
+
 async function scrapeViaGame8() {
-  const { data } = await getWithRetry(GAME8_URL);
-  if (!data || typeof data !== 'string') {
-    throw new Error('Respons Game8 kosong.');
+  // Percobaan 1: Request langsung ke Game8
+  try {
+    const { data } = await getWithRetry(GAME8_URL);
+    if (
+      data &&
+      typeof data === 'string' &&
+      !data.includes('cf-browser-verification') &&
+      !data.includes('challenge-running') &&
+      !data.includes('<title>Just a moment...</title>')
+    ) {
+      const codes = await scrapeFromGame8(data);
+      if (codes.length > 0) {
+        return codes;
+      }
+    }
+  } catch (err) {
+    console.warn(`Direct Game8 request gagal (${err.message}), beralih ke Jina Reader proxy...`);
   }
 
-  // Deteksi jika terhalang Cloudflare Challenge
-  if (
-    data.includes('cf-browser-verification') ||
-    data.includes('challenge-running') ||
-    data.includes('<title>Just a moment...</title>')
-  ) {
-    throw new Error('Terhalang proteksi Cloudflare Challenge pada runner IP.');
+  // Percobaan 2: Request via Jina Reader (menembus Cloudflare WAF pada IP datacenter GitHub Actions)
+  try {
+    const jinaUrl = `https://r.jina.ai/${GAME8_URL}`;
+    const { data } = await getWithRetry(jinaUrl);
+    if (data && typeof data === 'string') {
+      const codes = scrapeFromGame8Markdown(data);
+      if (codes.length > 0) {
+        return codes;
+      }
+    }
+  } catch (jinaErr) {
+    console.warn(`Jina Reader Game8 request gagal (${jinaErr.message})`);
   }
 
-  const codes = await scrapeFromGame8(data);
-  if (!codes || codes.length === 0) {
-    throw new Error('Tidak ada kode yang ditemukan di Game8.');
-  }
-  return codes;
+  throw new Error('Tidak ada kode yang ditemukan di Game8.');
 }
 
 async function scrapeFromHtml(html) {
