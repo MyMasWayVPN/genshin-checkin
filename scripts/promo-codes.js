@@ -61,6 +61,26 @@ function getStatus(date) {
 }
 
 function getHeaders(referer = 'https://game8.co/') {
+  const isGame8 = referer.includes('game8.co');
+  if (isGame8) {
+    return {
+      'User-Agent':
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36',
+      Accept:
+        'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+      'Accept-Language': 'en-US,en;q=0.9',
+      'Sec-Ch-Ua': '"Chromium";v="128", "Not;A=Brand";v="24", "Google Chrome";v="128"',
+      'Sec-Ch-Ua-Mobile': '?0',
+      'Sec-Ch-Ua-Platform': '"Windows"',
+      'Sec-Fetch-Dest': 'document',
+      'Sec-Fetch-Mode': 'navigate',
+      'Sec-Fetch-Site': 'none',
+      'Sec-Fetch-User': '?1',
+      'Upgrade-Insecure-Requests': '1',
+      Referer: 'https://game8.co/',
+    };
+  }
+
   return {
     'User-Agent': getRandomUserAgent(),
     Accept: 'text/html,application/xhtml+xml,application/json;q=0.9,*/*;q=0.8',
@@ -92,101 +112,103 @@ async function scrapeFromGame8(html) {
   const $ = load(html);
   const codes = [];
 
-  $('table.a-table').each((_, tbl) => {
-    const headerText = $(tbl)
-      .find('th')
-      .map((_, th) => $(th).text().trim().toLowerCase())
-      .get()
-      .join(' ');
-    const prevHeader = $(tbl)
-      .prevAll('h2, h3, h4')
-      .first()
-      .text()
-      .trim()
-      .toLowerCase();
+  // Strategi 1: Scan setiap input copy kode di tabel aktif
+  $('input.a-clipboard__textInput').each((_, inputEl) => {
+    let kode = $(inputEl).val()?.trim();
+    if (!kode || !/^[A-Z0-9]{4,30}$/i.test(kode)) return;
 
-    // Abaikan tabel kode kedaluwarsa
-    if (prevHeader.includes('expired') || headerText.includes('expired')) {
+    const tr = $(inputEl).closest('tr');
+    const table = $(inputEl).closest('table');
+
+    const firstHeaderBeforeTable = table.prevAll('h2, h3, h4').first().text().toLowerCase();
+    const tableHeaderText = table.find('th').text().toLowerCase();
+
+    // Abaikan jika tabel masuk kategori expired
+    if (firstHeaderBeforeTable.includes('expired') || tableHeaderText.includes('expired')) {
       return;
     }
 
-    const isGlobalExclusive =
-      prevHeader.includes('global-exclusive') ||
-      headerText.includes('global codes');
-    const isLatestRedeem =
-      prevHeader.includes('latest redeem codes') ||
-      (headerText.includes('redeem codes') && !headerText.includes('expired'));
-
-    if (!isGlobalExclusive && !isLatestRedeem) {
-      return;
+    // Ambil reward
+    const secondCol = tr.find('td').eq(1);
+    const rewards = [];
+    if (secondCol.length) {
+      secondCol.find('.align').each((_, div) => {
+        const text = $(div).text().replace(/\s+/g, ' ').trim();
+        if (text) rewards.push(text);
+      });
+      if (rewards.length === 0) {
+        const text = secondCol.text().replace(/\s+/g, ' ').trim();
+        if (text) rewards.push(text);
+      }
     }
 
-    // Deteksi tanggal expired livestream / special program jika tercantum
-    let livestreamExpiry = null;
-    if (isGlobalExclusive) {
-      const prevParagraphs = $(tbl).prevAll('p').text();
+    // Tanggal rilis
+    const firstCol = tr.find('td').first();
+    const dateMatch = (firstCol.length ? firstCol.text() : tr.text()).match(
+      /Date Added\s*:\s*(\d{1,2}\/\d{1,2})/i
+    );
+    const release = dateMatch ? formatGame8Date(dateMatch[1]) : null;
+
+    // HANYA tabel Livestream / Global Codes yang memiliki expiry livestream
+    let expired = null;
+    const isLivestream =
+      firstHeaderBeforeTable.includes('global-exclusive') ||
+      firstHeaderBeforeTable.includes('livestream') ||
+      tableHeaderText.includes('global codes');
+
+    if (isLivestream) {
+      const prevParagraphs = table.prevAll('p').first().text();
       const match = prevParagraphs.match(
         /(?:after|until)\s+([A-Za-z]+\s+\d{1,2},?\s+\d{4})/i
       );
       if (match) {
-        livestreamExpiry = formatDate(match[1]);
+        expired = formatDate(match[1]);
       }
     }
 
-    $(tbl)
-      .find('tr')
-      .each((_, tr) => {
-        const firstCol = $(tr).find('td').first();
-        const secondCol = $(tr).find('td').eq(1);
-        if (!firstCol.length || !secondCol.length) return;
+    const status = getStatus(expired);
 
-        // Ambil kode dari value input copy, tautan Hoyoverse redeem gift, atau teks
-        let kode = firstCol.find('input.a-clipboard__textInput').val()?.trim();
-        if (!kode) {
-          const link = firstCol.find('a[href*="code="]').attr('href');
-          if (link) {
-            const m = link.match(/[?&]code=([A-Za-z0-9]+)/);
-            if (m) kode = m[1];
-          }
-        }
-        if (!kode) {
-          const m = firstCol.text().match(/([A-Z0-9]{4,30})/i);
-          if (m) kode = m[1];
-        }
+    codes.push({
+      kode,
+      support_server: ['America', 'Europe', 'Asia', 'TW/HK/Macao'],
+      reward: rewards,
+      release,
+      expired,
+      status,
+      source: 'Game8',
+    });
+  });
 
-        if (!kode || !/^[A-Z0-9]{4,30}$/i.test(kode)) return;
+  // Strategi 2: Fallback jika input.a-clipboard__textInput tidak ditemukan
+  if (codes.length === 0) {
+    $('a[href*="gift?code="]').each((_, linkEl) => {
+      const href = $(linkEl).attr('href') || '';
+      const m = href.match(/[?&]code=([A-Za-z0-9]+)/);
+      if (!m) return;
+      const kode = m[1].trim();
+      if (!/^[A-Z0-9]{4,30}$/i.test(kode)) return;
 
-        // Ambil data reward
-        const rewards = [];
+      const tr = $(linkEl).closest('tr');
+      const secondCol = tr.find('td').eq(1);
+      const rewards = [];
+      if (secondCol.length) {
         secondCol.find('.align').each((_, div) => {
           const text = $(div).text().replace(/\s+/g, ' ').trim();
           if (text) rewards.push(text);
         });
-        if (rewards.length === 0) {
-          const text = secondCol.text().replace(/\s+/g, ' ').trim();
-          if (text) rewards.push(text);
-        }
+      }
 
-        // Tanggal rilis (Date Added: MM/DD)
-        const dateMatch = firstCol
-          .text()
-          .match(/Date Added\s*:\s*(\d{1,2}\/\d{1,2})/i);
-        const release = dateMatch ? formatGame8Date(dateMatch[1]) : null;
-
-        const expired = livestreamExpiry;
-        const status = getStatus(expired);
-
-        codes.push({
-          kode,
-          support_server: ['America', 'Europe', 'Asia', 'TW/HK/Macao'],
-          reward: rewards,
-          release,
-          expired,
-          status,
-          source: 'Game8',
-        });
+      codes.push({
+        kode,
+        support_server: ['America', 'Europe', 'Asia', 'TW/HK/Macao'],
+        reward: rewards,
+        release: null,
+        expired: null,
+        status: true,
+        source: 'Game8',
       });
-  });
+    });
+  }
 
   const uniqueMap = new Map();
   for (const item of codes) {
@@ -202,6 +224,16 @@ async function scrapeViaGame8() {
   if (!data || typeof data !== 'string') {
     throw new Error('Respons Game8 kosong.');
   }
+
+  // Deteksi jika terhalang Cloudflare Challenge
+  if (
+    data.includes('cf-browser-verification') ||
+    data.includes('challenge-running') ||
+    data.includes('<title>Just a moment...</title>')
+  ) {
+    throw new Error('Terhalang proteksi Cloudflare Challenge pada runner IP.');
+  }
+
   const codes = await scrapeFromGame8(data);
   if (!codes || codes.length === 0) {
     throw new Error('Tidak ada kode yang ditemukan di Game8.');
