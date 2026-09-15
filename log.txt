@@ -1,0 +1,104 @@
+==================================================
+Daily Check-in Genshin
+Waktu: 16/09/2026, 05.41.41 WIB
+Total akun: 24
+
+1. Amal Pasak (GENSHIN_ACCOUNT_1)
+Status: BERHASIL
+Pesan: Already claimed | Total login: 16 | Hari ini: 2026-09-16
+
+2. afimujila (GENSHIN_ACCOUNT_2)
+Status: BERHASIL
+Pesan: Already claimed | Total login: 16 | Hari ini: 2026-09-16
+
+3. beatrisky (GENSHIN_ACCOUNT_3)
+Status: BERHASIL
+Pesan: Already claimed | Total login: 16 | Hari ini: 2026-09-16
+
+4. usentio (GENSHIN_ACCOUNT_4)
+Status: BERHASIL
+Pesan: Already claimed | Total login: 16 | Hari ini: 2026-09-16
+
+5. asrinuhayah (GENSHIN_ACCOUNT_5)
+Status: BERHASIL
+Pesan: Already claimed | Total login: 16 | Hari ini: 2026-09-16
+
+6. andinikinasyah (GENSHIN_ACCOUNT_6)
+Status: BERHASIL
+Pesan: Already claimed | Total login: 16 | Hari ini: 2026-09-16
+
+7. widiaqeelax (GENSHIN_ACCOUNT_7)
+Status: BERHASIL
+Pesan: Already claimed | Total login: 16 | Hari ini: 2026-09-16
+
+8. Pnake4 (GENSHIN_ACCOUNT_8)
+Status: BERHASIL
+Pesan: Already claimed | Total login: 4 | Hari ini: 2026-09-16
+
+9. sofiatuarifin (GENSHIN_ACCOUNT_9)
+Status: BERHASIL
+Pesan: Already claimed | Total login: 16 | Hari ini: 2026-09-16
+
+10. yelankeqing (GENSHIN_ACCOUNT_10)
+Status: BERHASIL
+Pesan: Already claimed | Total login: 16 | Hari ini: 2026-09-16
+
+11. icaleswari (GENSHIN_ACCOUNT_11)
+Status: BERHASIL
+Pesan: Already claimed | Total login: 16 | Hari ini: 2026-09-16
+
+12. fazamulyana (GENSHIN_ACCOUNT_12)
+Status: BERHASIL
+Pesan: Already claimed | Total login: 16 | Hari ini: 2026-09-16
+
+13. aadakamiiiooo (GENSHIN_ACCOUNT_13)
+Status: BERHASIL
+Pesan: Already claimed | Total login: 16 | Hari ini: 2026-09-16
+
+14. rhialorenza (GENSHIN_ACCOUNT_14)
+Status: BERHASIL
+Pesan: Already claimed | Total login: 16 | Hari ini: 2026-09-16
+
+15. suwaibatul (GENSHIN_ACCOUNT_15)
+Status: BERHASIL
+Pesan: Already claimed | Total login: 16 | Hari ini: 2026-09-16
+
+16. adakamio (GENSHIN_ACCOUNT_16)
+Status: BERHASIL
+Pesan: Already claimed | Total login: 16 | Hari ini: 2026-09-16
+
+17. Iman Barbara (GENSHIN_ACCOUNT_17)
+Status: BERHASIL
+Pesan: Already claimed | Total login: 16 | Hari ini: 2026-09-16
+
+18. Ulil Zero (GENSHIN_ACCOUNT_18)
+Status: BERHASIL
+Pesan: Already claimed | Total login: 16 | Hari ini: 2026-09-16
+
+19. Luranfafi (GENSHIN_ACCOUNT_19)
+Status: BERHASIL
+Pesan: Already claimed | Total login: 16 | Hari ini: 2026-09-16
+
+20. Arjuna Mahaprana (GENSHIN_ACCOUNT_20)
+Status: BERHASIL
+Pesan: Already claimed | Total login: 3 | Hari ini: 2026-09-16
+
+21. andanang mahaputra (GENSHIN_ACCOUNT_21)
+Status: BERHASIL
+Pesan: Already claimed | Total login: 2 | Hari ini: 2026-09-16
+
+22. Heni suhermi (GENSHIN_ACCOUNT_22)
+Status: BERHASIL
+Pesan: Already claimed | Total login: 2 | Hari ini: 2026-09-16
+
+23. adesusilo (GENSHIN_ACCOUNT_23)
+Status: BERHASIL
+Pesan: Already claimed | Total login: 2 | Hari ini: 2026-09-16
+
+24. entinemtim (GENSHIN_ACCOUNT_24)
+Status: BERHASIL
+Pesan: Already claimed | Total login: 2 | Hari ini: 2026-09-16
+
+Berhasil: 24
+Gagal: 0
+
