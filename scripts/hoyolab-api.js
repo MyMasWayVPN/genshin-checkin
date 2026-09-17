@@ -117,7 +117,7 @@ export async function getAllRegions(gameBiz = 'hk4e_global') {
 /**
  * 3. Get User Game Roles By Region
  */
-export async function getUserGameRolesByRegion({ accountOrLtoken, ltuid, region, gameBiz = 'hk4e_global' }) {
+export async function getUserGameRolesByRegion({ accountOrLtoken, ltuid, region, gameBiz = 'hk4e_global', filterValid = true }) {
   const creds = extractCredentials(accountOrLtoken, ltuid);
   const cookie = formatCookie(creds.ltoken, creds.ltuid);
   const url = `${API_ENDPOINTS.GET_USER_ROLES}?game_biz=${encodeURIComponent(gameBiz)}&region=${encodeURIComponent(region)}`;
@@ -136,20 +136,30 @@ export async function getUserGameRolesByRegion({ accountOrLtoken, ltuid, region,
   }
 
   const result = await response.json();
+  const rawRoles = Array.isArray(result.data?.list) ? result.data.list : [];
+  
+  // Filter: Skip karakter dengan nickname kosong atau level di bawah 10 (syarat redeem HoYoverse AR >= 10)
+  const roles = filterValid
+    ? rawRoles.filter((role) => Boolean(role?.nickname?.trim()) && Number(role?.level || 0) >= 10)
+    : rawRoles;
+
   return {
     success: result.retcode === 0,
     retcode: result.retcode,
     message: result.message,
-    roles: Array.isArray(result.data?.list) ? result.data.list : [],
+    roles,
+    rawRoles,
   };
 }
 
 /**
- * 4. Find User Game Role (Auto-Detect Region & UID)
+ * 4. Find User Game Roles (Auto-Detect Region & UID di semua server)
+ * Memindai semua region dan mengembalikan semua karakter yang memenuhi filter (Lv >= 10 & nickname terisi)
  */
 export async function findUserGameRole(accountOrLtoken, ltuidParam, options = {}) {
   const creds = extractCredentials(accountOrLtoken, ltuidParam);
   const regions = await getAllRegions(options.gameBiz || 'hk4e_global');
+  const validRoles = [];
 
   for (const reg of regions) {
     try {
@@ -157,20 +167,21 @@ export async function findUserGameRole(accountOrLtoken, ltuidParam, options = {}
         accountOrLtoken: creds,
         region: reg.region,
         gameBiz: options.gameBiz || 'hk4e_global',
+        filterValid: options.filterValid ?? true,
       });
 
       if (res.success && res.roles.length > 0) {
-        const role = res.roles[0];
-        return {
-          found: true,
-          accountName: creds.name,
-          nickname: role.nickname,
-          uid: role.game_uid,
-          level: role.level,
-          region: role.region,
-          regionName: role.region_name || reg.name,
-          role,
-        };
+        for (const role of res.roles) {
+          validRoles.push({
+            accountName: creds.name,
+            nickname: role.nickname,
+            uid: role.game_uid,
+            level: Number(role.level),
+            region: role.region,
+            regionName: role.region_name || reg.name,
+            role,
+          });
+        }
       }
     } catch {
       // Lanjutkan cek region berikutnya jika terjadi kegagalan
@@ -178,12 +189,25 @@ export async function findUserGameRole(accountOrLtoken, ltuidParam, options = {}
     await delay(options.delayMs || 150);
   }
 
+  if (validRoles.length > 0) {
+    const primaryRole = validRoles[0];
+    return {
+      found: true,
+      accountName: creds.name,
+      ...primaryRole,
+      roles: validRoles,
+    };
+  }
+
   return {
     found: false,
     accountName: creds.name,
-    message: 'Role karakter tidak ditemukan di semua region.',
+    roles: [],
+    message: 'Tidak ada karakter valid (minimal Level 10 & memiliki Nickname) di semua region.',
   };
 }
+
+export const findAllUserGameRoles = findUserGameRole;
 
 /**
  * 5. Redeem Code HoYoLab

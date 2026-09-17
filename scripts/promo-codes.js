@@ -520,7 +520,7 @@ async function main() {
         console.log(`[Start Akun ${accountIndex + 1}/${accounts.length}] ${account.name}`);
         const roleInfo = await findUserGameRole(account);
 
-        if (!roleInfo.found) {
+        if (!roleInfo.found || !roleInfo.roles?.length) {
           console.error(`- [Akun ${accountIndex + 1}] ${account.name}: ${roleInfo.message}`);
           return {
             accountIndex,
@@ -530,38 +530,45 @@ async function main() {
           };
         }
 
-        const accountLines = [
-          `${accountIndex + 1}. ${account.name} - ${roleInfo.nickname} (UID: ${roleInfo.uid})`,
-          `   Server: ${roleInfo.regionName}`,
-        ];
+        const validRoles = roleInfo.roles;
+        const accountLines = [];
 
-        for (const targetCode of targetCodes) {
-          const startTime = Date.now();
-          try {
-            const res = await redeemCode({
-              accountOrLtoken: account,
-              uid: roleInfo.uid,
-              region: roleInfo.region,
-              cdkey: targetCode.kode,
-            });
+        for (let rIdx = 0; rIdx < validRoles.length; rIdx += 1) {
+          const currentRole = validRoles[rIdx];
+          const roleLabel = validRoles.length > 1
+            ? `${accountIndex + 1}.${rIdx + 1}. ${account.name} - ${currentRole.nickname} (UID: ${currentRole.uid})`
+            : `${accountIndex + 1}. ${account.name} - ${currentRole.nickname} (UID: ${currentRole.uid})`;
 
-            const status = res.success
-              ? 'BERHASIL'
-              : res.isAlreadyClaimed
-              ? 'SUDAH DIKLAIM'
-              : res.isLimitReached
-              ? 'LIMIT HABIS'
-              : 'GAGAL';
+          if (rIdx > 0) accountLines.push('');
+          accountLines.push(roleLabel, `   Server: ${currentRole.regionName}`);
 
-            console.log(`  * [Akun ${accountIndex + 1}][${targetCode.kode}] ${status} -> ${res.message}`);
-            accountLines.push(`   * ${targetCode.kode}: ${status} (${res.message})`);
-          } catch (err) {
-            console.error(`  * [Akun ${accountIndex + 1}][${targetCode.kode}] ERROR: ${err.message}`);
-            accountLines.push(`   * ${targetCode.kode}: ERROR (${err.message})`);
+          for (const targetCode of targetCodes) {
+            try {
+              const res = await redeemCode({
+                accountOrLtoken: account,
+                uid: currentRole.uid,
+                region: currentRole.region,
+                cdkey: targetCode.kode,
+              });
+
+              const status = res.success
+                ? 'BERHASIL'
+                : res.isAlreadyClaimed
+                ? 'SUDAH DIKLAIM'
+                : res.isLimitReached
+                ? 'LIMIT HABIS'
+                : 'GAGAL';
+
+              console.log(`  * [Akun ${accountIndex + 1}][${currentRole.region}][${targetCode.kode}] ${status} -> ${res.message}`);
+              accountLines.push(`   * ${targetCode.kode}: ${status} (${res.message})`);
+            } catch (err) {
+              console.error(`  * [Akun ${accountIndex + 1}][${currentRole.region}][${targetCode.kode}] ERROR: ${err.message}`);
+              accountLines.push(`   * ${targetCode.kode}: ERROR (${err.message})`);
+            }
+
+            // Jeda aman per akun 5.5 detik penuh antar kode untuk antisipasi cooldown HoYoverse
+            await delay(5500);
           }
-
-          // Jeda aman per akun 5.5 detik penuh antar kode untuk antisipasi cooldown HoYoverse
-          await delay(5500);
         }
 
         return {

@@ -53,9 +53,9 @@ async function main() {
         };
       }
 
-      // 2. Deteksi otomatis Region & UID Game
+      // 2. Deteksi otomatis Region & UID Game (Semua server yang valid)
       const roleInfo = await findUserGameRole(account);
-      if (!roleInfo.found) {
+      if (!roleInfo.found || !roleInfo.roles?.length) {
         console.error(`- [Akun ${accountIndex + 1}] ${roleInfo.message}`);
         return {
           accountIndex,
@@ -63,40 +63,47 @@ async function main() {
         };
       }
 
-      console.log(`- [Akun ${accountIndex + 1}] Karakter: ${roleInfo.nickname} (Lv. ${roleInfo.level}) | UID: ${roleInfo.uid} | Region: ${roleInfo.regionName}`);
-      const accountLines = [
-        `${accountIndex + 1}. ${account.name} - ${roleInfo.nickname} (UID: ${roleInfo.uid})`,
-        `Server: ${roleInfo.regionName}`,
-      ];
+      const validRoles = roleInfo.roles;
+      const accountLines = [];
 
-      // 3. Redeem setiap promo code
-      for (const cdkey of codes) {
-        const startTime = Date.now();
-        try {
-          const result = await redeemCode({
-            accountOrLtoken: account,
-            uid: roleInfo.uid,
-            region: roleInfo.region,
-            cdkey,
-          });
+      for (let rIdx = 0; rIdx < validRoles.length; rIdx += 1) {
+        const currentRole = validRoles[rIdx];
+        const roleLabel = validRoles.length > 1
+          ? `${accountIndex + 1}.${rIdx + 1}. ${account.name} - ${currentRole.nickname} (UID: ${currentRole.uid})`
+          : `${accountIndex + 1}. ${account.name} - ${currentRole.nickname} (UID: ${currentRole.uid})`;
 
-          const statusLabel = result.success
-            ? 'BERHASIL'
-            : result.isAlreadyClaimed
-            ? 'SUDAH DIKLAIM'
-            : result.isLimitReached
-            ? 'LIMIT HABIS'
-            : 'GAGAL';
+        console.log(`- [Akun ${accountIndex + 1}] Karakter: ${currentRole.nickname} (Lv. ${currentRole.level}) | UID: ${currentRole.uid} | Region: ${currentRole.regionName}`);
+        if (rIdx > 0) accountLines.push('');
+        accountLines.push(roleLabel, `Server: ${currentRole.regionName}`);
 
-          console.log(`  * [Akun ${accountIndex + 1}][${cdkey}] ${statusLabel} -> ${result.message}`);
-          accountLines.push(`  * ${cdkey}: ${statusLabel} (${result.message})`);
-        } catch (err) {
-          console.error(`  * [Akun ${accountIndex + 1}][${cdkey}] ERROR -> ${err.message}`);
-          accountLines.push(`  * ${cdkey}: ERROR (${err.message})`);
+        // 3. Redeem setiap promo code untuk role ini
+        for (const cdkey of codes) {
+          try {
+            const result = await redeemCode({
+              accountOrLtoken: account,
+              uid: currentRole.uid,
+              region: currentRole.region,
+              cdkey,
+            });
+
+            const statusLabel = result.success
+              ? 'BERHASIL'
+              : result.isAlreadyClaimed
+              ? 'SUDAH DIKLAIM'
+              : result.isLimitReached
+              ? 'LIMIT HABIS'
+              : 'GAGAL';
+
+            console.log(`  * [Akun ${accountIndex + 1}][${currentRole.region}][${cdkey}] ${statusLabel} -> ${result.message}`);
+            accountLines.push(`  * ${cdkey}: ${statusLabel} (${result.message})`);
+          } catch (err) {
+            console.error(`  * [Akun ${accountIndex + 1}][${currentRole.region}][${cdkey}] ERROR -> ${err.message}`);
+            accountLines.push(`  * ${cdkey}: ERROR (${err.message})`);
+          }
+
+          // Jeda aman per akun 5.5 detik penuh antar kode untuk antisipasi cooldown HoYoverse
+          await delay(5500);
         }
-
-        // Jeda aman per akun 5.5 detik penuh antar kode untuk antisipasi cooldown HoYoverse
-        await delay(5500);
       }
 
       accountLines.push('');
