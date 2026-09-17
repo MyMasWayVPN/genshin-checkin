@@ -301,7 +301,7 @@ function scrapeFromGame8Markdown(markdown) {
 async function scrapeViaGame8() {
   // Percobaan 1: Request langsung ke Game8
   try {
-    const { data } = await getWithRetry(GAME8_URL);
+    const { data } = await getWithRetry(GAME8_URL, 2);
     if (
       data &&
       typeof data === 'string' &&
@@ -314,25 +314,43 @@ async function scrapeViaGame8() {
         return codes;
       }
     }
+    console.warn('Game8 direct request terhalang proteksi Cloudflare WAF, mencoba Jina Reader proxy...');
   } catch (err) {
-    console.warn(`Direct Game8 request gagal (${err.message}), beralih ke Jina Reader proxy...`);
+    console.warn(`Game8 direct request gagal (${err.message}), mencoba Jina Reader proxy...`);
   }
 
   // Percobaan 2: Request via Jina Reader (menembus Cloudflare WAF pada IP datacenter GitHub Actions)
   try {
     const jinaUrl = `https://r.jina.ai/${GAME8_URL}`;
-    const { data } = await getWithRetry(jinaUrl);
-    if (data && typeof data === 'string') {
-      const codes = scrapeFromGame8Markdown(data);
+    const jinaHeaders = {
+      'User-Agent': getRandomUserAgent(),
+      Accept: 'text/plain, text/markdown, */*',
+    };
+
+    const jinaKey = process.env.JINA_API_KEY?.trim();
+    if (jinaKey) {
+      jinaHeaders.Authorization = `Bearer ${jinaKey}`;
+    }
+
+    const res = await client.get(jinaUrl, {
+      headers: jinaHeaders,
+      timeout: 15000,
+      validateStatus: (status) => status < 500, // jangan throw langsung agar bisa deteksi 403
+    });
+
+    if (res.status === 200 && typeof res.data === 'string' && !res.data.includes('AbuseAlleviationError')) {
+      const codes = scrapeFromGame8Markdown(res.data);
       if (codes.length > 0) {
         return codes;
       }
+    } else if (res.status === 403) {
+      console.warn('Akses anonim Jina Reader ke domain Game8 dibatasi (403 rate-limit domain).');
     }
   } catch (jinaErr) {
-    console.warn(`Jina Reader Game8 request gagal (${jinaErr.message})`);
+    console.warn(`Jina Reader proxy gagal dihubungi (${jinaErr.message})`);
   }
 
-  throw new Error('Tidak ada kode yang ditemukan di Game8.');
+  throw new Error('Game8 tidak dapat diakses (Cloudflare WAF / Proxy limit).');
 }
 
 async function scrapeFromHtml(html) {
