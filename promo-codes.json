@@ -8,17 +8,17 @@
       "TW/HK/Macao"
     ],
     "reward": [
-      "Primogem ×60",
-      "Adventurer's Experience ×5"
+      "Primogem x60",
+      "Adventurer's Experience x5"
     ],
-    "release": "13/09/2026",
+    "release": "14/09/2026",
     "expired": null,
     "status": true,
-    "source": "Fandom",
+    "source": "Game8",
     "first_seen": "16/09/2026, 06.07.11"
   },
   {
-    "kode": "YOAL3V36XHS7",
+    "kode": "Y1INABQB6DEX",
     "support_server": [
       "America",
       "Europe",
@@ -26,56 +26,13 @@
       "TW/HK/Macao"
     ],
     "reward": [
-      "Mora ×10,000",
-      "Adventurer's Experience ×10",
-      "Fine Enhancement Ore ×5",
-      "Jueyun Chili Chicken ×5",
-      "Stir-Fried Fish Noodles ×5"
+      "Primogem x60",
+      "Adventurer's Experience x5"
     ],
-    "release": "02/09/2026",
+    "release": "01/09/2026",
     "expired": null,
     "status": true,
-    "source": "Fandom",
-    "first_seen": "16/09/2026, 06.07.11"
-  },
-  {
-    "kode": "DUGODWKRHAKDNJ",
-    "support_server": [
-      "America",
-      "Europe",
-      "Asia",
-      "TW/HK/Macao"
-    ],
-    "reward": [
-      "Primogem ×30",
-      "Mora ×10,000",
-      "Hero's Wit ×3",
-      "Mystic Enhancement Ore ×3"
-    ],
-    "release": "31/08/2026",
-    "expired": null,
-    "status": true,
-    "source": "Fandom",
-    "first_seen": "17/09/2026, 05.37.41"
-  },
-  {
-    "kode": "BALLETCOLLAB",
-    "support_server": [
-      "America",
-      "Europe",
-      "Asia",
-      "TW/HK/Macao"
-    ],
-    "reward": [
-      "Primogem ×30",
-      "Mora ×10,000",
-      "Hero's Wit ×3",
-      "Mystic Enhancement Ore ×3"
-    ],
-    "release": "16/08/2026",
-    "expired": null,
-    "status": true,
-    "source": "Fandom",
+    "source": "Game8",
     "first_seen": "16/09/2026, 06.07.11"
   },
   {
@@ -87,29 +44,92 @@
       "TW/HK/Macao"
     ],
     "reward": [
-      "Primogem ×60",
-      "Adventurer's Experience ×5"
+      "Primogem x60",
+      "Adventurer's Experience x5"
     ],
-    "release": "31/07/2026",
+    "release": "03/08/2026",
     "expired": null,
     "status": true,
-    "source": "Fandom",
+    "source": "Game8",
     "first_seen": "16/09/2026, 06.07.11"
   },
   {
-    "kode": "YuanShen",
+    "kode": "BALLETCOLLAB",
     "support_server": [
-      "China"
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
     ],
     "reward": [
-      "Primogem ×50",
-      "Hero's Wit ×3"
+      "Primogem x30",
+      "Mora x10,000",
+      "Hero's Wit x3",
+      "Mystic Enhancement Ore x3"
     ],
-    "release": "10/11/2020",
+    "release": "16/08/2026",
     "expired": null,
     "status": true,
-    "source": "Fandom",
-    "first_seen": "17/09/2026, 05.37.41"
+    "source": "Game8",
+    "first_seen": "16/09/2026, 06.07.11"
+  },
+  {
+    "kode": "GS71YTAICB",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Mora x30,000",
+      "Hero's Wit x3",
+      "Mystic Enhancement Ore x5"
+    ],
+    "release": "16/09/2026",
+    "expired": null,
+    "status": true,
+    "source": "Game8",
+    "first_seen": "17/09/2026, 10.18.47"
+  },
+  {
+    "kode": "YOAL3V36XHS7",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Mora x10000",
+      "Adventurer's Experience x10",
+      "Fine Enhancement Ore x5",
+      "Stir-Fried Fish Noodles x5",
+      "Jueyun Chili Chicken x5"
+    ],
+    "release": "04/09/2026",
+    "expired": null,
+    "status": true,
+    "source": "Game8",
+    "first_seen": "16/09/2026, 06.07.11"
+  },
+  {
+    "kode": "GENSHINGIFT",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Primogem x50",
+      "Hero's Wit x3"
+    ],
+    "release": null,
+    "expired": null,
+    "status": true,
+    "source": "Game8",
+    "first_seen": "16/09/2026, 06.07.11"
   },
   {
     "kode": "Rekviem",
@@ -166,7 +186,7 @@
     "first_seen": "16/09/2026, 06.07.11"
   },
   {
-    "kode": "Y1INABQB6DEX",
+    "kode": "DUGODWKRHAKDNJ",
     "support_server": [
       "America",
       "Europe",
@@ -174,31 +194,30 @@
       "TW/HK/Macao"
     ],
     "reward": [
-      "Primogem x60",
-      "Adventurer's Experience x5"
+      "Primogem ×30",
+      "Mora ×10,000",
+      "Hero's Wit ×3",
+      "Mystic Enhancement Ore ×3"
     ],
-    "release": "01/09/2026",
+    "release": "31/08/2026",
     "expired": null,
     "status": true,
-    "source": "Game8",
-    "first_seen": "16/09/2026, 06.07.11"
+    "source": "Fandom",
+    "first_seen": "17/09/2026, 05.37.41"
   },
   {
-    "kode": "GENSHINGIFT",
+    "kode": "YuanShen",
     "support_server": [
-      "America",
-      "Europe",
-      "Asia",
-      "TW/HK/Macao"
+      "China"
     ],
     "reward": [
-      "Primogem x50",
-      "Hero's Wit x3"
+      "Primogem ×50",
+      "Hero's Wit ×3"
     ],
-    "release": null,
+    "release": "10/11/2020",
     "expired": null,
     "status": true,
-    "source": "Game8",
-    "first_seen": "16/09/2026, 06.07.11"
+    "source": "Fandom",
+    "first_seen": "17/09/2026, 05.37.41"
   }
 ]
