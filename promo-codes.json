@@ -1,0 +1,114 @@
+[
+  {
+    "kode": "Y6JYMKV6JKSL",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Primogem ×60",
+      "Adventurer's Experience ×5"
+    ],
+    "release": "13/09/2026",
+    "expired": null,
+    "status": true,
+    "source": "Fandom",
+    "first_seen": "17/09/2026, 19.43.05"
+  },
+  {
+    "kode": "YOAL3V36XHS7",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Mora ×10,000",
+      "Adventurer's Experience ×10",
+      "Fine Enhancement Ore ×5",
+      "Jueyun Chili Chicken ×5",
+      "Stir-Fried Fish Noodles ×5"
+    ],
+    "release": "02/09/2026",
+    "expired": null,
+    "status": true,
+    "source": "Fandom",
+    "first_seen": "17/09/2026, 19.43.05"
+  },
+  {
+    "kode": "DUGODWKRHAKDNJ",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Primogem ×30",
+      "Mora ×10,000",
+      "Hero's Wit ×3",
+      "Mystic Enhancement Ore ×3"
+    ],
+    "release": "31/08/2026",
+    "expired": null,
+    "status": true,
+    "source": "Fandom",
+    "first_seen": "17/09/2026, 19.43.05"
+  },
+  {
+    "kode": "BALLETCOLLAB",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Primogem ×30",
+      "Mora ×10,000",
+      "Hero's Wit ×3",
+      "Mystic Enhancement Ore ×3"
+    ],
+    "release": "16/08/2026",
+    "expired": null,
+    "status": true,
+    "source": "Fandom",
+    "first_seen": "17/09/2026, 19.43.05"
+  },
+  {
+    "kode": "2BJ64QRZ7RT8",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Primogem ×60",
+      "Adventurer's Experience ×5"
+    ],
+    "release": "31/07/2026",
+    "expired": null,
+    "status": true,
+    "source": "Fandom",
+    "first_seen": "17/09/2026, 19.43.05"
+  },
+  {
+    "kode": "YuanShen",
+    "support_server": [
+      "China"
+    ],
+    "reward": [
+      "Primogem ×50",
+      "Hero's Wit ×3"
+    ],
+    "release": "10/11/2020",
+    "expired": null,
+    "status": true,
+    "source": "Fandom",
+    "first_seen": "17/09/2026, 19.43.05"
+  }
+]
