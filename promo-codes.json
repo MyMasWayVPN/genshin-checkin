@@ -1,5 +1,24 @@
 [
   {
+    "kode": "VesnaOnPatrol",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Primogem ×40",
+      "Mora ×20,000",
+      "Hero's Wit ×3"
+    ],
+    "release": "23/09/2026",
+    "expired": null,
+    "status": true,
+    "source": "Fandom",
+    "first_seen": "24/09/2026, 10.02.43"
+  },
+  {
     "kode": "GS71XAVWDS",
     "support_server": [
       "America",
