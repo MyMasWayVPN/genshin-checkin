@@ -1,5 +1,24 @@
 [
   {
+    "kode": "OPERACOLLAB",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Primogem ×30",
+      "Mora ×20,000",
+      "Hero's Wit ×2"
+    ],
+    "release": "28/09/2026",
+    "expired": null,
+    "status": true,
+    "source": "Fandom",
+    "first_seen": "29/09/2026, 18.03.26"
+  },
+  {
     "kode": "EPIC2026",
     "support_server": [
       "America",
