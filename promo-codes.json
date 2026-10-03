@@ -1,5 +1,63 @@
 [
   {
+    "kode": "6LS3F3LS5K87",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Primogem ×20",
+      "Geode of Replication ×160"
+    ],
+    "release": "02/10/2026",
+    "expired": null,
+    "status": true,
+    "source": "Fandom",
+    "first_seen": "04/10/2026, 05.38.56"
+  },
+  {
+    "kode": "DATG5HG1PL89",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Mora ×10,000",
+      "Adventurer's Experience ×10",
+      "Fine Enhancement Ore ×5",
+      "Stir-Fried Fish Noodles ×5",
+      "Jueyun Chili Chicken ×5"
+    ],
+    "release": "02/10/2026",
+    "expired": null,
+    "status": true,
+    "source": "Fandom",
+    "first_seen": "04/10/2026, 05.38.56"
+  },
+  {
+    "kode": "PNKZ3WLNN8G6",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Teachings of Charity ×5",
+      "Teachings of Fortitude ×5",
+      "Teachings of Glory ×5"
+    ],
+    "release": "01/10/2026",
+    "expired": null,
+    "status": true,
+    "source": "Fandom",
+    "first_seen": "04/10/2026, 05.38.56"
+  },
+  {
     "kode": "OPERACOLLAB",
     "support_server": [
       "America",
