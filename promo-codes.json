@@ -1,6 +1,6 @@
 [
   {
-    "kode": "NEEIJB764CA3",
+    "kode": "6LS3F3LS5K87",
     "support_server": [
       "America",
       "Europe",
@@ -8,13 +8,14 @@
       "TW/HK/Macao"
     ],
     "reward": [
-      "Primogem ×60"
+      "Primogem ×20",
+      "Geode of Replication ×160"
     ],
-    "release": "04/10/2026",
+    "release": "02/10/2026",
     "expired": null,
     "status": true,
     "source": "Fandom",
-    "first_seen": "05/10/2026, 05.42.08"
+    "first_seen": "04/10/2026, 05.38.56"
   },
   {
     "kode": "DATG5HG1PL89",
@@ -245,7 +246,7 @@
     "first_seen": "17/09/2026, 19.51.59"
   },
   {
-    "kode": "6LS3F3LS5K87",
+    "kode": "NEEIJB764CA3",
     "support_server": [
       "America",
       "Europe",
@@ -253,13 +254,12 @@
       "TW/HK/Macao"
     ],
     "reward": [
-      "Primogem ×20",
-      "Geode of Replication ×160"
+      "Primogem ×60"
     ],
-    "release": "02/10/2026",
+    "release": "04/10/2026",
     "expired": null,
     "status": true,
     "source": "Fandom",
-    "first_seen": "04/10/2026, 05.38.56"
+    "first_seen": "05/10/2026, 05.42.08"
   }
 ]
