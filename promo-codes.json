@@ -1,5 +1,23 @@
 [
   {
+    "kode": "NEEIJB764CA3",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Primogem x60",
+      "Adventurer's Experience x5"
+    ],
+    "release": "05/10/2026",
+    "expired": null,
+    "status": true,
+    "source": "Game8",
+    "first_seen": "05/10/2026, 05.42.08"
+  },
+  {
     "kode": "6LS3F3LS5K87",
     "support_server": [
       "America",
@@ -8,14 +26,218 @@
       "TW/HK/Macao"
     ],
     "reward": [
-      "Primogem ×20",
-      "Geode of Replication ×160"
+      "Primogem x20",
+      "Geode of Replication x60"
     ],
-    "release": "02/10/2026",
+    "release": "03/10/2026",
     "expired": null,
     "status": true,
-    "source": "Fandom",
+    "source": "Game8",
     "first_seen": "04/10/2026, 05.38.56"
+  },
+  {
+    "kode": "OPERACOLLAB",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Primogem x30",
+      "Mora x20,000",
+      "Hero's Wit x2"
+    ],
+    "release": "29/09/2026",
+    "expired": null,
+    "status": true,
+    "source": "Game8",
+    "first_seen": "29/09/2026, 18.03.26"
+  },
+  {
+    "kode": "VesnaOnPatrol",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Primogem x40",
+      "Mora x20,000",
+      "Hero's Wit x3"
+    ],
+    "release": "24/09/2026",
+    "expired": null,
+    "status": true,
+    "source": "Game8",
+    "first_seen": "24/09/2026, 10.02.43"
+  },
+  {
+    "kode": "EPIC2026",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Primogem x40",
+      "Mora x20,000",
+      "Hero's Wit x5"
+    ],
+    "release": "24/09/2026",
+    "expired": null,
+    "status": true,
+    "source": "Game8",
+    "first_seen": "25/09/2026, 22.06.33"
+  },
+  {
+    "kode": "Y6JYMKV6JKSL",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Primogem x60",
+      "Adventurer's Experience x5"
+    ],
+    "release": "14/09/2026",
+    "expired": null,
+    "status": true,
+    "source": "Game8",
+    "first_seen": "17/09/2026, 19.51.59"
+  },
+  {
+    "kode": "Y1INABQB6DEX",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Primogem x60",
+      "Adventurer's Experience x5"
+    ],
+    "release": "01/09/2026",
+    "expired": null,
+    "status": true,
+    "source": "Game8",
+    "first_seen": "13/10/2026, 05.22.53"
+  },
+  {
+    "kode": "2BJ64QRZ7RT8",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Primogem x60",
+      "Adventurer's Experience x5"
+    ],
+    "release": "03/08/2026",
+    "expired": null,
+    "status": true,
+    "source": "Game8",
+    "first_seen": "17/09/2026, 19.51.59"
+  },
+  {
+    "kode": "PLDXIB886Y1S",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Mora x10000",
+      "Adventurer's Experience x10",
+      "Fine Enhancement Ore x5",
+      "Stir-Fried Fish Noodles x5",
+      "Jueyun Chili Chicken x5"
+    ],
+    "release": "24/09/2026",
+    "expired": null,
+    "status": true,
+    "source": "Game8",
+    "first_seen": "13/10/2026, 05.22.53"
+  },
+  {
+    "kode": "GENSHINGIFT",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Primogem x50",
+      "Hero's Wit x3"
+    ],
+    "release": null,
+    "expired": null,
+    "status": true,
+    "source": "Game8",
+    "first_seen": "13/10/2026, 05.22.53"
+  },
+  {
+    "kode": "Rekviem",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Primogem x100",
+      "Mystic Enhancement Ore x10"
+    ],
+    "release": null,
+    "expired": "15/09/2026",
+    "status": false,
+    "source": "Game8",
+    "first_seen": "13/10/2026, 05.22.53"
+  },
+  {
+    "kode": "Vesna0923",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Primogem x100",
+      "Hero's Wit x5"
+    ],
+    "release": null,
+    "expired": "15/09/2026",
+    "status": false,
+    "source": "Game8",
+    "first_seen": "13/10/2026, 05.22.53"
+  },
+  {
+    "kode": "PrimaDonna",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Primogem x100",
+      "Mora x50,000"
+    ],
+    "release": null,
+    "expired": "15/09/2026",
+    "status": false,
+    "source": "Game8",
+    "first_seen": "13/10/2026, 05.22.53"
   },
   {
     "kode": "DATG5HG1PL89",
@@ -58,63 +280,6 @@
     "first_seen": "04/10/2026, 05.38.56"
   },
   {
-    "kode": "OPERACOLLAB",
-    "support_server": [
-      "America",
-      "Europe",
-      "Asia",
-      "TW/HK/Macao"
-    ],
-    "reward": [
-      "Primogem ×30",
-      "Mora ×20,000",
-      "Hero's Wit ×2"
-    ],
-    "release": "28/09/2026",
-    "expired": null,
-    "status": true,
-    "source": "Fandom",
-    "first_seen": "29/09/2026, 18.03.26"
-  },
-  {
-    "kode": "EPIC2026",
-    "support_server": [
-      "America",
-      "Europe",
-      "Asia",
-      "TW/HK/Macao"
-    ],
-    "reward": [
-      "Primogem ×40",
-      "Mora ×20,000",
-      "Hero's Wit ×5"
-    ],
-    "release": "23/09/2026",
-    "expired": null,
-    "status": true,
-    "source": "Fandom",
-    "first_seen": "25/09/2026, 22.06.33"
-  },
-  {
-    "kode": "VesnaOnPatrol",
-    "support_server": [
-      "America",
-      "Europe",
-      "Asia",
-      "TW/HK/Macao"
-    ],
-    "reward": [
-      "Primogem ×40",
-      "Mora ×20,000",
-      "Hero's Wit ×3"
-    ],
-    "release": "23/09/2026",
-    "expired": "22/10/2026",
-    "status": true,
-    "source": "Fandom",
-    "first_seen": "24/09/2026, 10.02.43"
-  },
-  {
     "kode": "GS71XAVWDS",
     "support_server": [
       "America",
@@ -132,24 +297,6 @@
     "status": true,
     "source": "Fandom",
     "first_seen": "19/09/2026, 05.15.01"
-  },
-  {
-    "kode": "Y6JYMKV6JKSL",
-    "support_server": [
-      "America",
-      "Europe",
-      "Asia",
-      "TW/HK/Macao"
-    ],
-    "reward": [
-      "Primogem ×60",
-      "Adventurer's Experience ×5"
-    ],
-    "release": "13/09/2026",
-    "expired": null,
-    "status": true,
-    "source": "Fandom",
-    "first_seen": "17/09/2026, 19.51.59"
   },
   {
     "kode": "YOAL3V36XHS7",
@@ -213,24 +360,6 @@
     "first_seen": "17/09/2026, 19.51.59"
   },
   {
-    "kode": "2BJ64QRZ7RT8",
-    "support_server": [
-      "America",
-      "Europe",
-      "Asia",
-      "TW/HK/Macao"
-    ],
-    "reward": [
-      "Primogem ×60",
-      "Adventurer's Experience ×5"
-    ],
-    "release": "31/07/2026",
-    "expired": null,
-    "status": true,
-    "source": "Fandom",
-    "first_seen": "17/09/2026, 19.51.59"
-  },
-  {
     "kode": "YuanShen",
     "support_server": [
       "China"
@@ -244,22 +373,5 @@
     "status": true,
     "source": "Fandom",
     "first_seen": "17/09/2026, 19.51.59"
-  },
-  {
-    "kode": "NEEIJB764CA3",
-    "support_server": [
-      "America",
-      "Europe",
-      "Asia",
-      "TW/HK/Macao"
-    ],
-    "reward": [
-      "Primogem ×60"
-    ],
-    "release": "04/10/2026",
-    "expired": null,
-    "status": true,
-    "source": "Fandom",
-    "first_seen": "05/10/2026, 05.42.08"
   }
 ]
