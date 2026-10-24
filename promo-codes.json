@@ -1,5 +1,23 @@
 [
   {
+    "kode": "PJ2KEBRAYSRM",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Primogem ×60",
+      "Adventurer's Experience ×5"
+    ],
+    "release": "23/10/2026",
+    "expired": null,
+    "status": true,
+    "source": "Fandom",
+    "first_seen": "24/10/2026, 10.10.56"
+  },
+  {
     "kode": "HourOfRuin",
     "support_server": [
       "America",
