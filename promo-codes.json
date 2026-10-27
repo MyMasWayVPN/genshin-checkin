@@ -31,7 +31,7 @@
     ],
     "release": "23/10/2026",
     "expired": "26/10/2026",
-    "status": true,
+    "status": false,
     "source": "Fandom",
     "first_seen": "23/10/2026, 20.12.23"
   },
@@ -49,7 +49,7 @@
     ],
     "release": "23/10/2026",
     "expired": "26/10/2026",
-    "status": true,
+    "status": false,
     "source": "Fandom",
     "first_seen": "23/10/2026, 20.12.23"
   },
@@ -67,7 +67,7 @@
     ],
     "release": "23/10/2026",
     "expired": "26/10/2026",
-    "status": true,
+    "status": false,
     "source": "Fandom",
     "first_seen": "23/10/2026, 20.12.23"
   },
