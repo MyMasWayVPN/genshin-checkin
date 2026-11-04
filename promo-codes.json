@@ -1,5 +1,66 @@
 [
   {
+    "kode": "KeepUpWithMitya",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Guide to Charity ×3",
+      "\"Energy-Replenishing Meal\" ×3",
+      "Kristallfold ×3"
+    ],
+    "release": "04/11/2026",
+    "expired": null,
+    "status": true,
+    "source": "Fandom",
+    "first_seen": "04/11/2026, 19.45.53"
+  },
+  {
+    "kode": "MIJIQ23V2437",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Mora ×10,000",
+      "Adventurer's Experience ×10",
+      "Fine Enhancement Ore ×5",
+      "Stir-Fried Fish Noodles ×5",
+      "Jueyun Chili Chicken ×5"
+    ],
+    "release": "04/11/2026",
+    "expired": null,
+    "status": true,
+    "source": "Fandom",
+    "first_seen": "04/11/2026, 19.45.53"
+  },
+  {
+    "kode": "CDOF4X83H7X2",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Mora ×10,000",
+      "Adventurer's Experience ×10",
+      "Fine Enhancement Ore ×5",
+      "Stir-Fried Fish Noodles ×5",
+      "Jueyun Chili Chicken ×5"
+    ],
+    "release": "04/11/2026",
+    "expired": null,
+    "status": true,
+    "source": "Fandom",
+    "first_seen": "04/11/2026, 19.45.53"
+  },
+  {
     "kode": "PJ2KEBRAYSRM",
     "support_server": [
       "America",
