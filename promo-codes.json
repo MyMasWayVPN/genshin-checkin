@@ -134,60 +134,6 @@
     "first_seen": "24/10/2026, 10.10.56"
   },
   {
-    "kode": "HourOfRuin",
-    "support_server": [
-      "America",
-      "Europe",
-      "Asia",
-      "TW/HK/Macao"
-    ],
-    "reward": [
-      "Primogem ×100",
-      "Mystic Enhancement Ore ×10"
-    ],
-    "release": "23/10/2026",
-    "expired": null,
-    "status": true,
-    "source": "Fandom",
-    "first_seen": "23/10/2026, 20.12.23"
-  },
-  {
-    "kode": "ExpertMitya",
-    "support_server": [
-      "America",
-      "Europe",
-      "Asia",
-      "TW/HK/Macao"
-    ],
-    "reward": [
-      "Primogem ×100",
-      "Hero's Wit ×5"
-    ],
-    "release": "23/10/2026",
-    "expired": null,
-    "status": true,
-    "source": "Fandom",
-    "first_seen": "23/10/2026, 20.12.23"
-  },
-  {
-    "kode": "PhotoTime",
-    "support_server": [
-      "America",
-      "Europe",
-      "Asia",
-      "TW/HK/Macao"
-    ],
-    "reward": [
-      "Primogem ×100",
-      "Mora ×50,000"
-    ],
-    "release": "23/10/2026",
-    "expired": null,
-    "status": true,
-    "source": "Fandom",
-    "first_seen": "23/10/2026, 20.12.23"
-  },
-  {
     "kode": "OKTCV81F9H8D",
     "support_server": [
       "America",
@@ -303,25 +249,6 @@
     "status": true,
     "source": "Fandom",
     "first_seen": "25/09/2026, 22.06.33"
-  },
-  {
-    "kode": "VesnaOnPatrol",
-    "support_server": [
-      "America",
-      "Europe",
-      "Asia",
-      "TW/HK/Macao"
-    ],
-    "reward": [
-      "Primogem ×40",
-      "Mora ×20,000",
-      "Hero's Wit ×3"
-    ],
-    "release": "23/09/2026",
-    "expired": null,
-    "status": true,
-    "source": "Fandom",
-    "first_seen": "24/09/2026, 10.02.43"
   },
   {
     "kode": "GS71XAVWDS",
@@ -453,6 +380,79 @@
     "status": true,
     "source": "Fandom",
     "first_seen": "17/09/2026, 19.51.59"
+  },
+  {
+    "kode": "HourOfRuin",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Primogem ×100",
+      "Mystic Enhancement Ore ×10"
+    ],
+    "release": "23/10/2026",
+    "expired": null,
+    "status": true,
+    "source": "Fandom",
+    "first_seen": "23/10/2026, 20.12.23"
+  },
+  {
+    "kode": "ExpertMitya",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Primogem ×100",
+      "Hero's Wit ×5"
+    ],
+    "release": "23/10/2026",
+    "expired": null,
+    "status": true,
+    "source": "Fandom",
+    "first_seen": "23/10/2026, 20.12.23"
+  },
+  {
+    "kode": "PhotoTime",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Primogem ×100",
+      "Mora ×50,000"
+    ],
+    "release": "23/10/2026",
+    "expired": null,
+    "status": true,
+    "source": "Fandom",
+    "first_seen": "23/10/2026, 20.12.23"
+  },
+  {
+    "kode": "VesnaOnPatrol",
+    "support_server": [
+      "America",
+      "Europe",
+      "Asia",
+      "TW/HK/Macao"
+    ],
+    "reward": [
+      "Primogem ×40",
+      "Mora ×20,000",
+      "Hero's Wit ×3"
+    ],
+    "release": "23/09/2026",
+    "expired": null,
+    "status": true,
+    "source": "Fandom",
+    "first_seen": "24/09/2026, 10.02.43"
   },
   {
     "kode": "ARCHONSANSWERS",
