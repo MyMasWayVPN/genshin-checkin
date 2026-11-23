@@ -227,14 +227,27 @@ export async function redeemCode({ accountOrLtoken, ltuid, uid, region, cdkey, l
 
   const url = `${API_ENDPOINTS.REDEEM_CODE}?${query.toString()}`;
 
-  const response = await fetch(url, {
-    method: 'GET',
-    headers: {
-      'User-Agent': getRandomUserAgent(),
-      Accept: 'application/json, text/plain, */*',
-      Cookie: cookie,
-    },
-  });
+  let response;
+  let retry429 = 0;
+  while (retry429 <= 2) {
+    response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'User-Agent': getRandomUserAgent(),
+        Accept: 'application/json, text/plain, */*',
+        Cookie: cookie,
+      },
+    });
+
+    if (response.status === 429 && retry429 < 2) {
+      retry429 += 1;
+      const waitMs = retry429 * 10000;
+      console.warn(`[HTTP 429] Rate limit terdeteksi saat redeem ${cleanCdkey}. Menunggu ${waitMs / 1000}s sebelum retry...`);
+      await delay(waitMs);
+      continue;
+    }
+    break;
+  }
 
   if (!response.ok) {
     throw new Error(`HTTP Error ${response.status}: ${response.statusText}`);

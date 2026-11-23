@@ -9,6 +9,9 @@ import {
   delay,
 } from './hoyolab-api.js';
 
+const getRandomDelay = (min = 3000, max = 5000) =>
+  Math.floor(Math.random() * (max - min + 1)) + min;
+
 async function main() {
   const now = getWibTime();
   const accounts = loadAccounts();
@@ -31,93 +34,88 @@ async function main() {
     '',
   ];
 
-  console.log(`\nMenjalankan proses redeem untuk ${accounts.length} akun secara paralel...`);
+  console.log(`\nMenjalankan proses redeem untuk ${accounts.length} akun secara sekuensial (anti-rate limit)...`);
 
-  // Eksekusi paralel per akun dengan staggered start 300ms agar request tidak menumpuk dalam 1 milidetik
-  const accountResults = await Promise.all(
-    accounts.map(async (account, accountIndex) => {
-      if (accountIndex > 0) {
-        await delay(accountIndex * 300);
-      }
+  for (const [accountIndex, account] of accounts.entries()) {
+    console.log(`[Start Akun ${accountIndex + 1}/${accounts.length}] ${account.name} (${account.source})`);
 
-      console.log(`[Start Akun ${accountIndex + 1}/${accounts.length}] ${account.name} (${account.source})`);
+    // 1. Verifikasi LToken terlebih dahulu
+    let verify;
+    try {
+      verify = await verifyLToken(account);
+    } catch (err) {
+      verify = { valid: false, message: err.message };
+    }
 
-      // 1. Verifikasi LToken terlebih dahulu
-      const verify = await verifyLToken(account);
-      if (!verify.valid) {
-        const failMsg = `LToken tidak valid: ${verify.message}`;
-        console.error(`- [Akun ${accountIndex + 1}] ${failMsg}`);
-        return {
-          accountIndex,
-          lines: [`${accountIndex + 1}. ${account.name}`, `Status: GAGAL - ${failMsg}`, ''],
-        };
-      }
+    if (!verify.valid) {
+      const failMsg = `LToken tidak valid: ${verify.message}`;
+      console.error(`- [Akun ${accountIndex + 1}] ${failMsg}`);
+      lines.push(`${accountIndex + 1}. ${account.name}`, `Status: GAGAL - ${failMsg}`, '');
+      continue;
+    }
 
-      // 2. Deteksi otomatis Region & UID Game (Semua server yang valid)
-      const roleInfo = await findUserGameRole(account);
-      if (!roleInfo.found || !roleInfo.roles?.length) {
-        console.error(`- [Akun ${accountIndex + 1}] ${roleInfo.message}`);
-        return {
-          accountIndex,
-          lines: [`${accountIndex + 1}. ${account.name}`, `Status: GAGAL - ${roleInfo.message}`, ''],
-        };
-      }
+    // 2. Deteksi otomatis Region & UID Game (Semua server yang valid)
+    let roleInfo;
+    try {
+      roleInfo = await findUserGameRole(account);
+    } catch (err) {
+      roleInfo = { found: false, roles: [], message: err.message };
+    }
 
-      const validRoles = roleInfo.roles;
-      const accountLines = [];
+    if (!roleInfo.found || !roleInfo.roles?.length) {
+      console.error(`- [Akun ${accountIndex + 1}] ${roleInfo.message}`);
+      lines.push(`${accountIndex + 1}. ${account.name}`, `Status: GAGAL - ${roleInfo.message}`, '');
+      continue;
+    }
 
-      for (let rIdx = 0; rIdx < validRoles.length; rIdx += 1) {
-        const currentRole = validRoles[rIdx];
-        const roleLabel = validRoles.length > 1
-          ? `${accountIndex + 1}.${rIdx + 1}. ${account.name} - ${currentRole.nickname} (UID: ${currentRole.uid})`
-          : `${accountIndex + 1}. ${account.name} - ${currentRole.nickname} (UID: ${currentRole.uid})`;
+    const validRoles = roleInfo.roles;
+    for (let rIdx = 0; rIdx < validRoles.length; rIdx += 1) {
+      const currentRole = validRoles[rIdx];
+      const roleLabel = validRoles.length > 1
+        ? `${accountIndex + 1}.${rIdx + 1}. ${account.name} - ${currentRole.nickname} (UID: ${currentRole.uid})`
+        : `${accountIndex + 1}. ${account.name} - ${currentRole.nickname} (UID: ${currentRole.uid})`;
 
-        console.log(`- [Akun ${accountIndex + 1}] Karakter: ${currentRole.nickname} (Lv. ${currentRole.level}) | UID: ${currentRole.uid} | Region: ${currentRole.regionName}`);
-        if (rIdx > 0) accountLines.push('');
-        accountLines.push(roleLabel, `Server: ${currentRole.regionName}`);
+      console.log(`- [Akun ${accountIndex + 1}] Karakter: ${currentRole.nickname} (Lv. ${currentRole.level}) | UID: ${currentRole.uid} | Region: ${currentRole.regionName}`);
+      if (rIdx > 0) lines.push('');
+      lines.push(roleLabel, `Server: ${currentRole.regionName}`);
 
-        // 3. Redeem setiap promo code untuk role ini
-        for (const cdkey of codes) {
-          try {
-            const result = await redeemCode({
-              accountOrLtoken: account,
-              uid: currentRole.uid,
-              region: currentRole.region,
-              cdkey,
-            });
+      // 3. Redeem setiap promo code untuk role ini
+      for (const cdkey of codes) {
+        try {
+          const result = await redeemCode({
+            accountOrLtoken: account,
+            uid: currentRole.uid,
+            region: currentRole.region,
+            cdkey,
+          });
 
-            const statusLabel = result.success
-              ? 'BERHASIL'
-              : result.isAlreadyClaimed
-              ? 'SUDAH DIKLAIM'
-              : result.isLimitReached
-              ? 'LIMIT HABIS'
-              : 'GAGAL';
+          const statusLabel = result.success
+            ? 'BERHASIL'
+            : result.isAlreadyClaimed
+            ? 'SUDAH DIKLAIM'
+            : result.isLimitReached
+            ? 'LIMIT HABIS'
+            : 'GAGAL';
 
-            console.log(`  * [Akun ${accountIndex + 1}][${currentRole.region}][${cdkey}] ${statusLabel} -> ${result.message}`);
-            accountLines.push(`  * ${cdkey}: ${statusLabel} (${result.message})`);
-          } catch (err) {
-            console.error(`  * [Akun ${accountIndex + 1}][${currentRole.region}][${cdkey}] ERROR -> ${err.message}`);
-            accountLines.push(`  * ${cdkey}: ERROR (${err.message})`);
-          }
-
-          // Jeda aman per akun 5.5 detik penuh antar kode untuk antisipasi cooldown HoYoverse
-          await delay(5500);
+          console.log(`  * [Akun ${accountIndex + 1}][${currentRole.region}][${cdkey}] ${statusLabel} -> ${result.message}`);
+          lines.push(`  * ${cdkey}: ${statusLabel} (${result.message})`);
+        } catch (err) {
+          console.error(`  * [Akun ${accountIndex + 1}][${currentRole.region}][${cdkey}] ERROR -> ${err.message}`);
+          lines.push(`  * ${cdkey}: ERROR (${err.message})`);
         }
+
+        // Jeda aman per akun 5.5 detik penuh antar kode untuk antisipasi cooldown HoYoverse
+        await delay(5500);
       }
+    }
 
-      accountLines.push('');
-      return {
-        accountIndex,
-        lines: accountLines,
-      };
-    })
-  );
+    lines.push('');
 
-  // Urutkan kembali sesuai urutan akun semula agar laporan Telegram rapi
-  accountResults.sort((a, b) => a.accountIndex - b.accountIndex);
-  for (const result of accountResults) {
-    lines.push(...result.lines);
+    // Jeda dinamis antar-akun (3-5 detik) agar tidak memicu rate-limit HoYoLAB
+    if (accountIndex < accounts.length - 1) {
+      const sleepTime = getRandomDelay(3000, 5000);
+      await delay(sleepTime);
+    }
   }
 
   // Kirim notifikasi Telegram jika botToken & chatId ada di env

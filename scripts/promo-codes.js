@@ -466,22 +466,27 @@ async function main() {
 
   const merged = currentCodes.map((code) => {
     const existing = savedCodesMap.get(code.kode);
+    const active = code.status && getStatus(code.expired);
     return existing
-      ? { ...existing, ...code, first_seen: existing.first_seen || now, source: code.source || existing.source || 'Unknown' }
-      : { ...code, first_seen: now };
+      ? { ...existing, ...code, status: active, first_seen: existing.first_seen || now, source: code.source || existing.source || 'Unknown' }
+      : { ...code, status: active, first_seen: now };
   });
 
-  // Pertahankan riwayat kode lama di promo-codes.json agar tidak terhapus
+  // Pertahankan kode lama yang tersimpan HANYA jika masih aktif (belum expired)
   for (const saved of savedCodes) {
-    if (!merged.some((c) => c.kode === saved.kode)) {
+    const isStillActive = saved.status && getStatus(saved.expired);
+    if (isStillActive && !merged.some((c) => c.kode === saved.kode)) {
       merged.push(saved);
     }
   }
 
-  saveCodes(merged);
+  // Otomatis hapus / eliminasi semua kode yang sudah expired
+  const activeCodes = merged.filter((code) => code.status && getStatus(code.expired));
 
-  const newCodes = merged.filter(
-    (code) => code.status && !savedKode.has(code.kode)
+  saveCodes(activeCodes);
+
+  const newCodes = activeCodes.filter(
+    (code) => !savedKode.has(code.kode)
   );
 
   // Jika bukan manual run dan tidak ada kode baru, berhenti agar tidak spam Telegram tiap interval cron
@@ -491,7 +496,7 @@ async function main() {
   }
 
   // Jika ada kode baru, prioritaskan kode baru. Jika manual run dan tidak ada kode baru, redeem semua kode aktif.
-  const targetCodes = newCodes.length > 0 ? newCodes : currentCodes.filter((c) => c.status);
+  const targetCodes = newCodes.length > 0 ? newCodes : activeCodes;
 
   if (targetCodes.length === 0) {
     console.log('Tidak ada kode promo aktif untuk diproses.');
@@ -525,83 +530,70 @@ async function main() {
   }
 
   if (accounts.length > 0) {
-    console.log(`\nMemproses ${targetCodes.length} kode untuk ${accounts.length} akun secara paralel...`);
+    console.log(`\nMemproses ${targetCodes.length} kode untuk ${accounts.length} akun secara sekuensial (anti-rate limit)...`);
     lines.push('--- Status Redeem Akun ---');
 
-    // Eksekusi paralel per akun dengan staggered start 300ms agar request tidak menumpuk dalam 1 milidetik
-    const accountResults = await Promise.all(
-      accounts.map(async (account, accountIndex) => {
-        if (accountIndex > 0) {
-          await delay(accountIndex * 300);
-        }
+    for (const [accountIndex, account] of accounts.entries()) {
+      console.log(`[Start Akun ${accountIndex + 1}/${accounts.length}] ${account.name}`);
+      let roleInfo;
+      try {
+        roleInfo = await findUserGameRole(account);
+      } catch (err) {
+        roleInfo = { found: false, roles: [], message: err.message };
+      }
 
-        console.log(`[Start Akun ${accountIndex + 1}/${accounts.length}] ${account.name}`);
-        const roleInfo = await findUserGameRole(account);
+      if (!roleInfo.found || !roleInfo.roles?.length) {
+        console.error(`- [Akun ${accountIndex + 1}] ${account.name}: ${roleInfo.message}`);
+        lines.push(`${accountIndex + 1}. ${account.name}: GAGAL (${roleInfo.message})`, '');
+        continue;
+      }
 
-        if (!roleInfo.found || !roleInfo.roles?.length) {
-          console.error(`- [Akun ${accountIndex + 1}] ${account.name}: ${roleInfo.message}`);
-          return {
-            accountIndex,
-            account,
-            roleInfo: null,
-            lines: [`${accountIndex + 1}. ${account.name}: GAGAL (${roleInfo.message})`],
-          };
-        }
+      const validRoles = roleInfo.roles;
+      for (let rIdx = 0; rIdx < validRoles.length; rIdx += 1) {
+        const currentRole = validRoles[rIdx];
+        const roleLabel = validRoles.length > 1
+          ? `${accountIndex + 1}.${rIdx + 1}. ${account.name} - ${currentRole.nickname} (UID: ${currentRole.uid})`
+          : `${accountIndex + 1}. ${account.name} - ${currentRole.nickname} (UID: ${currentRole.uid})`;
 
-        const validRoles = roleInfo.roles;
-        const accountLines = [];
+        if (rIdx > 0) lines.push('');
+        lines.push(roleLabel, `   Server: ${currentRole.regionName}`);
 
-        for (let rIdx = 0; rIdx < validRoles.length; rIdx += 1) {
-          const currentRole = validRoles[rIdx];
-          const roleLabel = validRoles.length > 1
-            ? `${accountIndex + 1}.${rIdx + 1}. ${account.name} - ${currentRole.nickname} (UID: ${currentRole.uid})`
-            : `${accountIndex + 1}. ${account.name} - ${currentRole.nickname} (UID: ${currentRole.uid})`;
+        for (const targetCode of targetCodes) {
+          try {
+            const res = await redeemCode({
+              accountOrLtoken: account,
+              uid: currentRole.uid,
+              region: currentRole.region,
+              cdkey: targetCode.kode,
+            });
 
-          if (rIdx > 0) accountLines.push('');
-          accountLines.push(roleLabel, `   Server: ${currentRole.regionName}`);
+            const status = res.success
+              ? 'BERHASIL'
+              : res.isAlreadyClaimed
+              ? 'SUDAH DIKLAIM'
+              : res.isLimitReached
+              ? 'LIMIT HABIS'
+              : 'GAGAL';
 
-          for (const targetCode of targetCodes) {
-            try {
-              const res = await redeemCode({
-                accountOrLtoken: account,
-                uid: currentRole.uid,
-                region: currentRole.region,
-                cdkey: targetCode.kode,
-              });
-
-              const status = res.success
-                ? 'BERHASIL'
-                : res.isAlreadyClaimed
-                ? 'SUDAH DIKLAIM'
-                : res.isLimitReached
-                ? 'LIMIT HABIS'
-                : 'GAGAL';
-
-              console.log(`  * [Akun ${accountIndex + 1}][${currentRole.region}][${targetCode.kode}] ${status} -> ${res.message}`);
-              accountLines.push(`   * ${targetCode.kode}: ${status} (${res.message})`);
-            } catch (err) {
-              console.error(`  * [Akun ${accountIndex + 1}][${currentRole.region}][${targetCode.kode}] ERROR: ${err.message}`);
-              accountLines.push(`   * ${targetCode.kode}: ERROR (${err.message})`);
-            }
-
-            // Jeda aman per akun 5.5 detik penuh antar kode untuk antisipasi cooldown HoYoverse
-            await delay(5500);
+            console.log(`  * [Akun ${accountIndex + 1}][${currentRole.region}][${targetCode.kode}] ${status} -> ${res.message}`);
+            lines.push(`   * ${targetCode.kode}: ${status} (${res.message})`);
+          } catch (err) {
+            console.error(`  * [Akun ${accountIndex + 1}][${currentRole.region}][${targetCode.kode}] ERROR: ${err.message}`);
+            lines.push(`   * ${targetCode.kode}: ERROR (${err.message})`);
           }
+
+          // Jeda aman per akun 5.5 detik penuh antar kode untuk antisipasi cooldown HoYoverse
+          await delay(5500);
         }
+      }
 
-        return {
-          accountIndex,
-          account,
-          roleInfo,
-          lines: accountLines,
-        };
-      })
-    );
+      lines.push('');
 
-    // Urutkan kembali sesuai urutan akun semula agar laporan Telegram rapi
-    accountResults.sort((a, b) => a.accountIndex - b.accountIndex);
-    for (const result of accountResults) {
-      lines.push(...result.lines, '');
+      // Jeda dinamis antar akun (3-5 detik)
+      if (accountIndex < accounts.length - 1) {
+        const sleepTime = Math.floor(Math.random() * 2001) + 3000;
+        await delay(sleepTime);
+      }
     }
   }
 
