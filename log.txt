@@ -1,6 +1,6 @@
 ==================================================
 Daily Check-in Genshin
-Waktu: 23/11/2026, 19.50.02 WIB
+Waktu: 23/11/2026, 19.54.46 WIB
 Total akun: 33
 
 1. Amal Pasak (GENSHIN_ACCOUNT_1)
@@ -9,7 +9,7 @@ Pesan: Already claimed | Total login: 23 | Hari ini: 2026-11-23
 
 2. wellbarudak (GENSHIN_ACCOUNT_2)
 Status: BERHASIL
-Pesan: success | Total login: 1 | Hari ini: 2026-11-23
+Pesan: Already claimed | Total login: 1 | Hari ini: 2026-11-23
 
 3. beatrisky (GENSHIN_ACCOUNT_3)
 Status: BERHASIL
@@ -29,7 +29,7 @@ Pesan: Already claimed | Total login: 23 | Hari ini: 2026-11-23
 
 7. chuckberry314 (GENSHIN_ACCOUNT_7)
 Status: BERHASIL
-Pesan: success | Total login: 1 | Hari ini: 2026-11-23
+Pesan: Already claimed | Total login: 1 | Hari ini: 2026-11-23
 
 8. Pnake4 (GENSHIN_ACCOUNT_8)
 Status: BERHASIL
@@ -65,7 +65,7 @@ Pesan: Already claimed | Total login: 23 | Hari ini: 2026-11-23
 
 16. ottolawson51 (GENSHIN_ACCOUNT_16)
 Status: BERHASIL
-Pesan: success | Total login: 1 | Hari ini: 2026-11-23
+Pesan: Already claimed | Total login: 1 | Hari ini: 2026-11-23
 
 17. Iman Barbara (GENSHIN_ACCOUNT_17)
 Status: BERHASIL
@@ -120,8 +120,8 @@ Status: BERHASIL
 Pesan: Already claimed | Total login: 23 | Hari ini: 2026-11-23
 
 30. fahmiyahgandes (GENSHIN_ACCOUNT_30)
-Status: GAGAL
-Pesan: Not logged in
+Status: BERHASIL
+Pesan: Already claimed | Total login: 23 | Hari ini: 2026-11-23
 
 31. wardojo10 (GENSHIN_ACCOUNT_31)
 Status: GAGAL
@@ -135,6 +135,6 @@ Pesan: Request failed with status code 429
 Status: GAGAL
 Pesan: Request failed with status code 429
 
-Berhasil: 29
-Gagal: 4
+Berhasil: 30
+Gagal: 3
 
