@@ -1,128 +1,140 @@
 ==================================================
 Daily Check-in Genshin
-Waktu: 23/11/2026, 05.18.21 WIB
-Total akun: 30
+Waktu: 23/11/2026, 19.50.02 WIB
+Total akun: 33
 
 1. Amal Pasak (GENSHIN_ACCOUNT_1)
 Status: BERHASIL
-Pesan: success | Total login: 23 | Hari ini: 2026-11-23
+Pesan: Already claimed | Total login: 23 | Hari ini: 2026-11-23
 
-2. afimujila (GENSHIN_ACCOUNT_2)
+2. wellbarudak (GENSHIN_ACCOUNT_2)
 Status: BERHASIL
-Pesan: success | Total login: 23 | Hari ini: 2026-11-23
+Pesan: success | Total login: 1 | Hari ini: 2026-11-23
 
 3. beatrisky (GENSHIN_ACCOUNT_3)
 Status: BERHASIL
-Pesan: success | Total login: 23 | Hari ini: 2026-11-23
+Pesan: Already claimed | Total login: 23 | Hari ini: 2026-11-23
 
 4. usentio (GENSHIN_ACCOUNT_4)
 Status: BERHASIL
-Pesan: success | Total login: 23 | Hari ini: 2026-11-23
+Pesan: Already claimed | Total login: 23 | Hari ini: 2026-11-23
 
 5. asrinuhayah (GENSHIN_ACCOUNT_5)
 Status: BERHASIL
-Pesan: success | Total login: 23 | Hari ini: 2026-11-23
+Pesan: Already claimed | Total login: 23 | Hari ini: 2026-11-23
 
 6. andinikinasyah (GENSHIN_ACCOUNT_6)
 Status: BERHASIL
-Pesan: success | Total login: 23 | Hari ini: 2026-11-23
+Pesan: Already claimed | Total login: 23 | Hari ini: 2026-11-23
 
-7. widiaqeelax (GENSHIN_ACCOUNT_7)
-Status: GAGAL
-Pesan: Not logged in
+7. chuckberry314 (GENSHIN_ACCOUNT_7)
+Status: BERHASIL
+Pesan: success | Total login: 1 | Hari ini: 2026-11-23
 
 8. Pnake4 (GENSHIN_ACCOUNT_8)
 Status: BERHASIL
-Pesan: success | Total login: 23 | Hari ini: 2026-11-23
+Pesan: Already claimed | Total login: 23 | Hari ini: 2026-11-23
 
 9. sofiatuarifin (GENSHIN_ACCOUNT_9)
 Status: BERHASIL
-Pesan: success | Total login: 23 | Hari ini: 2026-11-23
+Pesan: Already claimed | Total login: 23 | Hari ini: 2026-11-23
 
 10. yelankeqing (GENSHIN_ACCOUNT_10)
 Status: BERHASIL
-Pesan: success | Total login: 23 | Hari ini: 2026-11-23
+Pesan: Already claimed | Total login: 23 | Hari ini: 2026-11-23
 
 11. icaleswari (GENSHIN_ACCOUNT_11)
 Status: BERHASIL
-Pesan: success | Total login: 23 | Hari ini: 2026-11-23
+Pesan: Already claimed | Total login: 23 | Hari ini: 2026-11-23
 
 12. fazamulyana (GENSHIN_ACCOUNT_12)
 Status: BERHASIL
-Pesan: success | Total login: 23 | Hari ini: 2026-11-23
+Pesan: Already claimed | Total login: 23 | Hari ini: 2026-11-23
 
 13. aadakamiiiooo (GENSHIN_ACCOUNT_13)
 Status: BERHASIL
-Pesan: success | Total login: 23 | Hari ini: 2026-11-23
+Pesan: Already claimed | Total login: 23 | Hari ini: 2026-11-23
 
 14. rhialorenza (GENSHIN_ACCOUNT_14)
 Status: BERHASIL
-Pesan: success | Total login: 23 | Hari ini: 2026-11-23
+Pesan: Already claimed | Total login: 23 | Hari ini: 2026-11-23
 
 15. suwaibatul (GENSHIN_ACCOUNT_15)
 Status: BERHASIL
-Pesan: success | Total login: 23 | Hari ini: 2026-11-23
-
-16. adakamio (GENSHIN_ACCOUNT_16)
-Status: BERHASIL
 Pesan: Already claimed | Total login: 23 | Hari ini: 2026-11-23
+
+16. ottolawson51 (GENSHIN_ACCOUNT_16)
+Status: BERHASIL
+Pesan: success | Total login: 1 | Hari ini: 2026-11-23
 
 17. Iman Barbara (GENSHIN_ACCOUNT_17)
 Status: BERHASIL
-Pesan: success | Total login: 23 | Hari ini: 2026-11-23
+Pesan: Already claimed | Total login: 23 | Hari ini: 2026-11-23
 
 18. Ulil Zero (GENSHIN_ACCOUNT_18)
 Status: BERHASIL
-Pesan: success | Total login: 23 | Hari ini: 2026-11-23
+Pesan: Already claimed | Total login: 23 | Hari ini: 2026-11-23
 
 19. Luranfafi (GENSHIN_ACCOUNT_19)
 Status: BERHASIL
-Pesan: success | Total login: 23 | Hari ini: 2026-11-23
+Pesan: Already claimed | Total login: 23 | Hari ini: 2026-11-23
 
 20. Arjuna Mahaprana (GENSHIN_ACCOUNT_20)
 Status: BERHASIL
-Pesan: success | Total login: 23 | Hari ini: 2026-11-23
+Pesan: Already claimed | Total login: 23 | Hari ini: 2026-11-23
 
 21. andanang mahaputra (GENSHIN_ACCOUNT_21)
 Status: BERHASIL
-Pesan: success | Total login: 23 | Hari ini: 2026-11-23
+Pesan: Already claimed | Total login: 23 | Hari ini: 2026-11-23
 
 22. Heni suhermi (GENSHIN_ACCOUNT_22)
 Status: BERHASIL
-Pesan: success | Total login: 23 | Hari ini: 2026-11-23
+Pesan: Already claimed | Total login: 23 | Hari ini: 2026-11-23
 
 23. adesusilo (GENSHIN_ACCOUNT_23)
 Status: BERHASIL
-Pesan: success | Total login: 23 | Hari ini: 2026-11-23
+Pesan: Already claimed | Total login: 23 | Hari ini: 2026-11-23
 
 24. entinemtim (GENSHIN_ACCOUNT_24)
 Status: BERHASIL
-Pesan: success | Total login: 23 | Hari ini: 2026-11-23
+Pesan: Already claimed | Total login: 23 | Hari ini: 2026-11-23
 
 25. tilanakbar (GENSHIN_ACCOUNT_25)
 Status: BERHASIL
-Pesan: success | Total login: 23 | Hari ini: 2026-11-23
+Pesan: Already claimed | Total login: 23 | Hari ini: 2026-11-23
 
 26. unarta2 (GENSHIN_ACCOUNT_26)
 Status: BERHASIL
-Pesan: success | Total login: 23 | Hari ini: 2026-11-23
+Pesan: Already claimed | Total login: 23 | Hari ini: 2026-11-23
 
 27. aldomeier6 (GENSHIN_ACCOUNT_27)
 Status: BERHASIL
-Pesan: success | Total login: 23 | Hari ini: 2026-11-23
+Pesan: Already claimed | Total login: 23 | Hari ini: 2026-11-23
 
 28. winmavinbentley (GENSHIN_ACCOUNT_28)
 Status: BERHASIL
-Pesan: success | Total login: 23 | Hari ini: 2026-11-23
+Pesan: Already claimed | Total login: 23 | Hari ini: 2026-11-23
 
 29. syakilatunggadewi (GENSHIN_ACCOUNT_29)
 Status: BERHASIL
-Pesan: success | Total login: 23 | Hari ini: 2026-11-23
+Pesan: Already claimed | Total login: 23 | Hari ini: 2026-11-23
 
 30. fahmiyahgandes (GENSHIN_ACCOUNT_30)
-Status: BERHASIL
-Pesan: success | Total login: 23 | Hari ini: 2026-11-23
+Status: GAGAL
+Pesan: Not logged in
+
+31. wardojo10 (GENSHIN_ACCOUNT_31)
+Status: GAGAL
+Pesan: Request failed with status code 429
+
+32. johnnygoode526 (GENSHIN_ACCOUNT_32)
+Status: GAGAL
+Pesan: Request failed with status code 429
+
+33. retnokusumatamsi (GENSHIN_ACCOUNT_33)
+Status: GAGAL
+Pesan: Request failed with status code 429
 
 Berhasil: 29
-Gagal: 1
+Gagal: 4
 
