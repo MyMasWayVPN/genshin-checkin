@@ -5,9 +5,20 @@ import {
   getRequiredEnv,
   getWibTime,
   sendTelegramMessage,
+  delay,
 } from './hoyolab-api.js';
 
 const LOG_FILE = new URL('../log.txt', import.meta.url);
+
+const getRandomDelay = (min = 3000, max = 5000) =>
+  Math.floor(Math.random() * (max - min + 1)) + min;
+
+function isRateLimitError(error) {
+  return (
+    error?.response?.status === 429 ||
+    /429|too many requests/i.test(String(error?.message || ''))
+  );
+}
 
 async function checkIn(account) {
   const client = new Client();
@@ -23,6 +34,7 @@ async function checkIn(account) {
   let detail = status || 'Tidak ada detail.';
   try {
     const cookie = client.cookieManager.get().cookie;
+    await delay(1000);
     const rewardInfo = await client.dailyReward.rewardInfo.fetch({ cookie });
     if (rewardInfo) {
       detail += ` | Total login: ${rewardInfo.total_sign_day ?? '-'} | Hari ini: ${rewardInfo.today ?? '-'}`;
@@ -32,6 +44,23 @@ async function checkIn(account) {
   }
 
   return detail;
+}
+
+async function checkInWithRetry(account, maxRetries = 2) {
+  for (let attempt = 0; attempt <= maxRetries; attempt += 1) {
+    try {
+      return await checkIn(account);
+    } catch (error) {
+      const isLastAttempt = attempt === maxRetries;
+      if (isRateLimitError(error) && !isLastAttempt) {
+        const backoffMs = (attempt + 1) * 10000;
+        console.warn(`[Rate Limit 429] Terdeteksi pada akun ${account.name}. Menunggu ${backoffMs / 1000} detik sebelum retry...`);
+        await delay(backoffMs);
+        continue;
+      }
+      throw error;
+    }
+  }
 }
 
 function isFailure(message) {
@@ -76,7 +105,7 @@ async function main() {
 
   for (const [index, account] of accounts.entries()) {
     try {
-      const detail = await checkIn(account);
+      const detail = await checkInWithRetry(account);
       const failed = isFailure(detail);
 
       if (failed) {
@@ -118,6 +147,11 @@ async function main() {
         `Pesan: ${error.message}`,
         ''
       );
+    }
+
+    if (index < accounts.length - 1) {
+      const sleepTime = getRandomDelay(3000, 5000);
+      await delay(sleepTime);
     }
   }
 
