@@ -419,60 +419,6 @@
     "first_seen": "13/10/2026, 05.22.53"
   },
   {
-    "kode": "HourofRuin",
-    "support_server": [
-      "America",
-      "Europe",
-      "Asia",
-      "TW/HK/Macao"
-    ],
-    "reward": [
-      "Primogem x100",
-      "Mystic Enhancement Ore x10"
-    ],
-    "release": null,
-    "expired": "26/10/2026",
-    "status": false,
-    "source": "Game8",
-    "first_seen": "20/11/2026, 20.48.52"
-  },
-  {
-    "kode": "ExpertMitya",
-    "support_server": [
-      "America",
-      "Europe",
-      "Asia",
-      "TW/HK/Macao"
-    ],
-    "reward": [
-      "Primogem x100",
-      "Hero's Wit x5"
-    ],
-    "release": null,
-    "expired": "26/10/2026",
-    "status": false,
-    "source": "Game8",
-    "first_seen": "23/10/2026, 20.12.23"
-  },
-  {
-    "kode": "PhotoTime",
-    "support_server": [
-      "America",
-      "Europe",
-      "Asia",
-      "TW/HK/Macao"
-    ],
-    "reward": [
-      "Primogem x100",
-      "Mora x50,000"
-    ],
-    "release": null,
-    "expired": "26/10/2026",
-    "status": false,
-    "source": "Game8",
-    "first_seen": "23/10/2026, 20.12.23"
-  },
-  {
     "kode": "HourOfRuin",
     "support_server": [
       "America",
@@ -584,60 +530,6 @@
     "release": "24/09/2026",
     "expired": null,
     "status": true,
-    "source": "Game8",
-    "first_seen": "13/10/2026, 05.22.53"
-  },
-  {
-    "kode": "Rekviem",
-    "support_server": [
-      "America",
-      "Europe",
-      "Asia",
-      "TW/HK/Macao"
-    ],
-    "reward": [
-      "Primogem x100",
-      "Mystic Enhancement Ore x10"
-    ],
-    "release": null,
-    "expired": "15/09/2026",
-    "status": false,
-    "source": "Game8",
-    "first_seen": "13/10/2026, 05.22.53"
-  },
-  {
-    "kode": "Vesna0923",
-    "support_server": [
-      "America",
-      "Europe",
-      "Asia",
-      "TW/HK/Macao"
-    ],
-    "reward": [
-      "Primogem x100",
-      "Hero's Wit x5"
-    ],
-    "release": null,
-    "expired": "15/09/2026",
-    "status": false,
-    "source": "Game8",
-    "first_seen": "13/10/2026, 05.22.53"
-  },
-  {
-    "kode": "PrimaDonna",
-    "support_server": [
-      "America",
-      "Europe",
-      "Asia",
-      "TW/HK/Macao"
-    ],
-    "reward": [
-      "Primogem x100",
-      "Mora x50,000"
-    ],
-    "release": null,
-    "expired": "15/09/2026",
-    "status": false,
     "source": "Game8",
     "first_seen": "13/10/2026, 05.22.53"
   }
