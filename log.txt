@@ -1,208 +1,204 @@
 ==================================================
 Daily Check-in Genshin
-Waktu: 25/11/2026, 08.15.24 WIB
-Total akun: 50
+Waktu: 26/11/2026, 07.50.28 WIB
+Total akun: 49
 
 1. Amal Pasak (GENSHIN_ACCOUNT_1)
 Status: BERHASIL
-Pesan: success | Total login: 25 | Hari ini: 2026-11-25
+Pesan: success | Total login: 26 | Hari ini: 2026-11-26
 
 2. wellbarudak (GENSHIN_ACCOUNT_2)
 Status: BERHASIL
-Pesan: success | Total login: 3 | Hari ini: 2026-11-25
+Pesan: success | Total login: 4 | Hari ini: 2026-11-26
 
-3. beatrisky (GENSHIN_ACCOUNT_3)
+3. usentio (GENSHIN_ACCOUNT_4)
 Status: BERHASIL
-Pesan: success | Total login: 25 | Hari ini: 2026-11-25
+Pesan: success | Total login: 26 | Hari ini: 2026-11-26
 
-4. usentio (GENSHIN_ACCOUNT_4)
+4. asrinuhayah (GENSHIN_ACCOUNT_5)
 Status: BERHASIL
-Pesan: success | Total login: 25 | Hari ini: 2026-11-25
+Pesan: success | Total login: 26 | Hari ini: 2026-11-26
 
-5. asrinuhayah (GENSHIN_ACCOUNT_5)
+5. andinikinasyah (GENSHIN_ACCOUNT_6)
 Status: BERHASIL
-Pesan: success | Total login: 25 | Hari ini: 2026-11-25
+Pesan: success | Total login: 26 | Hari ini: 2026-11-26
 
-6. andinikinasyah (GENSHIN_ACCOUNT_6)
+6. chuckberry314 (GENSHIN_ACCOUNT_7)
 Status: BERHASIL
-Pesan: success | Total login: 25 | Hari ini: 2026-11-25
+Pesan: success | Total login: 4 | Hari ini: 2026-11-26
 
-7. chuckberry314 (GENSHIN_ACCOUNT_7)
+7. Pnake4 (GENSHIN_ACCOUNT_8)
 Status: BERHASIL
-Pesan: success | Total login: 3 | Hari ini: 2026-11-25
+Pesan: success | Total login: 26 | Hari ini: 2026-11-26
 
-8. Pnake4 (GENSHIN_ACCOUNT_8)
+8. sofiatuarifin (GENSHIN_ACCOUNT_9)
 Status: BERHASIL
-Pesan: success | Total login: 25 | Hari ini: 2026-11-25
+Pesan: success | Total login: 26 | Hari ini: 2026-11-26
 
-9. sofiatuarifin (GENSHIN_ACCOUNT_9)
+9. yelankeqing (GENSHIN_ACCOUNT_10)
 Status: BERHASIL
-Pesan: success | Total login: 25 | Hari ini: 2026-11-25
+Pesan: success | Total login: 26 | Hari ini: 2026-11-26
 
-10. yelankeqing (GENSHIN_ACCOUNT_10)
+10. icaleswari (GENSHIN_ACCOUNT_11)
 Status: BERHASIL
-Pesan: success | Total login: 25 | Hari ini: 2026-11-25
+Pesan: success | Total login: 26 | Hari ini: 2026-11-26
 
-11. icaleswari (GENSHIN_ACCOUNT_11)
+11. fazamulyana (GENSHIN_ACCOUNT_12)
 Status: BERHASIL
-Pesan: success | Total login: 25 | Hari ini: 2026-11-25
+Pesan: success | Total login: 26 | Hari ini: 2026-11-26
 
-12. fazamulyana (GENSHIN_ACCOUNT_12)
+12. aadakamiiiooo (GENSHIN_ACCOUNT_13)
 Status: BERHASIL
-Pesan: success | Total login: 25 | Hari ini: 2026-11-25
+Pesan: success | Total login: 26 | Hari ini: 2026-11-26
 
-13. aadakamiiiooo (GENSHIN_ACCOUNT_13)
+13. rhialorenza (GENSHIN_ACCOUNT_14)
 Status: BERHASIL
-Pesan: success | Total login: 25 | Hari ini: 2026-11-25
+Pesan: success | Total login: 26 | Hari ini: 2026-11-26
 
-14. rhialorenza (GENSHIN_ACCOUNT_14)
+14. suwaibatul (GENSHIN_ACCOUNT_15)
 Status: BERHASIL
-Pesan: success | Total login: 25 | Hari ini: 2026-11-25
+Pesan: success | Total login: 26 | Hari ini: 2026-11-26
 
-15. suwaibatul (GENSHIN_ACCOUNT_15)
+15. ottolawson51 (GENSHIN_ACCOUNT_16)
 Status: BERHASIL
-Pesan: success | Total login: 25 | Hari ini: 2026-11-25
+Pesan: success | Total login: 4 | Hari ini: 2026-11-26
 
-16. ottolawson51 (GENSHIN_ACCOUNT_16)
+16. Iman Barbara (GENSHIN_ACCOUNT_17)
 Status: BERHASIL
-Pesan: success | Total login: 3 | Hari ini: 2026-11-25
+Pesan: success | Total login: 26 | Hari ini: 2026-11-26
 
-17. Iman Barbara (GENSHIN_ACCOUNT_17)
+17. Ulil Zero (GENSHIN_ACCOUNT_18)
 Status: BERHASIL
-Pesan: success | Total login: 25 | Hari ini: 2026-11-25
+Pesan: success | Total login: 26 | Hari ini: 2026-11-26
 
-18. Ulil Zero (GENSHIN_ACCOUNT_18)
+18. Luranfafi (GENSHIN_ACCOUNT_19)
 Status: BERHASIL
-Pesan: success | Total login: 25 | Hari ini: 2026-11-25
+Pesan: success | Total login: 26 | Hari ini: 2026-11-26
 
-19. Luranfafi (GENSHIN_ACCOUNT_19)
+19. Arjuna Mahaprana (GENSHIN_ACCOUNT_20)
 Status: BERHASIL
-Pesan: success | Total login: 25 | Hari ini: 2026-11-25
+Pesan: success | Total login: 26 | Hari ini: 2026-11-26
 
-20. Arjuna Mahaprana (GENSHIN_ACCOUNT_20)
+20. andanang mahaputra (GENSHIN_ACCOUNT_21)
 Status: BERHASIL
-Pesan: success | Total login: 25 | Hari ini: 2026-11-25
+Pesan: success | Total login: 26 | Hari ini: 2026-11-26
 
-21. andanang mahaputra (GENSHIN_ACCOUNT_21)
+21. Heni suhermi (GENSHIN_ACCOUNT_22)
 Status: BERHASIL
-Pesan: success | Total login: 25 | Hari ini: 2026-11-25
+Pesan: success | Total login: 26 | Hari ini: 2026-11-26
 
-22. Heni suhermi (GENSHIN_ACCOUNT_22)
+22. adesusilo (GENSHIN_ACCOUNT_23)
 Status: BERHASIL
-Pesan: success | Total login: 25 | Hari ini: 2026-11-25
+Pesan: success | Total login: 26 | Hari ini: 2026-11-26
 
-23. adesusilo (GENSHIN_ACCOUNT_23)
+23. entinemtim (GENSHIN_ACCOUNT_24)
 Status: BERHASIL
-Pesan: success | Total login: 25 | Hari ini: 2026-11-25
+Pesan: success | Total login: 26 | Hari ini: 2026-11-26
 
-24. entinemtim (GENSHIN_ACCOUNT_24)
+24. tilanakbar (GENSHIN_ACCOUNT_25)
 Status: BERHASIL
-Pesan: success | Total login: 25 | Hari ini: 2026-11-25
+Pesan: success | Total login: 26 | Hari ini: 2026-11-26
 
-25. tilanakbar (GENSHIN_ACCOUNT_25)
+25. unarta2 (GENSHIN_ACCOUNT_26)
 Status: BERHASIL
-Pesan: success | Total login: 25 | Hari ini: 2026-11-25
+Pesan: success | Total login: 26 | Hari ini: 2026-11-26
 
-26. unarta2 (GENSHIN_ACCOUNT_26)
+26. aldomeier6 (GENSHIN_ACCOUNT_27)
 Status: BERHASIL
-Pesan: success | Total login: 25 | Hari ini: 2026-11-25
+Pesan: success | Total login: 26 | Hari ini: 2026-11-26
 
-27. aldomeier6 (GENSHIN_ACCOUNT_27)
+27. winmavinbentley (GENSHIN_ACCOUNT_28)
 Status: BERHASIL
-Pesan: success | Total login: 25 | Hari ini: 2026-11-25
+Pesan: success | Total login: 26 | Hari ini: 2026-11-26
 
-28. winmavinbentley (GENSHIN_ACCOUNT_28)
+28. syakilatunggadewi (GENSHIN_ACCOUNT_29)
 Status: BERHASIL
-Pesan: success | Total login: 25 | Hari ini: 2026-11-25
+Pesan: success | Total login: 26 | Hari ini: 2026-11-26
 
-29. syakilatunggadewi (GENSHIN_ACCOUNT_29)
+29. fahmiyahgandes (GENSHIN_ACCOUNT_30)
 Status: BERHASIL
-Pesan: success | Total login: 25 | Hari ini: 2026-11-25
+Pesan: success | Total login: 26 | Hari ini: 2026-11-26
 
-30. fahmiyahgandes (GENSHIN_ACCOUNT_30)
+30. wardojo10 (GENSHIN_ACCOUNT_31)
 Status: BERHASIL
-Pesan: success | Total login: 25 | Hari ini: 2026-11-25
+Pesan: success | Total login: 4 | Hari ini: 2026-11-26
 
-31. wardojo10 (GENSHIN_ACCOUNT_31)
+31. johnnygoode526 (GENSHIN_ACCOUNT_32)
 Status: BERHASIL
-Pesan: success | Total login: 3 | Hari ini: 2026-11-25
+Pesan: success | Total login: 4 | Hari ini: 2026-11-26
 
-32. johnnygoode526 (GENSHIN_ACCOUNT_32)
+32. retnokusumatamsi (GENSHIN_ACCOUNT_33)
 Status: BERHASIL
-Pesan: success | Total login: 3 | Hari ini: 2026-11-25
+Pesan: success | Total login: 4 | Hari ini: 2026-11-26
 
-33. retnokusumatamsi (GENSHIN_ACCOUNT_33)
+33. imaamm32 (GENSHIN_ACCOUNT_34)
 Status: BERHASIL
-Pesan: success | Total login: 3 | Hari ini: 2026-11-25
+Pesan: success | Total login: 4 | Hari ini: 2026-11-26
 
-34. imaamm32 (GENSHIN_ACCOUNT_34)
+34. repannnn56 (GENSHIN_ACCOUNT_35)
 Status: BERHASIL
-Pesan: success | Total login: 3 | Hari ini: 2026-11-25
+Pesan: success | Total login: 4 | Hari ini: 2026-11-26
 
-35. repannnn56 (GENSHIN_ACCOUNT_35)
+35. rejaaa71 (GENSHIN_ACCOUNT_36)
 Status: BERHASIL
-Pesan: success | Total login: 3 | Hari ini: 2026-11-25
+Pesan: success | Total login: 4 | Hari ini: 2026-11-26
 
-36. rejaaa71 (GENSHIN_ACCOUNT_36)
+36. dimasssssz67 (GENSHIN_ACCOUNT_37)
 Status: BERHASIL
-Pesan: success | Total login: 3 | Hari ini: 2026-11-25
+Pesan: success | Total login: 4 | Hari ini: 2026-11-26
 
-37. dimasssssz67 (GENSHIN_ACCOUNT_37)
+37. elisaliguin (GENSHIN_ACCOUNT_38)
 Status: BERHASIL
-Pesan: success | Total login: 3 | Hari ini: 2026-11-25
+Pesan: success | Total login: 4 | Hari ini: 2026-11-26
 
-38. elisaliguin (GENSHIN_ACCOUNT_38)
+38. widyaningsihumroniyah (GENSHIN_ACCOUNT_39)
 Status: BERHASIL
-Pesan: success | Total login: 3 | Hari ini: 2026-11-25
+Pesan: success | Total login: 4 | Hari ini: 2026-11-26
 
-39. widyaningsihumroniyah (GENSHIN_ACCOUNT_39)
+39. mumuhniumarni (GENSHIN_ACCOUNT_40)
 Status: BERHASIL
-Pesan: success | Total login: 3 | Hari ini: 2026-11-25
+Pesan: success | Total login: 4 | Hari ini: 2026-11-26
 
-40. mumuhniumarni (GENSHIN_ACCOUNT_40)
+40. yusniahaufani (GENSHIN_ACCOUNT_41)
 Status: BERHASIL
-Pesan: success | Total login: 3 | Hari ini: 2026-11-25
+Pesan: success | Total login: 4 | Hari ini: 2026-11-26
 
-41. yusniahaufani (GENSHIN_ACCOUNT_41)
+41. arselairtilah (GENSHIN_ACCOUNT_42)
 Status: BERHASIL
-Pesan: success | Total login: 3 | Hari ini: 2026-11-25
+Pesan: success | Total login: 4 | Hari ini: 2026-11-26
 
-42. arselairtilah (GENSHIN_ACCOUNT_42)
+42. zulianiwidi319 (GENSHIN_ACCOUNT_43)
 Status: BERHASIL
-Pesan: success | Total login: 3 | Hari ini: 2026-11-25
+Pesan: success | Total login: 4 | Hari ini: 2026-11-26
 
-43. zulianiwidi319 (GENSHIN_ACCOUNT_43)
+43. muhaniahbayuningrumi (GENSHIN_ACCOUNT_44)
 Status: BERHASIL
-Pesan: success | Total login: 3 | Hari ini: 2026-11-25
+Pesan: success | Total login: 4 | Hari ini: 2026-11-26
 
-44. muhaniahbayuningrumi (GENSHIN_ACCOUNT_44)
+44. zakiarasyidd (GENSHIN_ACCOUNT_45)
 Status: BERHASIL
-Pesan: success | Total login: 3 | Hari ini: 2026-11-25
+Pesan: success | Total login: 4 | Hari ini: 2026-11-26
 
-45. zakiarasyidd (GENSHIN_ACCOUNT_45)
+45. carissaelvna (GENSHIN_ACCOUNT_46)
 Status: BERHASIL
-Pesan: success | Total login: 3 | Hari ini: 2026-11-25
+Pesan: success | Total login: 4 | Hari ini: 2026-11-26
 
-46. carissaelvna (GENSHIN_ACCOUNT_46)
+46. annathafanisa (GENSHIN_ACCOUNT_47)
 Status: BERHASIL
-Pesan: success | Total login: 3 | Hari ini: 2026-11-25
+Pesan: success | Total login: 4 | Hari ini: 2026-11-26
 
-47. annathafanisa (GENSHIN_ACCOUNT_47)
+47. goestiayuu (GENSHIN_ACCOUNT_48)
 Status: BERHASIL
-Pesan: success | Total login: 3 | Hari ini: 2026-11-25
+Pesan: success | Total login: 4 | Hari ini: 2026-11-26
 
-48. goestiayuu (GENSHIN_ACCOUNT_48)
+48. lionaavanisha (GENSHIN_ACCOUNT_49)
 Status: BERHASIL
-Pesan: success | Total login: 3 | Hari ini: 2026-11-25
+Pesan: success | Total login: 4 | Hari ini: 2026-11-26
 
-49. lionaavanisha (GENSHIN_ACCOUNT_49)
+49. fashaaramadan (GENSHIN_ACCOUNT_50)
 Status: BERHASIL
-Pesan: success | Total login: 3 | Hari ini: 2026-11-25
+Pesan: success | Total login: 4 | Hari ini: 2026-11-26
 
-50. fashaaramadan (GENSHIN_ACCOUNT_50)
-Status: BERHASIL
-Pesan: success | Total login: 3 | Hari ini: 2026-11-25
-
-Berhasil: 50
+Berhasil: 49
 Gagal: 0
 
